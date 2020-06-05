@@ -49,7 +49,7 @@ func TestCrossChainEvent_BTC(t *testing.T) {
 
 			states := notify.States.([]interface{})
 			contractMethod, _ := states[0].(string)
-			fmt.Printf("contract method: %s, ")
+			fmt.Printf("contract method: %s, ", contractMethod)
 			switch contractMethod {
 			case "makeFromOntProof":
 				Key := states[4].(string)

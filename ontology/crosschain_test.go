@@ -1,9 +1,11 @@
 package ontology
 
 import (
+	"encoding/hex"
 	"fmt"
 	sdk "github.com/ontio/ontology-go-sdk"
 	"github.com/ontio/ontology/common"
+	mccommon "github.com/ontio/multi-chain/common"
 	"testing"
 )
 
@@ -15,6 +17,22 @@ func NewClient() *sdk.OntologySdk {
 	rawsdk := sdk.NewOntologySdk()
 	rawsdk.NewRpcClient().SetAddress("http://polaris1.ont.io:20336")
 	return rawsdk
+}
+
+func ParserOntCrossChainValue(value string) {
+	args, err := hex.DecodeString(value)
+	if err != nil {
+		fmt.Printf("hex.DecodeString error: %v\n", err)
+	}
+	source := mccommon.NewZeroCopySource(args)
+	assethash, _ := source.NextVarBytes()
+	address1, _ := mccommon.AddressParseFromBytes(assethash)
+	toaddress, _ := source.NextVarBytes()
+	addrsss2, _ := mccommon.AddressParseFromBytes(toaddress)
+	amount, _ := source.NextUint64()
+
+	fmt.Printf("toassethash: %s, toaddress: %s, toamount: %d\n",
+		address1.ToHexString(), addrsss2.ToHexString(), amount)
 }
 
 func TestCrossChainEvent_BTC(t *testing.T) {
@@ -40,6 +58,7 @@ func TestCrossChainEvent_BTC(t *testing.T) {
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
 				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
+				ParserOntCrossChainValue(Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
 				Contract := notify.ContractAddress

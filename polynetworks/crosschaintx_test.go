@@ -2,6 +2,7 @@ package polynetworks
 
 import (
 	"fmt"
+	"github.com/blockchainpro/utils"
 	"github.com/ontio/multi-chain/common"
 	"testing"
 	"time"
@@ -13,7 +14,7 @@ var (
 
 func TestCrossChainTx_SCANTX(t  *testing.T) {
 	sdk := newMultiChanSdk()
-	start := uint32(250367)
+	start := uint32(253367)
 	end := start + 10000
 	for start < end {
 		currentHeight, err := sdk.GetCurrentBlockHeight()
@@ -53,7 +54,7 @@ func TestCrossChainTx_SCANTX(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}
@@ -100,7 +101,7 @@ func TestCrossChainTx_BTC2ETH(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s\n", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s\n", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s\n", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}
@@ -145,7 +146,7 @@ func TestCrossChainTx_ETH2BTC(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}
@@ -192,7 +193,7 @@ func TestCrossChainTx_BTC2ONT(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s\n", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s\n", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s\n", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}
@@ -239,7 +240,7 @@ func TestCrossChainTx_ONT2ETH(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s\n", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s\n", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s\n", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}
@@ -286,7 +287,7 @@ func TestCrossChainTx_ETH2ONT(t  *testing.T) {
 					if fchainid == 2 {
 						fmt.Printf("ftxhash: %s\n", states[3].(string))
 					} else if fchainid == 3 || fchainid == 1 {
-						fmt.Printf("ftxhash: %s\n", HexStringReverse(states[3].(string)))
+						fmt.Printf("ftxhash: %s\n", utils.HexStringReverse(states[3].(string)))
 					}
 				}
 			}

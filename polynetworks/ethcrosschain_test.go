@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"github.com/blockchainpro/utils"
 	"github.com/ontio/multi-chain/common"
 	crosschain_common "github.com/ontio/multi-chain/native/service/header_sync/common"
 	crosschain_utils "github.com/ontio/multi-chain/native/service/utils"
@@ -45,7 +46,7 @@ func TestStoreQuery_ETH_MainChainHash(t *testing.T) {
 	if result == nil || len(result) == 0 {
 		fmt.Printf("There is not this store\n")
 	} else {
-		result = revertBytes(result)
+		result = utils.RevertBytes(result)
 		hash, err := common.Uint256ParseFromBytes(result)
 		if err != nil {
 			fmt.Printf("The store is not hash, err: %s\n", err.Error())

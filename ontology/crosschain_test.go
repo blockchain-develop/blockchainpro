@@ -89,7 +89,8 @@ func TestCrossChainEvent_ONT2ETH(t *testing.T) {
 			{
 				states := notify.States.([]interface{})
 				contractMethod, _ := states[0].(string)
-				if contractMethod == "lock" {
+				xxxx, _ := hex.DecodeString(contractMethod)
+				if string(xxxx) == "lock" {
 					sourceAssetAddress, _ := states[1].(string)
 					tochainid, _ := states[2].(uint64)
 					targetAssetAddress, _ := states[3].(string)

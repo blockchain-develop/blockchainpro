@@ -43,6 +43,13 @@ func TestCrossChainEvent_BTC(t *testing.T) {
 	for _, event := range events {
 		fmt.Printf("saveOntCrossTxsByHeight tx hash: %s, state:%d, gas: %d\n", event.TxHash, event.State, event.GasConsumed)
 		for _, notify := range event.Notify {
+			{
+				states := notify.States.([]interface{})
+				contractMethod, _ := states[0].(string)
+				if contractMethod == "lock" {
+
+				}
+			}
 			if notify.ContractAddress != CrossChainManagerContractAddress.ToHexString() {
 				continue
 			}
@@ -79,6 +86,22 @@ func TestCrossChainEvent_ONT2ETH(t *testing.T) {
 	for _, event := range events {
 		fmt.Printf("saveOntCrossTxsByHeight tx hash: %s, state:%d, gas: %d\n", event.TxHash, event.State, event.GasConsumed)
 		for _, notify := range event.Notify {
+			{
+				states := notify.States.([]interface{})
+				contractMethod, _ := states[0].(string)
+				if contractMethod == "lock" {
+					sourceAssetAddress, _ := states[1].(string)
+					tochainid, _ := states[2].(uint64)
+					tocontract, _ := states[3].(string)
+					targetAssetAddress, _ := states[4].(string)
+					fromAddress, _ := states[5].(string)
+					toAddress, _ := states[6].(string)
+					amount, _ := states[7].(uint64)
+					fmt.Printf("source asset address: %s, tochainid: %d, tocontract: %s, targetassetaddress: %s, fromaddress: %s, toaddress: %s, amount:%d\n",
+						sourceAssetAddress, tochainid, tocontract, targetAssetAddress, fromAddress, toAddress, amount)
+				}
+			}
+			
 			if notify.ContractAddress != CrossChainManagerContractAddress.ToHexString() {
 				continue
 			}

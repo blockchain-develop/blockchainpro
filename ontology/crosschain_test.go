@@ -35,7 +35,7 @@ func ParserOntCrossChainValue(value string) {
 		address1.ToHexString(), addrsss2.ToHexString(), amount)
 }
 
-func TestCrossChainEvent_BTC(t *testing.T) {
+func TestCrossChainEvent_BTC2ONT(t *testing.T) {
 	height := uint32(12575841)
 	sdk := NewClient()
 	events, _ := sdk.GetSmartContractEventByBlock(height)
@@ -47,7 +47,14 @@ func TestCrossChainEvent_BTC(t *testing.T) {
 				states := notify.States.([]interface{})
 				contractMethod, _ := states[0].(string)
 				if contractMethod == "lock" {
-
+					sourceAssetAddress, _ := states[1].(string)
+					tochainid, _ := states[2].(uint64)
+					targetAssetAddress, _ := states[3].(string)
+					fromAddress, _ := states[4].(string)
+					toAddress, _ := states[5].(string)
+					amount, _ := states[6].(uint64)
+					fmt.Printf("source asset address: %s, tochainid: %d, targetassetaddress: %s, fromaddress: %s, toaddress: %s, amount:%d\n",
+						sourceAssetAddress, tochainid, targetAssetAddress, fromAddress, toAddress, amount)
 				}
 			}
 			if notify.ContractAddress != CrossChainManagerContractAddress.ToHexString() {

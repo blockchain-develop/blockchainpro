@@ -3,14 +3,16 @@ package ontology
 import (
 	"encoding/hex"
 	"fmt"
-	sdk "github.com/ontio/ontology-go-sdk"
-	"github.com/ontio/ontology/common"
+	"github.com/btcsuite/btcutil/base58"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/joeqian10/neo-gogogo/helper"
 	mccommon "github.com/ontio/multi-chain/common"
+	sdk "github.com/ontio/ontology-go-sdk"
 	"testing"
 )
 
 var (
-	CrossChainManagerContractAddress, _ = common.AddressParseFromBytes([]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09})
+	CrossChainManagerContractAddress, _ = mccommon.AddressParseFromBytes([]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09})
 )
 
 func NewClient() *sdk.OntologySdk {
@@ -19,20 +21,37 @@ func NewClient() *sdk.OntologySdk {
 	return rawsdk
 }
 
-func ParserOntCrossChainValue(value string) {
+func ParserOntCrossChainValue(toChainId uint32, value string) {
 	args, err := hex.DecodeString(value)
 	if err != nil {
 		fmt.Printf("hex.DecodeString error: %v\n", err)
 	}
 	source := mccommon.NewZeroCopySource(args)
 	assethash, _ := source.NextVarBytes()
-	address1, _ := mccommon.AddressParseFromBytes(assethash)
 	toaddress, _ := source.NextVarBytes()
-	addrsss2, _ := mccommon.AddressParseFromBytes(toaddress)
 	amount, _ := source.NextUint64()
 
-	fmt.Printf("toassethash: %s, toaddress: %s, toamount: %d\n",
-		address1.ToHexString(), addrsss2.ToHexString(), amount)
+	var assetaddress2 string
+	var toaddress2 string
+	if toChainId == 1 {
+		assetaddress2 = "0000000000000000000000000000000000000011"
+		toaddress2 = base58.Encode(toaddress)
+	} else if toChainId == 2 {
+		assetAddress1 := common.BytesToAddress(assethash)
+		toaddress1 := common.BytesToAddress(toaddress)
+		assetaddress2 = assetAddress1.String()
+		toaddress2 = toaddress1.String()
+	} else if toChainId == 4 {
+		assetaddress1, _ := helper.UInt160FromBytes(assethash)
+		toaddress1, _ := helper.UInt160FromBytes(toaddress)
+		assetaddress2 = helper.ScriptHashToAddress(assetaddress1)
+		toaddress2 = helper.ScriptHashToAddress(toaddress1)
+	} else {
+		assetaddress2 = ""
+		toaddress2 = ""
+	}
+
+	fmt.Printf("to chain id: %s, to asset address: %s, to address: %s, toamount: %d\n", toChainId, assetaddress2, toaddress2, amount)
 }
 
 func TestCrossChainEvent_BTC2ONT(t *testing.T) {
@@ -72,7 +91,7 @@ func TestCrossChainEvent_BTC2ONT(t *testing.T) {
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
 				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
-				ParserOntCrossChainValue(Value)
+				ParserOntCrossChainValue(TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
 				Contract := notify.ContractAddress
@@ -124,7 +143,7 @@ func TestCrossChainEvent_ONT2ETH(t *testing.T) {
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
 				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
-				ParserOntCrossChainValue(Value)
+				ParserOntCrossChainValue(TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
 				Contract := notify.ContractAddress
@@ -176,7 +195,7 @@ func TestCrossChainEvent_ONT2BTC(t *testing.T) {
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
 				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
-				ParserOntCrossChainValue(Value)
+				ParserOntCrossChainValue(TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
 				Contract := notify.ContractAddress

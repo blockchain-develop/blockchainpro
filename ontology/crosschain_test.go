@@ -27,9 +27,17 @@ func ParserOntCrossChainValue(toChainId uint32, value string) {
 		fmt.Printf("hex.DecodeString error: %v\n", err)
 	}
 	source := mccommon.NewZeroCopySource(args)
-	assethash, _ := source.NextVarBytes()
-	toaddress, _ := source.NextVarBytes()
-	amount, _ := source.NextUint64()
+	var assethash []byte
+	var toaddress []byte
+	var amount uint64
+	if toChainId == 1 {
+		toaddress, _ = source.NextVarBytes()
+		amount, _ = source.NextUint64()
+	} else {
+		assethash, _ = source.NextVarBytes()
+		toaddress, _ = source.NextVarBytes()
+		amount, _ = source.NextUint64()
+	}
 
 	var assetaddress2 string
 	var toaddress2 string

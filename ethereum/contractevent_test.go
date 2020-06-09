@@ -5,10 +5,13 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/blockchainpro/ethereum/contractabi/eccm"
+	"github.com/btcsuite/btcutil/base58"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/joeqian10/neo-gogogo/helper"
 	mccommon "github.com/ontio/multi-chain/common"
+	ontcommon "github.com/ontio/ontology/common"
 	"math/big"
 	"testing"
 )
@@ -26,27 +29,49 @@ func ParserCrossChainRawData(raw []byte) {
 		hex.EncodeToString(txindex), hex.EncodeToString(txhash), hex.EncodeToString(sender), tochainid, hex.EncodeToString(tocontract),hex.EncodeToString(method),hex.EncodeToString(args))
 
 	//
-	ParserMethodArgs(args)
+	ParserMethodArgs(tochainid, args)
 }
 
-func ParserMethodArgs(args []byte) {
-	source := mccommon.NewZeroCopySource(args)
-	assethash, _ := source.NextVarBytes()
-	address1, _ := mccommon.AddressParseFromBytes(assethash)
-	toaddress, _ := source.NextVarBytes()
-	addrsss2, _ := mccommon.AddressParseFromBytes(toaddress)
-
-	amountBytesReverse, _ := source.NextHash()
-	amountBytes := mccommon.ToArrayReverse(amountBytesReverse[:])
-	amountBigInt := big.NewInt(0)
-	amountBigInt.SetBytes(amountBytes)
-	amount := amountBigInt.Uint64()
-
-	fmt.Printf("toassethash: %s, toaddress: %s, toamount: %d\n",
-		address1.ToHexString(), addrsss2.ToHexString(), amount)
+func ParserMethodArgs(toChainId uint64, args []byte) {
+	source1 := mccommon.NewZeroCopySource(args)
+	var assetaddress []byte
+	var toaddress []byte
+	var amount uint64
+	if toChainId == 1 {
+		toaddress, _ = source1.NextVarBytes()
+		amount, _ = source1.NextUint64()
+	} else {
+		assetaddress, _ = source1.NextVarBytes()
+		toaddress, _ = source1.NextVarBytes()
+		amountBytesReverse, _ := source1.NextHash()
+		amountBytes := mccommon.ToArrayReverse(amountBytesReverse[:])
+		amountBigInt := big.NewInt(0)
+		amountBigInt.SetBytes(amountBytes)
+		amount = amountBigInt.Uint64()
+	}
+	var assetaddress2 string
+	var toaddress2 string
+	if toChainId == 1 {
+		assetaddress2 = "0000000000000000000000000000000000000011"
+		toaddress2 = base58.Encode(toaddress)
+	} else if toChainId == 3 {
+		assetaddress1, _ := ontcommon.AddressParseFromBytes(assetaddress)
+		toaddress1, _ := ontcommon.AddressParseFromBytes(toaddress)
+		assetaddress2 = assetaddress1.ToHexString()
+		toaddress2 = toaddress1.ToHexString()
+	} else if toChainId == 4 {
+		assetaddress1, _ := helper.UInt160FromBytes(assetaddress)
+		toaddress1, _ := helper.UInt160FromBytes(toaddress)
+		assetaddress2 = helper.ScriptHashToAddress(assetaddress1)
+		toaddress2 = helper.ScriptHashToAddress(toaddress1)
+	} else {
+		assetaddress2 = ""
+		toaddress2 = ""
+	}
+	fmt.Printf("to chain id: %d, to asset address: %s, to address: %s, amount: %d\n", toChainId, assetaddress2, toaddress2, amount)
 }
 
-func TestContractEvent(t *testing.T) {
+func TestCrossChainEvent_ETH2ONT(t *testing.T) {
 	url := "http://18.139.17.85:10331"
 	ethclient, err := ethclient.Dial(url)
 	if err != nil {
@@ -63,6 +88,46 @@ func TestContractEvent(t *testing.T) {
 	}
 
 	height := uint64(8022631)
+	opt := &bind.FilterOpts{
+		Start:   height,
+		End:     &height,
+		Context: context.Background(),
+	}
+
+	// get ethereum lock events from given block
+	lockEvents, err := eccmContract.FilterCrossChainEvent(opt, nil)
+	if err != nil {
+		fmt.Printf("FilterCrossChainEvent error: %v\n", err)
+		return
+	}
+
+	for lockEvents.Next() {
+		evt := lockEvents.Event
+		fmt.Printf("txid: %s, txhash: %s, send address: %s, tochainid: %d, tocontract: %s, height: %d, ProxyOrAssetContract: %s\n",
+			hex.EncodeToString(evt.TxId), evt.Raw.TxHash.String(), evt.Sender.String(), evt.ToChainId,
+			hex.EncodeToString(evt.ToContract), height, evt.ProxyOrAssetContract.String())
+		raw := evt.Rawdata
+		ParserCrossChainRawData(raw)
+	}
+}
+
+func TestCrossChainEvent_ETH2BTC(t *testing.T) {
+	url := "http://18.139.17.85:10331"
+	ethclient, err := ethclient.Dial(url)
+	if err != nil {
+		fmt.Printf("getmocktokeninfo - cannot dial sync node, err: %s", err)
+		return
+	}
+
+	addressString := "bA6F835ECAE18f5Fc5eBc074e5A0B94422a13126"
+	eccmContractAddr := common.HexToAddress(addressString)
+	eccmContract, err := eccm.NewEthCrossChainManager(eccmContractAddr, ethclient)
+	if err != nil {
+		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
+		return
+	}
+
+	height := uint64(8029428)
 	opt := &bind.FilterOpts{
 		Start:   height,
 		End:     &height,

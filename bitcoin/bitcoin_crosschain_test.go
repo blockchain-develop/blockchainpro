@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func ParseCrossTransfer(rawTx *btcjson.TxRawResult) (xtype uint32, address []byte, tchainid uint64, fee int64, extData []byte, err error) {
+func ParseCrossTransfer(rawTx *btcjson.TxRawResult) (xtype uint32, address []byte, tchainid uint64, fee uint64, extData []byte, err error) {
 	extData, err = hex.DecodeString(rawTx.Vout[1].ScriptPubKey.Hex)
 	if err != nil {
 		return 0, nil, 0, 0, nil, err
@@ -21,7 +21,7 @@ func ParseCrossTransfer(rawTx *btcjson.TxRawResult) (xtype uint32, address []byt
 	if eof {
 		return
 	}
-	fee, eof = source.NextInt64()
+	fee, eof = source.NextUint64()
 	if eof {
 		return
 	}

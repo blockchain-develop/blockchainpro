@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/blockchainpro/ethereum/contractabi/eccm"
-	"github.com/btcsuite/btcutil/base58"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -16,7 +15,7 @@ import (
 	"testing"
 )
 
-func ParserCrossChainRawData(raw []byte) {
+func ParserCrossChainRawData(name string, raw []byte) {
 	source := mccommon.NewZeroCopySource(raw)
 	txindex, _ := source.NextVarBytes()
 	txhash, _ := source.NextVarBytes()
@@ -29,15 +28,15 @@ func ParserCrossChainRawData(raw []byte) {
 		hex.EncodeToString(txindex), hex.EncodeToString(txhash), hex.EncodeToString(sender), tochainid, hex.EncodeToString(tocontract),hex.EncodeToString(method),hex.EncodeToString(args))
 
 	//
-	ParserMethodArgs(tochainid, args)
+	ParserMethodArgs(name, tochainid, args)
 }
 
-func ParserMethodArgs(toChainId uint64, args []byte) {
+func ParserMethodArgs(name string, toChainId uint64, args []byte) {
 	source1 := mccommon.NewZeroCopySource(args)
 	var assetaddress []byte
 	var toaddress []byte
 	var amount uint64
-	if toChainId == 1 {
+	if name == "btc" {
 		toaddress, _ = source1.NextVarBytes()
 		amount, _ = source1.NextUint64()
 	} else {
@@ -53,7 +52,8 @@ func ParserMethodArgs(toChainId uint64, args []byte) {
 	var toaddress2 string
 	if toChainId == 1 {
 		assetaddress2 = "0000000000000000000000000000000000000011"
-		toaddress2 = base58.Encode(toaddress)
+		toaddress2 = hex.EncodeToString(toaddress)
+		//toaddress2 = base58.Encode(toaddress)
 	} else if toChainId == 3 {
 		assetaddress1, _ := ontcommon.AddressParseFromBytes(assetaddress)
 		toaddress1, _ := ontcommon.AddressParseFromBytes(toaddress)
@@ -71,6 +71,8 @@ func ParserMethodArgs(toChainId uint64, args []byte) {
 	fmt.Printf("to chain id: %d, to asset address: %s, to address: %s, amount: %d\n", toChainId, assetaddress2, toaddress2, amount)
 }
 
+
+// nok
 func TestCrossChainEvent_ETH2ONT(t *testing.T) {
 	url := "http://18.139.17.85:10331"
 	ethclient, err := ethclient.Dial(url)
@@ -87,7 +89,8 @@ func TestCrossChainEvent_ETH2ONT(t *testing.T) {
 		return
 	}
 
-	height := uint64(8022631)
+	//height := uint64(8022631)
+	height := uint64(8029414)
 	opt := &bind.FilterOpts{
 		Start:   height,
 		End:     &height,
@@ -107,10 +110,12 @@ func TestCrossChainEvent_ETH2ONT(t *testing.T) {
 			hex.EncodeToString(evt.TxId), evt.Raw.TxHash.String(), evt.Sender.String(), evt.ToChainId,
 			hex.EncodeToString(evt.ToContract), height, evt.ProxyOrAssetContract.String())
 		raw := evt.Rawdata
-		ParserCrossChainRawData(raw)
+		ParserCrossChainRawData("btc", raw)
 	}
 }
 
+
+// nok
 func TestCrossChainEvent_ETH2BTC(t *testing.T) {
 	url := "http://18.139.17.85:10331"
 	ethclient, err := ethclient.Dial(url)
@@ -147,6 +152,6 @@ func TestCrossChainEvent_ETH2BTC(t *testing.T) {
 			hex.EncodeToString(evt.TxId), evt.Raw.TxHash.String(), evt.Sender.String(), evt.ToChainId,
 			hex.EncodeToString(evt.ToContract), height, evt.ProxyOrAssetContract.String())
 		raw := evt.Rawdata
-		ParserCrossChainRawData(raw)
+		ParserCrossChainRawData("btc", raw)
 	}
 }

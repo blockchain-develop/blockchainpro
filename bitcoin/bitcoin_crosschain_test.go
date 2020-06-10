@@ -4,9 +4,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/btcsuite/btcd/btcjson"
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcutil"
-	"github.com/btcsuite/golangcrypto/ripemd160"
 	"github.com/ontio/multi-chain/common"
 	"testing"
 )
@@ -33,40 +30,10 @@ func ParseCrossTransfer(rawTx *btcjson.TxRawResult) (xtype uint32, address []byt
 	return
 }
 
-func GetUtxoKey(scriptPk []byte) string {
-	switch txscript.GetScriptClass(scriptPk) {
-	case txscript.MultiSigTy:
-		return hex.EncodeToString(btcutil.Hash160(scriptPk))
-	case txscript.ScriptHashTy:
-		return hex.EncodeToString(scriptPk[2:22])
-	case txscript.WitnessV0ScriptHashTy:
-		hasher := ripemd160.New()
-		hasher.Write(scriptPk[2:34])
-		return hex.EncodeToString(hasher.Sum(nil))
-	default:
-		return ""
-	}
-}
-
-func GetUtxoKey1(scriptPk *btcjson.ScriptPubKeyResult) string {
-	scriptPkBytes, _ := hex.DecodeString(scriptPk.Hex)
-	switch scriptPk.Type {
-	case "multisig":
-		return hex.EncodeToString(btcutil.Hash160(scriptPkBytes))
-	case "scripthash":
-		return hex.EncodeToString(scriptPkBytes[2:22])
-	case "witness_v0_scripthash":
-		hasher := ripemd160.New()
-		hasher.Write(scriptPkBytes[2:34])
-		return hex.EncodeToString(hasher.Sum(nil))
-	default:
-		return ""
-	}
-}
-
 func TestCrossChainMsg(t *testing.T) {
-	btc := NewBtcTools("http://172.168.3.10:20336", "test", "test")
-	txhash := "296da9b23d03108845d4cfacf920b42c88fd48be99e2d6d2b4ce5b77c55825b6"
+	//btc := NewBtcTools("http://172.168.3.10:20336", "test", "test")
+	btc := NewBtcTools("http://18.140.187.37:18332", "omnicorerpc", "EzriglUqnFC!")
+	txhash := "a0ee3c9d499fcc834ee9b63ad44dd7aca4dac277dfb0c6919f33a6a485f3b230"
 	btctx, err := btc.GetTx(txhash)
 	if err != nil {
 		fmt.Printf("get tx err: %v\n", err)

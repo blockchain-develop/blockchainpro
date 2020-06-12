@@ -34,12 +34,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="5169" />
+          <entry key="go" value="5184" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="5169" />
+          <entry key="Go" value="5184" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -120,8 +120,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ontology/crosschain_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="197" column="31" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="31" />
+            <state relative-caret-position="500">
+              <caret line="301" column="45" selection-start-line="301" selection-start-column="45" selection-end-line="301" selection-end-column="45" />
               <folding>
                 <element signature="e#18#186#0" expanded="true" />
               </folding>
@@ -207,8 +207,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="103" />
-    <option name="y" value="353" />
+    <option name="x" value="70" />
+    <option name="y" value="377" />
     <option name="width" value="1773" />
     <option name="height" value="713" />
   </component>
@@ -682,8 +682,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ontology/crosschain_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="197" column="31" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="31" />
+        <state relative-caret-position="500">
+          <caret line="301" column="45" selection-start-line="301" selection-start-column="45" selection-end-line="301" selection-end-column="45" />
           <folding>
             <element signature="e#18#186#0" expanded="true" />
           </folding>

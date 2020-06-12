@@ -263,7 +263,7 @@ func TestCrossChainEvent_ONT2ETH_ether(t *testing.T) {
 }
 
 
-func TestCrossChainEvent_ONT2BTC(t *testing.T) {
+func TestCrossChainEvent_ONT2BTC_btc(t *testing.T) {
 	height := uint32(12579198)
 	sdk := NewClient()
 	events, _ := sdk.GetSmartContractEventByBlock(height)
@@ -276,13 +276,12 @@ func TestCrossChainEvent_ONT2BTC(t *testing.T) {
 				contractMethod, _ := states[0].(string)
 				xxxx, _ := hex.DecodeString(contractMethod)
 				if string(xxxx) == "lock" {
-					/*
-					tochainid, _ := states[2].(uint64)
-					toAddress, _ := states[5].(string)
-					amount, _ := states[6].(uint64)
-					fmt.Printf("source asset address: %s, tochainid: %d, targetassetaddress: %s, fromaddress: %s, toaddress: %s, amount:%d\n",
-						sourceAssetAddress, tochainid, targetAssetAddress, fromAddress, toAddress, amount)
-					*/
+					contractAddr := notify.ContractAddress
+					tochainid, _ := states[1].(uint64)
+					fromAddress, _ := states[2].(string)
+					amount, _ := states[4].(uint64)
+					fmt.Printf("source asset address: %s, to chain id: %d, from address: %s, amount: %d\n",
+						contractAddr, tochainid, fromAddress, fromAddress, amount)
 				}
 			}
 
@@ -296,12 +295,11 @@ func TestCrossChainEvent_ONT2BTC(t *testing.T) {
 			switch contractMethod {
 			case "makeFromOntProof":
 				Key := states[4].(string)
-				TokenAddress := states[5].(string)
-				Contract := notify.ContractAddress
+				Contract := states[5].(string)
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
-				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
-				ParserOntCrossChainValue("", TChain, Value)
+				fmt.Printf("from ont, key: %s, contract address: %s, value: %s, tchain: %d\n", Key, Contract, Value, TChain)
+				ParserOntCrossChainValue("btc", TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
 				Contract := notify.ContractAddress

@@ -181,7 +181,7 @@ func TestCrossChainEvent_ONT2ETH_btc(t *testing.T) {
 					fromAddress, _ := states[2].(string)
 					amount, _ := states[4].(uint64)
 					fmt.Printf("source asset address: %s, to chain id: %d, from address: %s, amount: %d\n",
-						contractAddr, tochainid, fromAddress, fromAddress, amount)
+						contractAddr, tochainid, fromAddress, amount)
 				}
 			}
 
@@ -281,7 +281,7 @@ func TestCrossChainEvent_ONT2BTC_btc(t *testing.T) {
 					fromAddress, _ := states[2].(string)
 					amount, _ := states[4].(uint64)
 					fmt.Printf("source asset address: %s, to chain id: %d, from address: %s, amount: %d\n",
-						contractAddr, tochainid, fromAddress, fromAddress, amount)
+						contractAddr, tochainid, fromAddress, amount)
 				}
 			}
 

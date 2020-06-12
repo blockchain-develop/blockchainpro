@@ -34,12 +34,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="5076" />
+          <entry key="go" value="5119" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="5076" />
+          <entry key="Go" value="5119" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -108,8 +108,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ethereum/contractevent_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="53" column="65" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="65" />
+            <state relative-caret-position="364">
+              <caret line="100" column="57" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="57" />
               <folding>
                 <element signature="e#18#327#0" expanded="true" />
               </folding>
@@ -120,8 +120,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ontology/crosschain_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="217" column="21" selection-start-line="217" selection-start-column="21" selection-end-line="217" selection-end-column="21" />
+            <state relative-caret-position="399">
+              <caret line="183" column="81" selection-start-line="183" selection-start-column="81" selection-end-line="183" selection-end-column="81" />
               <folding>
                 <element signature="e#18#186#0" expanded="true" />
               </folding>
@@ -207,10 +207,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-3" />
-    <option name="y" value="467" />
-    <option name="width" value="1293" />
-    <option name="height" value="577" />
+    <option name="x" value="103" />
+    <option name="y" value="353" />
+    <option name="width" value="1773" />
+    <option name="height" value="713" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -422,12 +422,12 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21514745" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1313673" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.1686217" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.60144925" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.07038123" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -672,8 +672,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ethereum/contractevent_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="53" column="65" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="65" />
+        <state relative-caret-position="364">
+          <caret line="100" column="57" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="57" />
           <folding>
             <element signature="e#18#327#0" expanded="true" />
           </folding>
@@ -682,8 +682,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ontology/crosschain_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="217" column="21" selection-start-line="217" selection-start-column="21" selection-end-line="217" selection-end-column="21" />
+        <state relative-caret-position="399">
+          <caret line="183" column="81" selection-start-line="183" selection-start-column="81" selection-end-line="183" selection-end-column="81" />
           <folding>
             <element signature="e#18#186#0" expanded="true" />
           </folding>

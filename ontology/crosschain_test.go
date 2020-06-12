@@ -176,14 +176,12 @@ func TestCrossChainEvent_ONT2ETH_btc(t *testing.T) {
 				contractMethod, _ := states[0].(string)
 				xxxx, _ := hex.DecodeString(contractMethod)
 				if string(xxxx) == "lock" {
-					sourceAssetAddress, _ := states[1].(string)
-					tochainid, _ := states[2].(uint64)
-					targetAssetAddress, _ := states[3].(string)
-					fromAddress, _ := states[4].(string)
-					toAddress, _ := states[5].(string)
-					amount, _ := states[6].(uint64)
-					fmt.Printf("source asset address: %s, tochainid: %d, targetassetaddress: %s, fromaddress: %s, toaddress: %s, amount:%d\n",
-						sourceAssetAddress, tochainid, targetAssetAddress, fromAddress, toAddress, amount)
+					contractAddr := notify.ContractAddress
+					tochainid, _ := states[1].(uint64)
+					fromAddress, _ := states[2].(string)
+					amount, _ := states[4].(uint64)
+					fmt.Printf("source asset address: %s, to chain id: %d, from address: %s, amount: %d\n",
+						contractAddr, tochainid, fromAddress, fromAddress, amount)
 				}
 			}
 
@@ -197,18 +195,17 @@ func TestCrossChainEvent_ONT2ETH_btc(t *testing.T) {
 			switch contractMethod {
 			case "makeFromOntProof":
 				Key := states[4].(string)
-				TokenAddress := states[5].(string)
-				Contract := notify.ContractAddress
+				ContractAddress := states[5].(string)
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
-				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
+				fmt.Printf("from ont, key: %s, contract address: %s, value: %s, tchain: %d\n", Key, ContractAddress, Value, TChain)
 				ParserOntCrossChainValue(TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))
-				Contract := notify.ContractAddress
+				ContractAddress := states[5].(string)
 				RTxHash := (states[1].(string))
 				TokenAddress := states[5].(string)
-				fmt.Printf("to ont, FChain: %d, Contract: %s, RTxhash: %s, token address: %s\n", FChain, Contract, RTxHash, TokenAddress)
+				fmt.Printf("to ont, FChain: %d, Contract: %s, RTxhash: %s, token address: %s\n", FChain, ContractAddress, RTxHash, TokenAddress)
 			}
 		}
 	}

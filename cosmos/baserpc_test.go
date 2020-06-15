@@ -5,9 +5,13 @@ import (
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/store/rootmulti"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth"
+	"github.com/cosmos/cosmos-sdk/x/auth/exported"
+	"github.com/cosmos/cosmos-sdk/x/bank"
 	"github.com/tendermint/tendermint/crypto/merkle"
 	"github.com/tendermint/tendermint/rpc/client"
 	"testing"
+	"time"
 )
 
 func TestCurrentHeight(t *testing.T) {
@@ -50,17 +54,63 @@ func TestAddressFromBech32(t *testing.T) {
 	fmt.Printf("New address: %s, %s", address, addr.String())
 }
 
-func TestQueryStore(t *testing.T) {
+func TestGetAccount(t *testing.T) {
+	addr := AddressFromBech32("cosmos1pkrpxp6rdjxskvfagxdg3pfwwjvxkp2hc2g72e")
+	cdc := NewCDC()
 	c := NewHTTPClient()
-	addr := AddressFromBech32("cosmos1fhj7pkuvwflr7z7ngp2v9tj7g58aq2tjtl56r4")
-	key := append([]byte{0x01}, addr.Bytes()...)
-	path := "/store/acc/key"
-	_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: true, Height: 100})
+	raw, err := cdc.MarshalJSON(auth.NewQueryAccountParams(addr))
+	if err != nil {
+		panic(err)
+	}
+	_pres, err := c.ABCIQueryWithOptions("/custom/acc/account", raw, client.ABCIQueryOptions{})
 	if err != nil {
 		panic(err)
 	}
 	data := _pres.Response.String()
-	fmt.Printf("Query Height: %d, Result: %s", _pres.Response.Height, string(data))
+	fmt.Printf("GetBalance Height: %d, Result: %s", _pres.Response.Height, string(data))
+
+	var account exported.Account
+	err = cdc.UnmarshalJSON(_pres.Response.Value, &account)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("balances: %s\n", account.String())
+}
+
+func TestGetBalance1(t *testing.T) {
+	addr := AddressFromBech32("cosmos1pkrpxp6rdjxskvfagxdg3pfwwjvxkp2hc2g72e")
+	cdc := NewCDC()
+	c := NewHTTPClient()
+	param := bank.NewQueryBalanceParams(addr)
+	raw, err := cdc.MarshalJSON(param)
+	if err != nil {
+		panic(err)
+	}
+	_pres, err := c.ABCIQueryWithOptions("/custom/bank/balances", raw, client.ABCIQueryOptions{})
+	if err != nil {
+		panic(err)
+	}
+	data := _pres.Response.String()
+	fmt.Printf("GetBalance Height: %d, Result: %s\n", _pres.Response.Height, string(data))
+
+	var coins sdk.Coins
+	cdc.UnmarshalJSON(_pres.Response.Value, &coins)
+	fmt.Printf("balances: %s\n", coins.String())
+}
+
+func TestQueryStore(t *testing.T) {
+	c := NewHTTPClient()
+	addr := AddressFromBech32("cosmos1pkrpxp6rdjxskvfagxdg3pfwwjvxkp2hc2g72e")
+	key := append([]byte{0x01}, addr.Bytes()...)
+	path := "/store/acc/key"
+	//_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: false, Height: 1580})
+	_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: true})
+	if err != nil {
+		panic(err)
+	}
+	data := _pres.Response.String()
+	fmt.Printf("Query Height: %d, Result: %s\n", _pres.Response.Height, string(data))
+	time.Sleep(time.Second * 5)
 	block := GetBlock(c, _pres.Response.Height + 1)
 	if _pres.Response.Value != nil {
 		storeName, err := parseQueryStorePath(path)

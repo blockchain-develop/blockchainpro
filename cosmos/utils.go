@@ -4,13 +4,15 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth/exported"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/crypto/multisig"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
 	"github.com/tendermint/tendermint/rpc/client"
 	"github.com/tendermint/tendermint/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"strings"
 )
 
@@ -34,6 +36,9 @@ func NewCDC() *codec.Codec {
 	cdc.RegisterInterface((*crypto.PrivKey)(nil), nil)
 	cdc.RegisterConcrete(ed25519.PrivKeyEd25519{}, ed25519.PrivKeyAminoName, nil)
 	cdc.RegisterConcrete(secp256k1.PrivKeySecp256k1{}, secp256k1.PrivKeyAminoName, nil)
+
+	cdc.RegisterInterface((*exported.Account)(nil), nil)
+	cdc.RegisterConcrete(&authtypes.BaseAccount{}, "cosmos-sdk/Account", nil)
 	return cdc
 }
 

@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="747ad860-a3c7-493c-b472-2e79417c17d5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neo/crosschainevent_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/neo/crosschainevent_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/addresstransfer_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/addresstransfer_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cosmos/baserpc_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cosmos/baserpc_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cosmos/crosschain_commit_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/cosmos/crosschain_commit_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cosmos/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/cosmos/utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,28 +27,30 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="54" />
-          <entry key="mod" value="1" />
+          <entry key="go" value="65" />
+          <entry key="mod" value="4" />
           <entry key="s" value="1" />
+          <entry key="sum" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="DTD" value="1" />
-          <entry key="Go" value="54" />
+          <entry key="DTD" value="4" />
+          <entry key="Go" value="65" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="x86 Plan9 Assembly" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="7198" />
-          <entry key="mod" value="4" />
+          <entry key="go" value="7960" />
+          <entry key="mod" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="DTD" value="4" />
-          <entry key="Go" value="7198" />
+          <entry key="DTD" value="12" />
+          <entry key="Go" value="7960" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -61,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cosmos/baserpc_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="66" column="23" lean-forward="true" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+            <state relative-caret-position="256">
+              <caret line="112" column="26" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="26" />
               <folding>
                 <element signature="e#16#44#0" expanded="true" />
               </folding>
@@ -71,13 +76,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/rpc/client/types.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/x/auth/exported/exported.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/go.mod">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="6" column="40" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cosmos/crosschain_commit_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1197">
-              <caret line="84" column="49" selection-start-line="84" selection-start-column="39" selection-end-line="84" selection-end-column="49" />
-              <folding>
-                <element signature="e#16#79#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="408">
+              <caret line="79" column="41" selection-start-line="79" selection-start-column="41" selection-end-line="79" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -85,38 +114,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cosmos/headerverify_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
+            <state relative-caret-position="403">
               <caret line="57" column="20" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="20" />
-              <folding>
-                <element signature="e#16#109#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../tendermint/tendermint/types/block.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="747" column="5" selection-start-line="747" selection-start-column="5" selection-end-line="747" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Go/src/builtin/builtin.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="231" column="5" selection-start-line="231" selection-start-column="5" selection-end-line="231" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cosmos/utils.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="76" column="37" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+            <state relative-caret-position="369">
+              <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
               <folding>
                 <element signature="e#16#317#0" expanded="true" />
               </folding>
@@ -125,19 +133,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../tendermint/tendermint/rpc/client/httpclient.go">
+        <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/crypto/secp256k1/secp256k1.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="344" column="57" selection-start-line="344" selection-start-column="55" selection-end-line="344" selection-end-column="67" />
+            <state relative-caret-position="114">
+              <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../tendermint/tendermint/rpc/core/types/responses.go">
+        <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/crypto/ed25519/ed25519.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+            <state relative-caret-position="120">
+              <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/types/address.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="127" column="51" selection-start-line="127" selection-start-column="48" selection-end-line="127" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -181,11 +198,11 @@
         <option value="$PROJECT_DIR$/ontology/crosschain_test.go" />
         <option value="$PROJECT_DIR$/ontology/addresstransfer_test.go" />
         <option value="$PROJECT_DIR$/neo/crosschainevent_test.go" />
-        <option value="$PROJECT_DIR$/go.mod" />
         <option value="$PROJECT_DIR$/cosmos/headerverify_test.go" />
+        <option value="$PROJECT_DIR$/cosmos/utils.go" />
+        <option value="$PROJECT_DIR$/go.mod" />
         <option value="$PROJECT_DIR$/cosmos/baserpc_test.go" />
         <option value="$PROJECT_DIR$/cosmos/crosschain_commit_test.go" />
-        <option value="$PROJECT_DIR$/cosmos/utils.go" />
       </list>
     </option>
   </component>
@@ -196,10 +213,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="156" />
-    <option name="y" value="422" />
-    <option name="width" value="1840" />
-    <option name="height" value="810" />
+    <option name="x" value="45" />
+    <option name="y" value="285" />
+    <option name="width" value="1244" />
+    <option name="height" value="674" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -233,6 +250,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../multi-chain" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -257,8 +275,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestQueryStore in github.com/blockchainpro/cosmos">
-    <configuration name="TestHeaderCDC in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestStoreProofCDC in github.com/blockchainpro/cosmos">
+    <configuration name="TestGetAccount in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="blockchainpro" />
       <working_directory value="$PROJECT_DIR$/cosmos" />
       <framework value="gotest" />
@@ -266,7 +284,29 @@
       <package value="github.com/blockchainpro/cosmos" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestHeaderCDC$" />
+      <pattern value="^TestGetAccount$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetBalance in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="blockchainpro" />
+      <working_directory value="$PROJECT_DIR$/cosmos" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/blockchainpro/cosmos" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestGetBalance$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetBalance1 in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="blockchainpro" />
+      <working_directory value="$PROJECT_DIR$/cosmos" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/blockchainpro/cosmos" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestGetBalance1$" />
       <method v="2" />
     </configuration>
     <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -280,7 +320,7 @@
       <pattern value="^TestQueryStore$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestVrifyHeder in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestStoreProofCDC in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="blockchainpro" />
       <working_directory value="$PROJECT_DIR$/cosmos" />
       <framework value="gotest" />
@@ -288,91 +328,69 @@
       <package value="github.com/blockchainpro/cosmos" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestVrifyHeder$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestVrifyHeder1 in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="blockchainpro" />
-      <working_directory value="$PROJECT_DIR$/cosmos" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/blockchainpro/cosmos" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestVrifyHeder1$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestVrifyHeder2 in github.com/blockchainpro/cosmos" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="blockchainpro" />
-      <working_directory value="$PROJECT_DIR$/cosmos" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/blockchainpro/cosmos" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestVrifyHeder2$" />
+      <pattern value="^TestStoreProofCDC$" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Test.TestVrifyHeder in github.com/blockchainpro/cosmos" />
-      <item itemvalue="Go Test.TestVrifyHeder1 in github.com/blockchainpro/cosmos" />
-      <item itemvalue="Go Test.TestVrifyHeder2 in github.com/blockchainpro/cosmos" />
       <item itemvalue="Go Test.TestQueryStore in github.com/blockchainpro/cosmos" />
-      <item itemvalue="Go Test.TestHeaderCDC in github.com/blockchainpro/cosmos" />
+      <item itemvalue="Go Test.TestGetBalance1 in github.com/blockchainpro/cosmos" />
+      <item itemvalue="Go Test.TestGetBalance in github.com/blockchainpro/cosmos" />
+      <item itemvalue="Go Test.TestGetAccount in github.com/blockchainpro/cosmos" />
+      <item itemvalue="Go Test.TestStoreProofCDC in github.com/blockchainpro/cosmos" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestStoreProofCDC in github.com/blockchainpro/cosmos" />
         <item itemvalue="Go Test.TestQueryStore in github.com/blockchainpro/cosmos" />
-        <item itemvalue="Go Test.TestHeaderCDC in github.com/blockchainpro/cosmos" />
-        <item itemvalue="Go Test.TestVrifyHeder2 in github.com/blockchainpro/cosmos" />
-        <item itemvalue="Go Test.TestVrifyHeder1 in github.com/blockchainpro/cosmos" />
-        <item itemvalue="Go Test.TestVrifyHeder in github.com/blockchainpro/cosmos" />
+        <item itemvalue="Go Test.TestGetAccount in github.com/blockchainpro/cosmos" />
+        <item itemvalue="Go Test.TestGetBalance in github.com/blockchainpro/cosmos" />
+        <item itemvalue="Go Test.TestGetBalance1 in github.com/blockchainpro/cosmos" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestVrifyHeder_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 14m 21s.xml">
-      <configuration name="TestVrifyHeder in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestVrifyHeder_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 15m 26s.xml">
-      <configuration name="TestVrifyHeder in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestGetBlock_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 17m 01s.xml">
-      <configuration name="TestGetBlock in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestVrifyHeder_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 17m 15s.xml">
-      <configuration name="TestVrifyHeder in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestVrifyHeder_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 17m 52s.xml">
-      <configuration name="TestVrifyHeder in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestVrifyHeder1_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 21m 55s.xml">
-      <configuration name="TestVrifyHeder1 in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestVrifyHeder2_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 27m 21s.xml">
-      <configuration name="TestVrifyHeder2 in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 44m 07s.xml">
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 05m 59s.xml">
       <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestHeaderCDC_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 44m 47s.xml">
-      <configuration name="TestHeaderCDC in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 16h 45m 00s.xml">
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 06m 06s.xml">
       <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 06m 36s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 06m 45s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 06m 55s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 07m 03s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 07m 13s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 07m 46s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestQueryStore_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 08m 07s.xml">
+      <configuration name="TestQueryStore in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestStoreProofCDC_in_github_com_blockchainpro_cosmos - 2020.06.15 at 18h 09m 34s.xml">
+      <configuration name="TestStoreProofCDC in github.com/blockchainpro/cosmos" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16554959" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16554959" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28739002" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3240469" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26832846" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5117302" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -391,6 +409,9 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -638,13 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/go.mod">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Go/src/builtin/builtin.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
@@ -673,43 +687,110 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cosmos/crosschain_commit_test.go">
+    <entry file="file://$PROJECT_DIR$/go.sum">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/x/bank/internal/types/querier.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="84" column="49" selection-start-line="84" selection-start-column="39" selection-end-line="84" selection-end-column="49" />
+        <state relative-caret-position="190">
+          <caret line="12" column="66" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/x/bank/alias.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="44" column="53" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/types/coin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="186" column="19" selection-start-line="186" selection-start-column="19" selection-end-line="186" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/go-amino@v0.15.1/amino.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="410" column="18" selection-start-line="410" selection-start-column="18" selection-end-line="410" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/types/address.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="127" column="51" selection-start-line="127" selection-start-column="48" selection-end-line="127" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/crypto/ed25519/ed25519.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/crypto/secp256k1/secp256k1.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cosmos/utils.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
           <folding>
-            <element signature="e#16#79#0" expanded="true" />
+            <element signature="e#16#317#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/tendermint/tendermint@v0.33.3/rpc/client/types.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../pkg/mod/github.com/cosmos/cosmos-sdk@v0.38.4/x/auth/exported/exported.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="40" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cosmos/headerverify_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
+        <state relative-caret-position="403">
           <caret line="57" column="20" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="20" />
-          <folding>
-            <element signature="e#16#109#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cosmos/baserpc_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="66" column="23" lean-forward="true" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+        <state relative-caret-position="256">
+          <caret line="112" column="26" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="26" />
           <folding>
             <element signature="e#16#44#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cosmos/utils.go">
+    <entry file="file://$PROJECT_DIR$/cosmos/crosschain_commit_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="76" column="37" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
-          <folding>
-            <element signature="e#16#317#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="408">
+          <caret line="79" column="41" selection-start-line="79" selection-start-column="41" selection-end-line="79" selection-end-column="41" />
         </state>
       </provider>
     </entry>

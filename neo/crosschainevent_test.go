@@ -25,7 +25,7 @@ func parseNotifyData(data  string) {
 	method, _ := source.NextVarBytes()
 	args, _ := source.NextVarBytes()
 
-	fmt.Printf("txhash: %s %s, token: %s, to chainid: %d, to contract: %s, mthod: %s",
+	fmt.Printf("txhash: %s %s, token: %s, to chainid: %d, to contract: %s, mthod: %s\n",
 		hex.EncodeToString(txHash), hex.EncodeToString(crosschainid), hex.EncodeToString(token), tochainid,
 		hex.EncodeToString(tocontract), hex.EncodeToString(method))
 	ParseNeoCrossTransfer(tochainid, args)
@@ -69,7 +69,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 
 func TestNeoCrossChainEvent1(t *testing.T) {
 	client := NewNeoClient()
-	txhash := "46fbe0e121168cd318a690b663d0781732fc4150cd3bbb15f6cc859dd6661904"
+	txhash := "4cb48acce66c48a451f516dbcf8d525a84d661dbe1610be882a97e29c87b46fa"
 	logResp := client.GetApplicationLog(txhash)
 
 	if logResp.ErrorResponse.Error.Message != "" {

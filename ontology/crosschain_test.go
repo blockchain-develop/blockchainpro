@@ -3,7 +3,6 @@ package ontology
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/btcsuite/btcutil/base58"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/joeqian10/neo-gogogo/helper"
 	mccommon "github.com/ontio/multi-chain/common"
@@ -43,7 +42,8 @@ func ParserOntCrossChainValue(assetName string, toChainId uint32, value string) 
 	var toaddress2 string
 	if toChainId == 1 {
 		assetaddress2 = "0000000000000000000000000000000000000011"
-		toaddress2 = base58.Encode(toaddress)
+		toaddress2 = string(toaddress)
+		//toaddress2 = base58.Encode(toaddress)
 	} else if toChainId == 2 {
 		assetAddress1 := common.BytesToAddress(assethash)
 		toaddress1 := common.BytesToAddress(toaddress)

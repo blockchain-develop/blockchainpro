@@ -15,3 +15,13 @@ func TestHex2Base58(t *testing.T) {
 	addrBase58 := addr.ToBase58()
 	fmt.Printf("ontology address, hex: %s, base58: %s\n", addrHexStr, addrBase58)
 }
+
+func TestBase582Hex(t *testing.T) {
+	addrBase58 := "AZqk4i7Zhfhc1CRUtZYKrLw4YTSq4Y9khN"
+	addr, err := common.AddressFromBase58(addrBase58)
+	if err != nil {
+		fmt.Printf("AddressFromBase58 err: %s", err.Error())
+	}
+	addrHexStr := addr.ToHexString()
+	fmt.Printf("ontology address, hex: %s, base58: %s\n", addrHexStr, addrBase58)
+}

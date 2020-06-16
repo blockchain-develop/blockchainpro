@@ -25,7 +25,7 @@ type CosmosProofValue struct {
 func TestHeaderCDC(t *testing.T) {
 	c := NewHTTPClient()
 	cdc := NewCDC()
-	height := int64(100)
+	height := int64(964)
 	validatorSet := GetValidatorSet(c, height)
 	signedHeader := GetSignedHeader(c, height)
 	var commitHeader CosmosHeader
@@ -78,6 +78,12 @@ func TestStoreProofCDC(t *testing.T) {
 			panic(err)
 		}
 		fmt.Printf("proof value is : %s\n", hex.EncodeToString(proofvalueBs))
+		proofBs, err := cdc.MarshalBinaryBare(_pres.Response.Proof)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("proof is : %s\n", hex.EncodeToString(proofBs))
+		fmt.Printf("xxxxxxxxxxxxxxxxxxxxxx")
 	} else {
 		prt := rootmulti.DefaultProofRuntime()
 		err = prt.VerifyAbsence(_pres.Response.Proof, block.AppHash, string(_pres.Response.Key))
@@ -86,4 +92,5 @@ func TestStoreProofCDC(t *testing.T) {
 		}
 		fmt.Printf("verify store proof successful.")
 	}
+	fmt.Printf("xxxxxxxxxxxxxxxxxxxxxx")
 }

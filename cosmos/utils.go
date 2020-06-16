@@ -18,7 +18,8 @@ import (
 
 func NewHTTPClient() *client.HTTP {
 	c, err := client.NewHTTP("http://172.168.3.93:26657", "/websocket")
-	//c := rpcclient.NewHTTP("https://lcd.nylira.net:26657", "/websocket")
+	//c, err := client.NewHTTP("http://172.168.3.94:26657", "/websocket")
+	//c, err := client.NewHTTP("https://lcd.nylira.net:26657", "/websocket")
 	if err != nil {
 		fmt.Printf("new http failed, err: %s\n", err.Error())
 	}

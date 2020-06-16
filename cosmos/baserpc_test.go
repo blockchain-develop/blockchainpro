@@ -26,7 +26,7 @@ func TestCurrentHeight(t *testing.T) {
 
 func TestGetBlock(t *testing.T) {
 	c := NewHTTPClient()
-	height := int64(100)
+	height := int64(10000)
 	block, err := c.Block(&height)
 	if err != nil {
 		panic(err)
@@ -86,7 +86,7 @@ func TestGetBalance1(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	_pres, err := c.ABCIQueryWithOptions("/custom/bank/balances", raw, client.ABCIQueryOptions{})
+	_pres, err := c.ABCIQueryWithOptions("/custom/bank/balances", raw, client.ABCIQueryOptions{Height:3090})
 	if err != nil {
 		panic(err)
 	}
@@ -103,7 +103,7 @@ func TestQueryStore(t *testing.T) {
 	addr := AddressFromBech32("cosmos1pkrpxp6rdjxskvfagxdg3pfwwjvxkp2hc2g72e")
 	key := append([]byte{0x01}, addr.Bytes()...)
 	path := "/store/acc/key"
-	//_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: false, Height: 1580})
+	//_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: true, Height: 2256})
 	_pres, err := c.ABCIQueryWithOptions(path, key, client.ABCIQueryOptions{Prove: true})
 	if err != nil {
 		panic(err)

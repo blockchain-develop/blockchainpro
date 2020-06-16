@@ -150,7 +150,7 @@ func TestCrossChainEvent_ONT2ETH(t *testing.T) {
 				Contract := notify.ContractAddress
 				Value := states[6].(string)
 				TChain := uint32(states[2].(float64))
-				fmt.Printf("from ont, key: %s, token address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
+				fmt.Printf("from ont, key: %s, caller address: %s, contract: %s, value: %s, tchain: %d\n", Key, TokenAddress, Contract, Value, TChain)
 				ParserOntCrossChainValue("", TChain, Value)
 			case "verifyToOntProof":
 				FChain := uint32(states[3].(float64))

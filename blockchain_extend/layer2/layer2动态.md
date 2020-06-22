@@ -1,12 +1,12 @@
-# Layer2市场
+# Layer2动态
 
-## Layer2动态
+## Layer2协议
 
 协议|产品|日期|说明
 :--:|:--:|:--:|---
 plasma|plasma|2018|无
 Optimistic rollup|Optimistic rollup|2019|synthetix使用Optimistic rollup构建交易所、Fuel实验室基于Optmistic rollup推出Reddit Cash
-ZK rollup|ZK rollup|2019|路印使用ZK rollup构建去中心化交易所、StarkEx使用ZK rollup技术将130W用户引入以太坊
+ZK rollup|ZK rollup|2019|路印使用ZK rollup构建去中心化交易所、StarkEx使用ZK rollup技术将Reddit社区的130W用户引入以太坊
 OMG|||
 
 ## Layer2产品
@@ -16,12 +16,20 @@ StarkEx|StarkEx|ZK rollup|2020|https://starkware.co/|
 
 ## Layer2组织和公司
 
-### StarkEx
+### StarkWare
 
 [官方网站](https://starkware.co/)
+
+StarkWare有两个与交易所相关的技术：StarkEx和StarkDEX.后者比前者多一个D,意味着StarkEx是一种增强的中心化交易所方案，StarkDEX是一种增强的去中心化交易所方案.
+
+StarkWare认为：去中心化交易所的缺点是难规模化，这是StarkDEX要解决的问题.中心化交易所的缺点是用户自己无法托管资产，这是StarkEx要解决的问题。
 
 产品包括StarkDEX,StarkPay
 
 StarkDEX is a scalability engine for DEXes (non-custodial exchanges) that will allow them to handle over 10,000 trades per block.
 
 StarkPay is a payment scalability engine based on STARK technology that offers a scalable capital-efficient non-custodial payment solution, with no liveness requirements.
+
+基于StarkEx系统有去中心化交易所DeversiFi.
+
+Gods Unchained的公司Immutable将基于StarkEx开发一个非同质化代币(NFT)的交易所Immutable X.

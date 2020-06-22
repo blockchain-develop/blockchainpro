@@ -60,7 +60,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 			fmt.Printf("notify, method: %s\n", method)
 			if method == "create_cross_tx_success" {
 				parseNotifyData(notify.State.Value[4].Value)
-			} else if method == "verifyToNeoProof" {
+			} else if method == "VerifyAndExecuteTxEvent" {
 				fmt.Printf("rtx hash: %s, token address: %s\n", notify.State.Value[2].Value, notify.State.Value[4].Value)
 			}
 		}
@@ -69,7 +69,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 
 func TestNeoCrossChainEvent1(t *testing.T) {
 	client := NewNeoClient()
-	txhash := "4cb48acce66c48a451f516dbcf8d525a84d661dbe1610be882a97e29c87b46fa"
+	txhash := "43c6c0e1af1309004ffbc9d235ae197f737878db591e2da1cccc95e91bcd39bb"
 	logResp := client.GetApplicationLog(txhash)
 
 	if logResp.ErrorResponse.Error.Message != "" {
@@ -96,8 +96,9 @@ func TestNeoCrossChainEvent1(t *testing.T) {
 				fmt.Printf("txhash: %s, %s, contract address: %s, to chainid: %s, to contarct: %s\n",
 					notify.State.Value[1].Value, notify.State.Value[2].Value, notify.State.Value[3].Value, notify.State.Value[4].Value, notify.State.Value[5].Value)
 				parseNotifyData(notify.State.Value[6].Value)
-			} else if method == "verifyToNeoProof" {
-				fmt.Printf("rtx hash: %s, token address: %s\n", notify.State.Value[2].Value, notify.State.Value[4].Value)
+			} else if method == "VerifyAndExecuteTxEvent" {
+				value := notify.State.Value
+				fmt.Printf("rtx hash: %s, token address: %s\n", value[3].Value, value[4].Value)
 			}
 		}
 	}

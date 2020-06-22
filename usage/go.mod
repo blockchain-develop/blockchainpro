@@ -8,7 +8,7 @@ require (
 	github.com/btcsuite/btcutil v1.0.2
 	github.com/cmars/basen v0.0.0-20150613233007-fe3947df716e // indirect
 	github.com/cosmos/cosmos-sdk v0.38.4
-	github.com/ethereum/go-ethereum v1.9.15
+	github.com/ethereum/go-ethereum v1.9.13
 	github.com/joeqian10/neo-gogogo v0.0.0-20200611102831-c17de5e1f0f8
 	github.com/ontio/multi-chain v0.0.0
 	github.com/ontio/multi-chain-go-sdk v0.0.0

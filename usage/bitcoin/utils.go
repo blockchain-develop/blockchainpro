@@ -3,10 +3,18 @@ package bitcoin
 import (
 	"encoding/hex"
 	"github.com/btcsuite/btcd/btcjson"
+	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/txscript"
 	"github.com/btcsuite/btcutil"
 	"golang.org/x/crypto/ripemd160"
 )
+
+
+func NewDefaultBtcTools() *BTCTools {
+	btc := NewBtcTools("http://18.140.187.37:18332", "omnicorerpc", "EzriglUqnFC!")
+	//btc := NewBtcTools("http://172.168.3.95:18443", "test", "test")
+	return btc
+}
 
 func GetUtxoKey(scriptPk []byte) string {
 	switch txscript.GetScriptClass(scriptPk) {
@@ -36,5 +44,19 @@ func GetUtxoKey1(scriptPk *btcjson.ScriptPubKeyResult) string {
 		return hex.EncodeToString(hasher.Sum(nil))
 	default:
 		return ""
+	}
+}
+
+func GetAddress(scriptPk *btcjson.ScriptPubKeyResult) string {
+	scriptPkBytes, _ := hex.DecodeString(scriptPk.Hex)
+	switch scriptPk.Type {
+	case "scripthash":
+		add, _ := btcutil.NewAddressScriptHashFromHash(scriptPkBytes[2:22], &chaincfg.TestNet3Params)
+		return add.EncodeAddress()
+	case "witness_v0_scripthash":
+		add, _ := btcutil.NewAddressWitnessScriptHash(scriptPkBytes[2:34], &chaincfg.TestNet3Params)
+		return add.EncodeAddress()
+	default:
+		return "unsupport"
 	}
 }

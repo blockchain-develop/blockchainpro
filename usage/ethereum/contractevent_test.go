@@ -4,7 +4,8 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
-	"github.com/blockchainpro/ethereum/contractabi/eccm"
+	"github.com/blockchainpro/usage/ethereum/ethtools/eccm"
+	"github.com/blockchainpro/usage/ethereum/ethtools/lockproxy"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -83,7 +84,7 @@ func TestCrossChainEvent_ETH2ONT(t *testing.T) {
 
 	addressString := "bA6F835ECAE18f5Fc5eBc074e5A0B94422a13126"
 	eccmContractAddr := common.HexToAddress(addressString)
-	eccmContract, err := eccm.NewEthCrossChainManager(eccmContractAddr, ethclient)
+	eccmContract, err := eccm_abi.NewEthCrossChainManager(eccmContractAddr, ethclient)
 	if err != nil {
 		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
 		return
@@ -126,7 +127,7 @@ func TestCrossChainEvent_ETH2BTC(t *testing.T) {
 
 	addressString := "bA6F835ECAE18f5Fc5eBc074e5A0B94422a13126"
 	eccmContractAddr := common.HexToAddress(addressString)
-	eccmContract, err := eccm.NewEthCrossChainManager(eccmContractAddr, ethclient)
+	eccmContract, err := eccm_abi.NewEthCrossChainManager(eccmContractAddr, ethclient)
 	if err != nil {
 		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
 		return
@@ -153,5 +154,83 @@ func TestCrossChainEvent_ETH2BTC(t *testing.T) {
 			hex.EncodeToString(evt.ToContract), height, evt.ProxyOrAssetContract.String())
 		raw := evt.Rawdata
 		ParserCrossChainRawData("btc", raw)
+	}
+}
+
+func TestCrossChainEvent_ETH2Cosmos(t *testing.T) {
+	url := "http://18.139.17.85:10331"
+	ethclient, err := ethclient.Dial(url)
+	if err != nil {
+		fmt.Printf("getmocktokeninfo - cannot dial sync node, err: %s", err)
+		return
+	}
+
+	addressString := "bA6F835ECAE18f5Fc5eBc074e5A0B94422a13126"
+	eccmContractAddr := common.HexToAddress(addressString)
+	eccmContract, err := eccm_abi.NewEthCrossChainManager(eccmContractAddr, ethclient)
+	if err != nil {
+		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
+		return
+	}
+
+	height := uint64(8159139)
+	opt := &bind.FilterOpts{
+		Start:   height,
+		End:     &height,
+		Context: context.Background(),
+	}
+
+	// get ethereum lock events from given block
+	lockEvents, err := eccmContract.FilterCrossChainEvent(opt, nil)
+	if err != nil {
+		fmt.Printf("FilterCrossChainEvent error: %v\n", err)
+		return
+	}
+
+	for lockEvents.Next() {
+		evt := lockEvents.Event
+		fmt.Printf("txid: %s, txhash: %s, send address: %s, tochainid: %d, tocontract: %s, height: %d, ProxyOrAssetContract: %s\n",
+			hex.EncodeToString(evt.TxId), evt.Raw.TxHash.String(), evt.Sender.String(), evt.ToChainId,
+			hex.EncodeToString(evt.ToContract), height, evt.ProxyOrAssetContract.String())
+		raw := evt.Rawdata
+		ParserCrossChainRawData("btc", raw)
+	}
+}
+
+func TestLockEvent_ETH2Cosmos(t *testing.T) {
+	url := "http://18.139.17.85:10331"
+	ethclient, err := ethclient.Dial(url)
+	if err != nil {
+		fmt.Printf("getmocktokeninfo - cannot dial sync node, err: %s", err)
+		return
+	}
+
+	addressString := "75ED27ee68F0D6bdd4e41E38388C5A9028Fb6707"
+	eccmContractAddr := common.HexToAddress(addressString)
+	eccmContract, err := lock_proxy_abi.NewLockProxy(eccmContractAddr, ethclient)
+	if err != nil {
+		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
+		return
+	}
+
+	height := uint64(8159139)
+	opt := &bind.FilterOpts{
+		Start:   height,
+		End:     &height,
+		Context: context.Background(),
+	}
+
+	// get ethereum lock events from given block
+	lockEvents, err := eccmContract.FilterLockEvent(opt)
+	if err != nil {
+		fmt.Printf("FilterCrossChainEvent error: %v\n", err)
+		return
+	}
+
+	for lockEvents.Next() {
+		evt := lockEvents.Event
+		fmt.Printf("txhash: %s, from asset hash: %s, from address: %s, to chain id: %d, to asset hash: %s, to address: %s, amount: %d\n",
+			evt.Raw.TxHash.String(), evt.FromAssetHash.String(), evt.FromAddress.String(), evt.ToChainId,
+			hex.EncodeToString(evt.ToAssetHash), hex.EncodeToString(evt.ToAddress), evt.Amount.Uint64())
 	}
 }

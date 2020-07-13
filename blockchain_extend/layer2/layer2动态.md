@@ -12,7 +12,8 @@ OMG|||
 ## Layer2产品
 名称|公司|协议|日期|网站|说明
 :--:|:--:|:--:|:--:|:--:|---
-StarkEx|StarkEx|ZK rollup|2020|https://starkware.co/|
+StarkEx|StarkWare|ZK rollup|2020|https://starkware.co/|零知识证明(ZKP)包括ZK-SNARK和ZK-STARK，StarkEx的证明系统为ZK-STARK，包括ZK-Rollup模式(交易历史存储到链上)和Validium模式(交易历史和余额由StarkEx运营者和一个数据可得性委员会存储在链下)
+DeversiFi|StarkWare|StarkEx|2020|https://starkware.co/|基于StarkEx协议实现的去中心化交易所，TPS有9000
 
 ## Layer2组织和公司
 
@@ -33,3 +34,9 @@ StarkPay is a payment scalability engine based on STARK technology that offers a
 基于StarkEx系统有去中心化交易所DeversiFi.
 
 Gods Unchained的公司Immutable将基于StarkEx开发一个非同质化代币(NFT)的交易所Immutable X.
+
+### L4
+
+代表作Counterfactual
+
+### Finality Labs

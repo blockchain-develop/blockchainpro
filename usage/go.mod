@@ -1,4 +1,4 @@
-module github.com/blockchainpro
+module github.com/blockchainpro/usage
 
 go 1.14
 

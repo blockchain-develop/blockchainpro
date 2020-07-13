@@ -40,9 +40,50 @@ func ParseNeoCrossTransfer(toChainId uint64, args []byte) {
 		hex.EncodeToString(assethash), hex.EncodeToString(toaddress), amount)
 }
 
+
+func TestNeoCrossChainEvent_Scan(t *testing.T) {
+	client := NewNeoClient()
+
+	for i := 4468200;i < 4489361;i ++ {
+		blockResp := client.GetBlockByIndex(uint32(i))
+		block := blockResp.Result
+		for _, tx := range block.Tx {
+			if tx.Type != "InvocationTransaction" {
+				continue
+			}
+			logResp := client.GetApplicationLog(tx.Txid)
+
+			if logResp.ErrorResponse.Error.Message != "" {
+				fmt.Printf("GetApplicationLog err: %s\n", logResp.ErrorResponse.Error.Message)
+			}
+
+			appLog := logResp.Result
+			for _, item := range appLog.Executions {
+				fmt.Printf("saveNeoCrossTxsByHeight height: %d, tx contract: %s, gas: %s\n",i, item.Contract, item.GasConsumed)
+				for _, notify := range item.Notifications {
+					value := notify.State.Value
+					method := value[0].Value
+					xx, _ := hex.DecodeString(method)
+					method = string(xx)
+					fmt.Printf("notify, txhash : %s, contract: %s, method: %s, values: %v\n", tx.Txid, notify.Contract, method, value)
+					if method == "CrossChainLockEvent" {
+						fmt.Printf("xx: %s, from address: %s, contract address: %s, to chainid: %s, key: %s, param: %s\n",
+							value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value)
+						//parseNotifyData(notify.State.Value[6].Value)
+					} else if method == "Lock" {
+						fmt.Printf("xx: %s, from asset: %s, from address: %s, to chainid: %s, to asset: %s, to address: %s, amount: %s\n",
+							value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value, value[6].Value)
+					}
+				}
+			}
+		}
+	}
+}
+
 func TestNeoCrossChainEvent(t *testing.T) {
 	client := NewNeoClient()
-	txhash := "46fbe0e121168cd318a690b663d0781732fc4150cd3bbb15f6cc859dd6661904"
+	txhash := "0b66417146be074489a3556a1093c8e500d11584383c7c25bfc0d4aed7785b7d"
+	//txhash := "21c6ae12471611d06682f47863f6771acefc0edffd9a4a5eb3fe8ca2c57c72ef"
 	logResp := client.GetApplicationLog(txhash)
 
 	if logResp.ErrorResponse.Error.Message != "" {
@@ -51,17 +92,20 @@ func TestNeoCrossChainEvent(t *testing.T) {
 
 	appLog := logResp.Result
 	for _, item := range appLog.Executions {
-		fmt.Printf("saveNeoCrossTxsByHeight tx contract: %s, gas: %s\n", item.Contract, item.GasConsumed)
+		fmt.Printf("saveNeoCrossTxsByHeight height: %d tx contract: %s, gas: %s\n", item.Contract, item.GasConsumed)
 		for _, notify := range item.Notifications {
-			fmt.Printf("notify contract: %s\n", notify.Contract)
-			method := notify.State.Value[0].Value
+			value := notify.State.Value
+			method := value[0].Value
 			xx, _ := hex.DecodeString(method)
 			method = string(xx)
-			fmt.Printf("notify, method: %s\n", method)
-			if method == "create_cross_tx_success" {
-				parseNotifyData(notify.State.Value[4].Value)
-			} else if method == "VerifyAndExecuteTxEvent" {
-				fmt.Printf("rtx hash: %s, token address: %s\n", notify.State.Value[2].Value, notify.State.Value[4].Value)
+			fmt.Printf("notify, contract: %s, method: %s, values: %v\n", notify.Contract, method, value)
+			if method == "CrossChainLockEvent" {
+				fmt.Printf("xx: %s, from address: %s, contract address: %s, to chainid: %s, key: %s, param: %s\n",
+					value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value)
+				//parseNotifyData(notify.State.Value[6].Value)
+			} else if method == "Lock" {
+				fmt.Printf("xx: %s, from asset: %s, from address: %s, to chainid: %s, to asset: %s, to address: %s, amount: %s\n",
+					value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value, value[6].Value)
 			}
 		}
 	}
@@ -69,7 +113,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 
 func TestNeoCrossChainEvent1(t *testing.T) {
 	client := NewNeoClient()
-	txhash := "43c6c0e1af1309004ffbc9d235ae197f737878db591e2da1cccc95e91bcd39bb"
+	txhash := "f096666d0d1ffbe1ef039a676a31fd92b05a1516ea184c2a967a4b8074fbaffd"
 	logResp := client.GetApplicationLog(txhash)
 
 	if logResp.ErrorResponse.Error.Message != "" {
@@ -80,19 +124,12 @@ func TestNeoCrossChainEvent1(t *testing.T) {
 	for _, item := range appLog.Executions {
 		fmt.Printf("saveNeoCrossTxsByHeight tx contract: %s, gas: %s\n", item.Contract, item.GasConsumed)
 		for _, notify := range item.Notifications {
-			fmt.Printf("notify contract: %s\n", notify.Contract)
-			method := notify.State.Value[0].Value
+			value := notify.State.Value
+			method := value[0].Value
 			xx, _ := hex.DecodeString(method)
 			method = string(xx)
-			fmt.Printf("notify, method: %s\n", method)
-			if method == "transfer" {
-				value := notify.State.Value
-				fmt.Printf("from address: %s, to address: %s\n",value[1], value[2])
-			}
-			if notify.Contract[2:] != "02d9290db5ff0ce5242727fbdbdf01aacc6656f5" {
-				continue
-			}
-			if method == "CrossChainEvent" {
+			fmt.Printf("notify, contract: %s, method: %s, values: %v\n", notify.Contract, method, value)
+			if method == "CrossChainUnlockEvent" {
 				fmt.Printf("txhash: %s, %s, contract address: %s, to chainid: %s, to contarct: %s\n",
 					notify.State.Value[1].Value, notify.State.Value[2].Value, notify.State.Value[3].Value, notify.State.Value[4].Value, notify.State.Value[5].Value)
 				parseNotifyData(notify.State.Value[6].Value)

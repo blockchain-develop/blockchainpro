@@ -8,7 +8,7 @@ import (
 
 func TestHex2Base58(t *testing.T) {
 	//addrHexStr := "616f2a4a38396ff203ea01e6c070ae421bb8ce2d"
-	addrHexStr := "2dceb81b42ae70c0e601ea03f26f39384a2a6f61"
+	addrHexStr := "f3b8a17f1f957f60c88f105e32ebff3f022e56a4"
 	addr, err := common.AddressFromHexString(addrHexStr)
 	if err != nil {
 		fmt.Printf("AddressFromHexString err: %s", err.Error())

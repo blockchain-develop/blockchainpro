@@ -1,6 +1,7 @@
 package cosmos
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/store/rootmulti"
@@ -52,6 +53,15 @@ func TestAddressFromBech32(t *testing.T) {
 		panic(err)
 	}
 	fmt.Printf("New address: %s, %s", address, addr.String())
+}
+
+func TestAddressFromHex(t *testing.T) {
+	address := "f71b55ef55cedc91fd007f7a9ba386ec978f3aa8"
+	addr, err := sdk.AccAddressFromHex(address)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("New address: %s, %s\n", address, addr.String())
 }
 
 func TestGetAccount(t *testing.T) {
@@ -135,4 +145,15 @@ func TestQueryStore(t *testing.T) {
 		}
 		fmt.Printf("verify store proof successful.")
 	}
+}
+
+func TestGetTx(t *testing.T) {
+	c := NewHTTPClient()
+	//hash,_ := hex.DecodeString(utils.HexStringReverse("27E655EB3C87F06FD231103AD50D1DF707E88F00D3193267E7CBCFB88A03BB70"))
+	hash,_ := hex.DecodeString("27E655EB3C87F06FD231103AD50D1DF707E88F00D3193267E7CBCFB88A03BB70")
+	tx, err := c.Tx(hash, false)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("tx: %v\n", tx)
 }

@@ -2,7 +2,7 @@ package polynetworks
 
 import (
 	"fmt"
-	"github.com/blockchainpro/utils"
+	"github.com/blockchainpro/usage/utils"
 	"github.com/ontio/multi-chain/common"
 	"testing"
 	"time"
@@ -22,8 +22,8 @@ func TestCrossChainTx_SCANTX(t  *testing.T) {
 	fmt.Printf("current block height: %d\n", currentHeight)
 
 	//start := uint32(263867)
-	start := uint32(316867)
-	end := start + 10000
+	start := uint32(500000)
+	end := start + 100000
 	for start < end {
 		currentHeight, err := sdk.GetCurrentBlockHeight()
 		if err != nil {
@@ -315,7 +315,7 @@ func TestCrossChainTx_ETH2ONT(t  *testing.T) {
 		return
 	}
 	fmt.Printf("current block height: %d\n", currentHeight)
-	end := uint32(249896)
+	end := uint32(532313)
 	start := end - uint32(5)
 	for start < end {
 		start ++
@@ -351,4 +351,49 @@ func TestCrossChainTx_ETH2ONT(t  *testing.T) {
 			}
 		}
 	}
+}
+
+
+// ok
+func TestCrossChainTx_Cosmos2ETH(t  *testing.T) {
+	sdk := newMultiChanSdk()
+	currentHeight, err := sdk.GetCurrentBlockHeight()
+	if err != nil {
+		fmt.Printf("loadOntCrossTxFromChain: get current block height %s", err)
+		return
+	}
+	fmt.Printf("current block height: %d\n", currentHeight)
+	height := uint32(532504)
+
+		events, err := sdk.GetSmartContractEventByBlock(height)
+		if err != nil {
+			return
+		}
+		for _, event := range events {
+			for _, notify := range event.Notify {
+				//fmt.Printf("block height: %d, contractAddress: %s\n", start, notify.ContractAddress)
+				if notify.ContractAddress != CrossChainManagerContractAddress.ToHexString() {
+					continue
+				}
+				states := notify.States.([]interface{})
+				contractMethod, _ := states[0].(string)
+				fmt.Printf("tx hash: %s, state:%d, gas: %d, method: %s\n", event.TxHash, event.State, 0, contractMethod)
+				if contractMethod != "makeProof" {
+					continue
+				}
+				fchainid := uint32(states[1].(float64))
+				tchainid := uint32(states[2].(float64))
+
+				fmt.Printf("height: %d, txHash: %s, fchainId: %d, tchainid: %d, ", height, event.TxHash, fchainid, tchainid)
+				if tchainid == 1 {
+					fmt.Printf("ftxhash: %s, key: %s\n", states[4].(string), states[3].(string))
+				} else {
+					if fchainid == 2 || fchainid == 5 {
+						fmt.Printf("ftxhash: %s\n", states[3].(string))
+					} else {
+						fmt.Printf("ftxhash: %s\n", utils.HexStringReverse(states[3].(string)))
+					}
+				}
+			}
+		}
 }

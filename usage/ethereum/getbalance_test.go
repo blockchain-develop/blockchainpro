@@ -2,7 +2,7 @@ package ethereum
 
 import (
 	"fmt"
-	"github.com/blockchainpro/ethereum/contractabi/btcx"
+	"github.com/blockchainpro/usage/ethereum/ethtools/btcx"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"testing"
@@ -17,7 +17,7 @@ func TestGetERC20Balance(t *testing.T) {
 	}
 	btcxContractAddress := "0x700CA49ccA3803316124D2A8a44498ABB3E9cF51"
 	contractAddress := common.HexToAddress(btcxContractAddress)
-	instance, err := btcx.NewBTCX(contractAddress, ethclient)
+	instance, err := btcx_abi.NewBTCX(contractAddress, ethclient)
 	if err != nil {
 		fmt.Printf("getmocktokeninfo - new eth cross chain failed: %s", err.Error())
 		return
@@ -26,3 +26,4 @@ func TestGetERC20Balance(t *testing.T) {
 	balance, err := instance.BalanceOf(nil, common.HexToAddress(userAddress))
 	fmt.Printf("getmocktokeninfo - balance of %s: %d\n", userAddress, balance.Uint64())
 }
+

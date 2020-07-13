@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"github.com/blockchainpro/utils"
+	"github.com/blockchainpro/usage/utils"
 	"github.com/ontio/multi-chain/common"
 	crosschain_common "github.com/ontio/multi-chain/native/service/header_sync/common"
 	crosschain_utils "github.com/ontio/multi-chain/native/service/utils"

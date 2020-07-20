@@ -21,7 +21,7 @@ func TestGetProof(t *testing.T) {
 		panic(err)
 	}
 
-	fmt.Printf("value: %s, proof: %s\n", proof.Value, proof.Proof)
+	fmt.Printf("value: %s, proof: %s, height: %d\n", proof.Value, proof.Proof, proof.Height)
 
 	newProof, _ := hex.DecodeString(proof.Proof)
 
@@ -32,11 +32,20 @@ func TestGetProof(t *testing.T) {
 		panic(err)
 	}
 
-	root_str := ""
-	root, _ := hex.DecodeString(root_str)
-	bb := iavl.RangeProof(*xx)
-	err = bb.Verify(root)
+	block, err := sdk.GetBlockByHeight(proof.Height)
 	if err != nil {
 		panic(err)
 	}
+
+	/*
+	root_str := ""
+	root, _ := hex.DecodeString(root_str)
+	*/
+	bb := iavl.RangeProof(*xx)
+	err = bb.Verify(block.Header.StateRoot.ToArray())
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("verify successful!\n")
 }

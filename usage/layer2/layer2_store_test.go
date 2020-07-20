@@ -41,6 +41,7 @@ func TestGetProof(t *testing.T) {
 	}
 
 	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, block.Header.StateRoot.ToHexString())
+	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, hex.EncodeToString(block.Header.StateRoot.ToArray()))
 
 	/*
 	root_str := ""

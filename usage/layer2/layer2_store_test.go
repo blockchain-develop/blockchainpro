@@ -12,11 +12,11 @@ import (
 
 func TestGetProof(t *testing.T) {
 	sdk := ontology_go_sdk.NewOntologySdk()
-	sdk.NewRpcClient().SetAddress("127.0.0.1:30334")
+	sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
 
-	key_str := ""
+	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)
-	proof, err := sdk.GetStoreProof("", key)
+	proof, err := sdk.GetStoreProof("xxxx", key)
 	if err  != nil {
 		panic(err)
 	}

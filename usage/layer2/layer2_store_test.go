@@ -8,6 +8,7 @@ import (
 	"github.com/ontio/ontology/core/types"
 	"github.com/tendermint/iavl"
 	"testing"
+	"time"
 )
 
 func TestGetProof(t *testing.T) {
@@ -31,6 +32,8 @@ func TestGetProof(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+
+	time.Sleep(time.Second * 10)
 
 	block, err := sdk.GetBlockByHeight(proof.Height)
 	if err != nil {

@@ -13,11 +13,11 @@ require (
 	github.com/ontio/multi-chain v0.0.0
 	github.com/ontio/multi-chain-go-sdk v0.0.0
 	github.com/ontio/ontology v1.10.0
-	github.com/ontio/ontology-go-sdk v1.11.1
+	github.com/ontio/ontology-go-sdk v0.0.0
 	github.com/tendermint/go-amino v0.15.1 // indirect
-	github.com/tendermint/iavl v0.13.2 // indirect
+	github.com/tendermint/iavl v0.13.2
 	github.com/tendermint/tendermint v0.33.3
-	github.com/tendermint/tm-db v0.5.0 // indirect
+	github.com/tendermint/tm-db v0.5.0
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087
 )
@@ -25,4 +25,5 @@ require (
 replace (
 	github.com/ontio/multi-chain => C:\Users\DELL\go\src\github.com\ontio\multi-chain
 	github.com/ontio/multi-chain-go-sdk => C:\Users\DELL\go\src\github.com\ontio\multi-chain-go-sdk
+	github.com/ontio/ontology-go-sdk => C:\Users\DELL\go\src\github.com\ontio\ontology-go-sdk
 )

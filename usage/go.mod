@@ -12,7 +12,7 @@ require (
 	github.com/joeqian10/neo-gogogo v0.0.0-20200611102831-c17de5e1f0f8
 	github.com/ontio/multi-chain v0.0.0
 	github.com/ontio/multi-chain-go-sdk v0.0.0
-	github.com/ontio/ontology v1.10.0
+	github.com/ontio/ontology v1.9.0
 	github.com/ontio/ontology-go-sdk v0.0.0
 	github.com/tendermint/go-amino v0.15.1 // indirect
 	github.com/tendermint/iavl v0.13.2
@@ -25,5 +25,6 @@ require (
 replace (
 	github.com/ontio/multi-chain => C:\Users\DELL\go\src\github.com\ontio\multi-chain
 	github.com/ontio/multi-chain-go-sdk => C:\Users\DELL\go\src\github.com\ontio\multi-chain-go-sdk
+	github.com/ontio/ontology => C:\Users\DELL\go\src\github.com\ontio\ontology
 	github.com/ontio/ontology-go-sdk => C:\Users\DELL\go\src\github.com\ontio\ontology-go-sdk
 )

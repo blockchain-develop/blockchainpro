@@ -2,7 +2,6 @@ package cosmos
 
 import (
 	"fmt"
-	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/tendermint/iavl"
 	db "github.com/tendermint/tm-db"
 	"testing"

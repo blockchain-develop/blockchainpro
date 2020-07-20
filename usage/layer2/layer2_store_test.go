@@ -6,6 +6,7 @@ import (
 	"github.com/ontio/ontology-go-sdk"
 	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/core/types"
+	"github.com/tendermint/iavl"
 	"testing"
 )
 
@@ -33,7 +34,8 @@ func TestGetProof(t *testing.T) {
 
 	root_str := ""
 	root, _ := hex.DecodeString(root_str)
-	err = xx.Verify(root)
+	bb := iavl.RangeProof(*xx)
+	err = bb.Verify(root)
 	if err != nil {
 		panic(err)
 	}

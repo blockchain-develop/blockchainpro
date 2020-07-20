@@ -2,6 +2,7 @@ package layer2
 
 import (
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"github.com/ontio/ontology-go-sdk"
 	"github.com/ontio/ontology/common"
@@ -17,25 +18,25 @@ func TestGetProof(t *testing.T) {
 
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)
-	proof, err := sdk.GetStoreProof("xxxx", key)
+	store, err := sdk.GetStoreProof("xxxx", key)
 	if err  != nil {
 		panic(err)
 	}
 
-	fmt.Printf("value: %s, proof: %s, height: %d\n", proof.Value, proof.Proof, proof.Height)
+	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 
-	newProof, _ := hex.DecodeString(proof.Proof)
+	proof_byte, _ := hex.DecodeString(store.Proof)
 
-	source := common.NewZeroCopySource(newProof)
-	xx := new(types.StoreProof)
-	err = xx.Deserialization(source)
+	source := common.NewZeroCopySource(proof_byte)
+	proof := new(types.StoreProof)
+	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)
 	}
 
 	time.Sleep(time.Second * 30)
 
-	block, err := sdk.GetBlockByHeight(proof.Height + 1)
+	block, err := sdk.GetBlockByHeight(store.Height)
 	if err != nil {
 		panic(err)
 	}
@@ -47,11 +48,15 @@ func TestGetProof(t *testing.T) {
 	root_str := ""
 	root, _ := hex.DecodeString(root_str)
 	*/
-	bb := iavl.RangeProof(*xx)
-	err = bb.Verify(block.Header.StateRoot.ToArray())
+	proof_iavl := iavl.RangeProof(*proof)
+	proof_iavl_json, _ := json.Marshal(proof_iavl)
+	fmt.Printf("proof json is: %s\n", string(proof_iavl_json))
+	err = proof_iavl.Verify(block.Header.StateRoot.ToArray())
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("verify successful!\n")
 }
+
+

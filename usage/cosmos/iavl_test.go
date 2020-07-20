@@ -3,7 +3,7 @@ package cosmos
 import (
 	"fmt"
 	"github.com/tendermint/iavl"
-	db "github.com/tendermint/tm-db"
+	"github.com/tendermint/tm-db"
 	"testing"
 )
 
@@ -186,6 +186,38 @@ func TestProof(t *testing.T) {
 	fmt.Printf("saved version %v with root hash %x\n", version, rootHash)
 
 	key := []byte("d")
+	value, proof, err := tree.GetWithProof(key)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("value of %s is %x\n", key, value)
+
+	err = proof.Verify(tree.Hash())
+	if err != nil {
+		panic(err)
+	}
+}
+
+
+func TestProof1(t *testing.T) {
+	tree, err := iavl.NewMutableTree(db.NewMemDB(), 0)
+	if err != nil {
+		panic(err)
+	}
+	tree.Set([]byte("e"), []byte{5})
+	tree.Set([]byte("d"), []byte{4})
+	tree.Set([]byte("c"), []byte{3})
+	tree.Set([]byte("b"), []byte{2})
+	tree.Set([]byte("a"), []byte{1})
+
+	tree.SaveVersion()
+	rootHash, version, err := tree.SaveVersion()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("saved version %v with root hash %x\n", version, rootHash)
+
+	key := []byte("f")
 	value, proof, err := tree.GetWithProof(key)
 	if err != nil {
 		panic(err)

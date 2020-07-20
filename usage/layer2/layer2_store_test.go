@@ -2,6 +2,7 @@ package layer2
 
 import (
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"github.com/ontio/ontology-go-sdk"
 	"github.com/ontio/ontology/common"
@@ -33,12 +34,15 @@ func TestGetProof(t *testing.T) {
 		panic(err)
 	}
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 30)
 
-	block, err := sdk.GetBlockByHeight(proof.Height)
+	block, err := sdk.GetBlockByHeight(proof.Height + 1)
 	if err != nil {
 		panic(err)
 	}
+
+	block_json, _ := json.Marshal(block)
+	fmt.Printf("block: %s\n", string(block_json))
 
 	/*
 	root_str := ""

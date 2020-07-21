@@ -88,9 +88,18 @@ func TestGetContractStoreProof(t *testing.T) {
 		panic(err)
 	}
 
-	time.Sleep(time.Second * 10)
+	curHeight, err := sdk.GetCurrentBlockHeight()
+	if err != nil {
+		panic(err)
+	}
 
-	block, err := sdk.GetBlockByHeight(store.Height)
+	var dHeight uint32
+	if store.Height < curHeight {
+		dHeight = store.Height
+	} else {
+		dHeight = curHeight
+	}
+	block, err := sdk.GetBlockByHeight(dHeight)
 	if err != nil {
 		panic(err)
 	}

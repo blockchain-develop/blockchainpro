@@ -229,3 +229,44 @@ func TestProof1(t *testing.T) {
 		panic(err)
 	}
 }
+
+func TestProof2(t *testing.T) {
+	tree, err := iavl.NewMutableTree(db.NewMemDB(), 0)
+	if err != nil {
+		panic(err)
+	}
+	tree.Set([]byte("e"), []byte{5})
+	tree.Set([]byte("d"), []byte{4})
+	tree.Set([]byte("c"), []byte{3})
+	tree.Set([]byte("b"), []byte{2})
+	tree.Set([]byte("a"), []byte{1})
+
+	for i := 0;i < 10;i ++ {
+		rootHash, version, err := tree.SaveVersion()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("saved version %v with root hash %x\n", version, rootHash)
+	}
+}
+
+
+func TestProof3(t *testing.T) {
+	tree, err := iavl.NewMutableTree(db.NewMemDB(), 0)
+	if err != nil {
+		panic(err)
+	}
+	for i := 0;i < 10;i ++ {
+		tree.Set([]byte("e"), []byte{5})
+		tree.Set([]byte("d"), []byte{4})
+		tree.Set([]byte("c"), []byte{3})
+		tree.Set([]byte("b"), []byte{2})
+		tree.Set([]byte("a"), []byte{1})
+
+		rootHash, version, err := tree.SaveVersion()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("saved version %v with root hash %x\n", version, rootHash)
+	}
+}

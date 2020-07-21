@@ -13,7 +13,7 @@ import (
 )
 
 func TestGetProof(t *testing.T) {
-	sdk := ontology_go_sdk.NewOntologySdk()
+	sdk := ontology_go_sdk.NewOntologySdk(ontology_go_sdk.LAYER2_SDK)
 	sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
 
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"

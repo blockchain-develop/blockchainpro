@@ -62,8 +62,8 @@ func TestGetProof(t *testing.T) {
 }
 
 func TestGetContractStoreProof(t *testing.T) {
-	sdk := ontology_go_sdk.NewOntologySdk(ontology_go_sdk.LAYER2_SDK)
-	sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
+	sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
+	sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
 
 	key := make([]byte, 0)
 	key = append(key, byte(scom.ST_STORAGE))

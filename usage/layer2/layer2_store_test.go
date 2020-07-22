@@ -5,10 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ontio/ontology-go-sdk"
-	"github.com/ontio/ontology/common"
-	scom "github.com/ontio/ontology/core/store/common"
-	"github.com/ontio/ontology/core/types"
 	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology/common"
+	"github.com/ontio/ontology/core/types"
 	"github.com/tendermint/iavl"
 	"testing"
 	"time"
@@ -64,16 +63,8 @@ func TestGetProof(t *testing.T) {
 func TestGetContractStoreProof(t *testing.T) {
 	sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
 	sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
-
-	key := make([]byte, 0)
-	key = append(key, byte(scom.ST_STORAGE))
-	contractAddrBytes, _ := hex.DecodeString("7680bc3227089ee6ac790be698e88bcd0be04609")
-	contractAddr := common.ToArrayReverse(contractAddrBytes)
-	key = append(key, contractAddr...)
-	key = append(key, []byte("hello")...)
-	key_str := hex.EncodeToString(key)
-	fmt.Printf("key string: %s\n", key_str)
-	store, err := sdk.GetStoreProof("xxxx", key)
+	
+	store, err := sdk.GetStoreProof("7680bc3227089ee6ac790be698e88bcd0be04609", []byte("hello"))
 	if err  != nil {
 		panic(err)
 	}

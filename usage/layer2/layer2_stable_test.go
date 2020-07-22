@@ -48,10 +48,11 @@ func TestGetProofStable(t *testing.T) {
 	sdk := newLayer2Sdk()
 
 	for i := 0;i < 720;i ++ {
-		_, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
+		store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
 		if err != nil {
 			panic(err)
 		}
+		fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 		time.Sleep(time.Second * 10)
 	}
 }

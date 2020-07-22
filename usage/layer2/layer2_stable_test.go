@@ -41,5 +41,16 @@ func TestStable(t *testing.T) {
 	new_ont_account_balance := getOntologyBalance(ont_sdk, ont_account.Address)
 	fmt.Printf("amount of ontology address %s is: %d %d\n", ont_account.Address.ToBase58(), init_ont_account_balance, new_ont_account_balance)
 	new_layer2_account_balance := getLayer2Balance(layer2_sdk, layer2_account.Address)
-	fmt.Printf("amount of layer2 address %s is: %d\n", layer2_account.Address.ToBase58(), init_layer2_account_balance, new_layer2_account_balance)
+	fmt.Printf("amount of layer2 address %s is: %d %d\n", layer2_account.Address.ToBase58(), init_layer2_account_balance, new_layer2_account_balance)
+}
+
+func TestGetProofStable(t *testing.T) {
+	sdk := newLayer2Sdk()
+
+	for i := 0;i < 720;i ++ {
+		_, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
+		if err != nil {
+			panic(err)
+		}
+	}
 }

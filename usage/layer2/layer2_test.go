@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/ontio/ontology-crypto/keypair"
 	ontology_go_sdk "github.com/ontio/ontology-go-sdk"
+	"github.com/ontio/ontology-go-sdk/utils"
 	ontology_common "github.com/ontio/ontology/common"
 	ontology_types "github.com/ontio/ontology/core/types"
 	"testing"
@@ -13,15 +14,15 @@ import (
 
 func newLayer2Sdk() *ontology_go_sdk.OntologySdk {
 	// create alliance sdk
-	layer2_sdk := ontology_go_sdk.NewOntologySdk(ontology_go_sdk.LAYER2_SDK)
-	layer2_sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
+	layer2_sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
+	layer2_sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
 	//layer2_sdk.NewWebSocketClient().Connect("ws://localhost:40335")
 	return layer2_sdk
 }
 
 func newOntologySdk() *ontology_go_sdk.OntologySdk {
-	ontSdk := ontology_go_sdk.NewOntologySdk(ontology_go_sdk.ONTOLOFY_SDK)
-	ontSdk.NewRpcClient().SetAddress("http://polaris5.ont.io:20336")
+	ontSdk := ontology_go_sdk.NewOntologySdk(utils.ONTOLOGY_SDK)
+	ontSdk.NewRpcClient(utils.ONTOLOGY_SDK).SetAddress("http://polaris5.ont.io:20336")
 	return ontSdk
 }
 

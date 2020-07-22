@@ -8,14 +8,15 @@ import (
 	"github.com/ontio/ontology/common"
 	scom "github.com/ontio/ontology/core/store/common"
 	"github.com/ontio/ontology/core/types"
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/tendermint/iavl"
 	"testing"
 	"time"
 )
 
 func TestGetProof(t *testing.T) {
-	sdk := ontology_go_sdk.NewOntologySdk(ontology_go_sdk.LAYER2_SDK)
-	sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
+	sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
+	sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
 
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)

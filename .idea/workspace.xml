@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="747ad860-a3c7-493c-b472-2e79417c17d5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usage/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/usage/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usage/layer2/layer2_stable_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/usage/layer2/layer2_stable_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,7 +45,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="14664" />
+          <entry key="go" value="14665" />
           <entry key="md" value="1146" />
           <entry key="mod" value="35" />
         </counts>
@@ -55,7 +53,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="DTD" value="35" />
-          <entry key="Go" value="14664" />
+          <entry key="Go" value="14665" />
           <entry key="PLAIN_TEXT" value="1146" />
         </counts>
       </usages-collector>
@@ -96,8 +94,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/usage/layer2/layer2_stable_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+            <state relative-caret-position="444">
+              <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
               <folding>
                 <element signature="e#16#60#0" expanded="true" />
               </folding>
@@ -879,8 +877,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/usage/layer2/layer2_stable_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+        <state relative-caret-position="444">
+          <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
           <folding>
             <element signature="e#16#60#0" expanded="true" />
           </folding>

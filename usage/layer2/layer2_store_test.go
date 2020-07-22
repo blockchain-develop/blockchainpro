@@ -4,22 +4,52 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/ontio/ontology-go-sdk"
-	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/core/types"
 	"github.com/tendermint/iavl"
 	"testing"
-	"time"
 )
 
-func TestGetProof(t *testing.T) {
-	sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
-	sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
 
+func TestDeployContract(t *testing.T) {
+	layer2_sdk := newLayer2Sdk()
+	account_operator, _ := newLayer2OperatorAccount(layer2_sdk)
+	code := "52c56b0568656c6c6f6a00527ac46c59c56b6a00527ac46a51527ac46a52527ac46a51c30548656c6c6f7d9c7c756422006a52c300c36a53527ac46a53c3516a00c3065400000000006e6c7566620300006c756657c56b6a00527ac46a51527ac46a52527ac46203006a52c36a00c300c3681953797374656d2e53746f726167652e476574436f6e74657874681253797374656d2e53746f726167652e5075746a52c3681553797374656d2e52756e74696d652e4e6f74696679516c7566"
+	hash, err := layer2_sdk.NeoVM.DeployNeoVMSmartContract(0, 20000000, account_operator, true,
+		code, "hello", "1.0.0", "hello", "hello", "hello")
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("deploy hash: %s\n", hash.ToHexString())
+}
+
+func TestInvokeContract(t *testing.T) {
+	layer2_sdk := newLayer2Sdk()
+	account_operator, _ := newLayer2OperatorAccount(layer2_sdk)
+	contractAddress, _ := common.AddressFromHexString(STORE_CONTRACT)
+	tx, err := layer2_sdk.NeoVM.NewNeoVMInvokeTransaction(0, 200000, contractAddress, []interface{}{"Hello", []interface{}{"this is example"}})
+	if err != nil {
+		panic(err)
+	}
+	layer2_sdk.SetPayer(tx, account_operator.Address)
+	err = layer2_sdk.SignToTransaction(tx, account_operator)
+	if err != nil {
+		panic(err)
+	}
+
+	txHash, err := layer2_sdk.SendTransaction(tx)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("layer2 state commit transaction hash: %s", txHash.ToHexString())
+}
+
+func TestGetProof(t *testing.T) {
+	sdk := newLayer2Sdk()
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)
-	store, err := sdk.GetStoreProof("xxxx", key)
+	store, err := sdk.GetStoreProof("", key)
 	if err  != nil {
 		panic(err)
 	}
@@ -35,9 +65,18 @@ func TestGetProof(t *testing.T) {
 		panic(err)
 	}
 
-	time.Sleep(time.Second * 30)
+	curHeight, err := sdk.GetCurrentBlockHeight()
+	if err != nil {
+		panic(err)
+	}
 
-	block, err := sdk.GetBlockByHeight(store.Height)
+	var dHeight uint32
+	if store.Height < curHeight {
+		dHeight = store.Height
+	} else {
+		dHeight = curHeight
+	}
+	block, err := sdk.GetBlockByHeight(dHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -61,10 +100,9 @@ func TestGetProof(t *testing.T) {
 }
 
 func TestGetContractStoreProof(t *testing.T) {
-	sdk := ontology_go_sdk.NewOntologySdk(utils.LAYER2_SDK)
-	sdk.NewRpcClient(utils.LAYER2_SDK).SetAddress("http://127.0.0.1:20336")
-	
-	store, err := sdk.GetStoreProof("7680bc3227089ee6ac790be698e88bcd0be04609", []byte("hello"))
+	sdk := newLayer2Sdk()
+
+	store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
 	if err  != nil {
 		panic(err)
 	}

@@ -355,7 +355,7 @@ func TestGetBlock(t *testing.T) {
 func TestCommitLayer2State2Ontology(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString("4229a92d90d446d1598e12e35698b681ae4d4642")
+	contractAddress, _ := ontology_common.AddressFromHexString("b7625dd89c4f9a1482e44ce2c5366fb29f687ebe")
 	depositids := make([]int, 0)
 	for i := 0;i < 2;i ++ {
 		depositids = append(depositids, 3 + i)
@@ -394,7 +394,7 @@ func TestCommitLayer2State2Ontology(t *testing.T) {
 
 func TestOntologyDeposit(t *testing.T) {
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString("d1b62355d7c88a76fefee8f4ce14efb477992a3c")
+	contractAddress, _ := ontology_common.AddressFromHexString("b7625dd89c4f9a1482e44ce2c5366fb29f687ebe")
 	account_user, err := newOntologyUserAccount(ontSdk)
 	if err != nil {
 		fmt.Printf("ontology account err: %s", err.Error())
@@ -421,7 +421,7 @@ func TestOntologyDeposit(t *testing.T) {
 func TestGetLayer2StateByHeight(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString("1c6f220296de4f9c4666a258bd236519d41860d5")
+	contractAddress, _ := ontology_common.AddressFromHexString("b7625dd89c4f9a1482e44ce2c5366fb29f687ebe")
 	tx, err := ontSdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contractAddress, []interface{}{"getStateRootByHeight", []interface{}{1}})
 	if err != nil {
 		fmt.Printf("new transaction failed!")
@@ -444,6 +444,27 @@ func TestGetLayer2StateByHeight(t *testing.T) {
 	item1,_ := tt[1].ToInteger()
 	item2,_ := tt[2].ToInteger()
 	fmt.Printf("item0: %s, item1: %d, item2: %d\n", item0, item1, item2)
+}
+
+func TestGetLayer2CurrentHeight(t *testing.T) {
+	//
+	ontSdk := newOntologySdk()
+	contractAddress, _ := ontology_common.AddressFromHexString("b7625dd89c4f9a1482e44ce2c5366fb29f687ebe")
+	tx, err := ontSdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contractAddress, []interface{}{"getCurrentHeight", []interface{}{}})
+	if err != nil {
+		fmt.Printf("new transaction failed!")
+	}
+	result, err := ontSdk.PreExecTransaction(tx)
+	if err != nil {
+		fmt.Printf("PreExecTransaction failed! err: %s", err.Error())
+		return
+	}
+	if result == nil {
+		fmt.Printf("can not find the result")
+		return
+	}
+	height, _ := result.Result.ToInteger()
+	fmt.Printf("height: %d\n", height.Uint64())
 }
 
 func getOntologyBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {

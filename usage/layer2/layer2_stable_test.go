@@ -3,12 +3,14 @@ package layer2
 import (
 	"encoding/hex"
 	"fmt"
-	"testing"
 	"github.com/ontio/ontology/common"
+	"github.com/ontio/ontology/core/types"
+	"github.com/tendermint/iavl"
+	"testing"
 	"time"
 )
 
-func TestStable(t *testing.T) {
+func TestLayer2TransferStable(t *testing.T) {
 	// init
 	ont_sdk := newOntologySdk()
 	ont_account, _ := newOntologyUserAccount(ont_sdk)
@@ -46,13 +48,43 @@ func TestStable(t *testing.T) {
 
 func TestGetProofStable(t *testing.T) {
 	sdk := newLayer2Sdk()
-
 	for i := 0;i < 720;i ++ {
 		store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
 		if err != nil {
 			panic(err)
 		}
+
 		fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
-		time.Sleep(time.Second * 10)
+
+		proof_byte, _ := hex.DecodeString(store.Proof)
+		source := common.NewZeroCopySource(proof_byte)
+		proof := new(types.StoreProof)
+		err = proof.Deserialization(source)
+		if err != nil {
+			panic(err)
+		}
+		proof_iavl := iavl.RangeProof(*proof)
+
+		curHeight, err := sdk.GetCurrentBlockHeight()
+		if err != nil {
+			panic(err)
+		}
+		for curHeight < store.Height {
+			time.Sleep(time.Second * 1)
+			curHeight, err = sdk.GetCurrentBlockHeight()
+			if err != nil {
+				panic(err)
+			}
+		}
+		block, err := sdk.GetBlockByHeight(curHeight)
+		if err != nil {
+			panic(err)
+		}
+
+		err = proof_iavl.Verify(block.Header.StateRoot.ToArray())
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("verify successful!\n")
 	}
 }

@@ -101,7 +101,6 @@ func TestGetProof(t *testing.T) {
 
 func TestGetContractStoreProof(t *testing.T) {
 	sdk := newLayer2Sdk()
-
 	store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
 	if err  != nil {
 		panic(err)

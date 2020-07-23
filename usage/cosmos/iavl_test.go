@@ -264,6 +264,7 @@ func TestProof3(t *testing.T) {
 		tree.Set([]byte("a"), []byte{1})
 
 		rootHash, version, err := tree.SaveVersion()
+		tree.GetImmutable()
 		if err != nil {
 			panic(err)
 		}

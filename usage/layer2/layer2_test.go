@@ -129,11 +129,11 @@ func TestGetCurrentHeight(t *testing.T) {
 
 func TestGetBlock(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
-	_, err := layer2_sdk.GetBlockByHeight(20)
+	block, err := layer2_sdk.GetBlockByHeight(20)
 	if err != nil {
 		fmt.Printf("get current block height err: %s", err.Error())
 	}
-	fmt.Printf("get current block successful!\n")
+	fmt.Printf("get current block successful!, State root hash: %s\n", block.Header.StateRoot.ToHexString())
 }
 
 func TestCommitLayer2State2Ontology(t *testing.T) {

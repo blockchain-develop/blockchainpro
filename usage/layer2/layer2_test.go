@@ -250,7 +250,6 @@ func TestOntologyBalance(t *testing.T) {
 	fmt.Printf("amount of address %s is: %d\n", account_user.Address.ToBase58(), balance)
 }
 
-
 func TestCreateLayer2Account(t *testing.T) {
 	createLayer2Account()
 }

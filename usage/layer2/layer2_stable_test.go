@@ -86,5 +86,6 @@ func TestGetProofStable(t *testing.T) {
 			panic(err)
 		}
 		fmt.Printf("verify successful!\n")
+		time.Sleep(time.Second * 1)
 	}
 }

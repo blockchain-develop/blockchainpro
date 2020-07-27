@@ -25,6 +25,6 @@ require (
 replace (
 	github.com/ontio/multi-chain => /root/gopath/src/github.com/ontio/multi-chain
 	github.com/ontio/multi-chain-go-sdk => /root/gopath/src/github.com/ontio/multi-chain-go-sdk
-	github.com/ontio/ontology => /root/gopath/src/github.com/ontio/ontology
-	github.com/ontio/ontology-go-sdk => /root/gopath/src/github.com/ontio/ontology-go-sdk
+	github.com/ontio/ontology => github.com/blockchain-develop/ontology v1.11.1-0.20200727091754-3d023db47cf5
+    github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.4-0.20200727093535-ced11e8f3636
 )

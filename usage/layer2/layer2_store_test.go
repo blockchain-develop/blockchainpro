@@ -8,6 +8,7 @@ import (
 	"github.com/ontio/ontology/core/types"
 	"github.com/tendermint/iavl"
 	"testing"
+	"time"
 )
 
 
@@ -49,15 +50,13 @@ func TestGetProof(t *testing.T) {
 	sdk := newLayer2Sdk()
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)
-	store, err := sdk.GetStoreProof("", key)
+	store, err := sdk.GetStoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
-
 	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
-
 	source := common.NewZeroCopySource(proof_byte)
 	proof := new(types.StoreProof)
 	err = proof.Deserialization(source)
@@ -69,14 +68,14 @@ func TestGetProof(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-
-	var dHeight uint32
-	if store.Height < curHeight {
-		dHeight = store.Height
-	} else {
-		dHeight = curHeight
+	for curHeight < store.Height {
+		time.Sleep(time.Second * 1)
+		curHeight, err = sdk.GetCurrentBlockHeight()
+		if err != nil {
+			panic(err)
+		}
 	}
-	block, err := sdk.GetBlockByHeight(dHeight)
+	block, err := sdk.GetBlockByHeight(curHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -84,10 +83,6 @@ func TestGetProof(t *testing.T) {
 	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, block.Header.StateRoot.ToHexString())
 	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, hex.EncodeToString(block.Header.StateRoot.ToArray()))
 
-	/*
-	root_str := ""
-	root, _ := hex.DecodeString(root_str)
-	*/
 	proof_iavl := iavl.RangeProof(*proof)
 	proof_iavl_json, _ := json.Marshal(proof_iavl)
 	fmt.Printf("proof json is: %s\n", string(proof_iavl_json))
@@ -95,21 +90,19 @@ func TestGetProof(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-
 	fmt.Printf("verify successful!\n")
 }
 
 func TestGetContractStoreProof(t *testing.T) {
 	sdk := newLayer2Sdk()
-	store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
+	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetStoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
-
 	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
-
 	source := common.NewZeroCopySource(proof_byte)
 	proof := new(types.StoreProof)
 	err = proof.Deserialization(source)
@@ -121,14 +114,14 @@ func TestGetContractStoreProof(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-
-	var dHeight uint32
-	if store.Height < curHeight {
-		dHeight = store.Height
-	} else {
-		dHeight = curHeight
+	for curHeight < store.Height {
+		time.Sleep(time.Second * 1)
+		curHeight, err = sdk.GetCurrentBlockHeight()
+		if err != nil {
+			panic(err)
+		}
 	}
-	block, err := sdk.GetBlockByHeight(dHeight)
+	block, err := sdk.GetBlockByHeight(curHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -136,14 +129,63 @@ func TestGetContractStoreProof(t *testing.T) {
 	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, block.Header.StateRoot.ToHexString())
 	fmt.Printf("block height: %d, state root: %s\n", block.Header.Height, hex.EncodeToString(block.Header.StateRoot.ToArray()))
 
-	/*
-	root_str := ""
-	root, _ := hex.DecodeString(root_str)
-	*/
 	proof_iavl := iavl.RangeProof(*proof)
 	proof_iavl_json, _ := json.Marshal(proof_iavl)
 	fmt.Printf("proof json is: %s\n", string(proof_iavl_json))
 	err = proof_iavl.Verify(block.Header.StateRoot.ToArray())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("verify successful!\n")
+}
+
+func TestVerifyContractStore(t *testing.T) {
+	sdk := newLayer2Sdk()
+	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetStoreProof(key)
+	if err  != nil {
+		panic(err)
+	}
+	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
+
+	proof_byte, _ := hex.DecodeString(store.Proof)
+	source := common.NewZeroCopySource(proof_byte)
+	proof := new(types.StoreProof)
+	err = proof.Deserialization(source)
+	if err != nil {
+		panic(err)
+	}
+
+	ont_sdk := newOntologySdk()
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
+	curHeight, err := GetLayer2CommitHeight(ont_sdk, contractAddress)
+	if err != nil {
+		panic(err)
+	}
+
+	for curHeight < store.Height {
+		time.Sleep(time.Second * 1)
+		curHeight, err = GetLayer2CommitHeight(ont_sdk, contractAddress)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	stateRoot, height, err := GetLayer2CommitStateByHeight(ont_sdk, contractAddress, store.Height)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("state root: %s, height: %d\n", hex.EncodeToString(stateRoot), height)
+
+	proof_iavl := iavl.RangeProof(*proof)
+	proof_iavl_json, _ := json.Marshal(proof_iavl)
+	fmt.Printf("proof json is: %s\n", string(proof_iavl_json))
+	err = proof_iavl.Verify(stateRoot)
+	if err != nil {
+		panic(err)
+	}
+	value_bytes, _ := hex.DecodeString(store.Value)
+	err = proof_iavl.VerifyItem(key, value_bytes)
 	if err != nil {
 		panic(err)
 	}

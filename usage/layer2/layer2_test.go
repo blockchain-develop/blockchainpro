@@ -196,49 +196,22 @@ func TestGetLayer2StateByHeight(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
-	tx, err := ontSdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contractAddress, []interface{}{"getStateRootByHeight", []interface{}{1}})
+	stateRoot, height, err := GetLayer2CommitStateByHeight(ontSdk, contractAddress, 1)
 	if err != nil {
-		fmt.Printf("new transaction failed!")
+		panic(err)
 	}
-	result, err := ontSdk.PreExecTransaction(tx)
-	if err != nil {
-		fmt.Printf("PreExecTransaction failed! err: %s", err.Error())
-		return
-	}
-	if result == nil {
-		fmt.Printf("can not find the result")
-		return
-	}
-	tt, _ := result.Result.ToArray()
-	if len(tt) != 3 {
-		fmt.Printf("result is not right")
-		return
-	}
-	item0,_ := tt[0].ToString()
-	item1,_ := tt[1].ToInteger()
-	item2,_ := tt[2].ToInteger()
-	fmt.Printf("item0: %s, item1: %d, item2: %d\n", item0, item1, item2)
+	fmt.Printf("state root hash: %s, height: %d\n", hex.EncodeToString(stateRoot), height)
 }
 
 func TestGetLayer2CurrentHeight(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
-	tx, err := ontSdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contractAddress, []interface{}{"getCurrentHeight", []interface{}{}})
+	height, err := GetLayer2CommitHeight(ontSdk, contractAddress)
 	if err != nil {
-		fmt.Printf("new transaction failed!")
+		panic(err)
 	}
-	result, err := ontSdk.PreExecTransaction(tx)
-	if err != nil {
-		fmt.Printf("PreExecTransaction failed! err: %s", err.Error())
-		return
-	}
-	if result == nil {
-		fmt.Printf("can not find the result")
-		return
-	}
-	height, _ := result.Result.ToInteger()
-	fmt.Printf("height: %d\n", height.Uint64())
+	fmt.Printf("current layer2 height: %d\n", height)
 }
 
 func TestOntologyBalance(t *testing.T) {

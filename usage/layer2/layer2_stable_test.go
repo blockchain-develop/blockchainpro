@@ -48,8 +48,9 @@ func TestLayer2TransferStable(t *testing.T) {
 
 func TestGetProofStable(t *testing.T) {
 	sdk := newLayer2Sdk()
+	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
 	for i := 0;i < 720;i ++ {
-		store, err := sdk.GetStoreProof(STORE_CONTRACT, []byte("hello"))
+		store, err := sdk.GetStoreProof(key)
 		if err != nil {
 			panic(err)
 		}

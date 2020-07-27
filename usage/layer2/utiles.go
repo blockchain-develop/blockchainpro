@@ -163,6 +163,14 @@ func getLayer2Balance(layer2Sdk *ontology_go_sdk.OntologySdk, addr ontology_comm
 	return amount
 }
 
+func getOntologyBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
+	amount, err := ontSdk.Native.Ong.BalanceOf(addr)
+	if err != nil {
+		fmt.Printf("getOntologyBalance err: %s", err.Error())
+	}
+	return amount
+}
+
 func createLayer2Account() {
 	// create alliance sdk
 	layer2sdk := newLayer2Sdk()
@@ -229,12 +237,4 @@ func createOntologyAccount() {
 	pri_key, _ := keypair.Key2WIF(signer.PrivateKey)
 	addr := signer.Address.ToBase58()
 	fmt.Printf("private key: %s, address: %s %s\n", string(pri_key), addr, signer.Address.ToHexString())
-}
-
-func getOntologyBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
-	amount, err := ontSdk.Native.Ong.BalanceOf(addr)
-	if err != nil {
-		fmt.Printf("getOntologyBalance err: %s", err.Error())
-	}
-	return amount
 }

@@ -118,7 +118,7 @@ func TestLayer2Balance(t *testing.T) {
 	fmt.Printf("amount of address %s is: %d\n", account_user.Address.ToBase58(), balance)
 }
 
-func TestGetCurrentHeight(t *testing.T) {
+func TestGetLayer2CurrentHeight(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
 	height, err := layer2_sdk.GetCurrentBlockHeight()
 	if err != nil {
@@ -127,7 +127,7 @@ func TestGetCurrentHeight(t *testing.T) {
 	fmt.Printf("current block height: %d\n", height)
 }
 
-func TestGetBlock(t *testing.T) {
+func TestGetLayer2Block(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
 	block, err := layer2_sdk.GetBlockByHeight(20)
 	if err != nil {
@@ -176,7 +176,7 @@ func TestCommitLayer2State2Ontology(t *testing.T) {
 	fmt.Printf("hash: %s", txHash.ToHexString())
 }
 
-func TestOntologyDeposit(t *testing.T) {
+func TestOntologyDeposit2Layer2(t *testing.T) {
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	account_user, err := newOntologyUserAccount(ontSdk)
@@ -192,22 +192,22 @@ func TestOntologyDeposit(t *testing.T) {
 	fmt.Printf("hash: %s", txHash.ToHexString())
 }
 
-func TestGetLayer2StateByHeight(t *testing.T) {
+func TestGetCommitedLayer2StateByHeight(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
-	stateRoot, height, err := GetLayer2CommitStateByHeight(ontSdk, contractAddress, 1)
+	stateRoot, height, err := GetCommitedLayer2StateByHeight(ontSdk, contractAddress, 1)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("state root hash: %s, height: %d\n", hex.EncodeToString(stateRoot), height)
 }
 
-func TestGetLayer2CurrentHeight(t *testing.T) {
+func TestGetCurrentCommitedLayer2Height(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
-	height, err := GetLayer2CommitHeight(ontSdk, contractAddress)
+	height, err := GetCommitedLayer2Height(ontSdk, contractAddress)
 	if err != nil {
 		panic(err)
 	}

@@ -6,7 +6,7 @@ import (
 	"github.com/ontio/ontology/common"
 )
 
-func GetLayer2CommitStateByHeight(ontsdk *ontology_go_sdk.OntologySdk, contract common.Address, height uint32) ([]byte, uint32, error) {
+func GetCommitedLayer2StateByHeight(ontsdk *ontology_go_sdk.OntologySdk, contract common.Address, height uint32) ([]byte, uint32, error) {
 	tx, err := ontsdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contract, []interface{}{"getStateRootByHeight", []interface{}{height}})
 	if err != nil {
 		fmt.Printf("new transaction failed!")
@@ -36,7 +36,7 @@ func GetLayer2CommitStateByHeight(ontsdk *ontology_go_sdk.OntologySdk, contract 
 	return stateRoot.ToArray(), uint32(item1.Uint64()), nil
 }
 
-func GetLayer2CommitHeight(ontsdk *ontology_go_sdk.OntologySdk, contract common.Address) (uint32, error) {
+func GetCommitedLayer2Height(ontsdk *ontology_go_sdk.OntologySdk, contract common.Address) (uint32, error) {
 	//
 	tx, err := ontsdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contract, []interface{}{"getCurrentHeight", []interface{}{}})
 	if err != nil {

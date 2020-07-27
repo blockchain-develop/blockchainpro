@@ -158,20 +158,20 @@ func TestVerifyContractStore(t *testing.T) {
 
 	ont_sdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
-	curHeight, err := GetLayer2CommitHeight(ont_sdk, contractAddress)
+	curHeight, err := GetCommitedLayer2Height(ont_sdk, contractAddress)
 	if err != nil {
 		panic(err)
 	}
 
 	for curHeight < store.Height {
 		time.Sleep(time.Second * 1)
-		curHeight, err = GetLayer2CommitHeight(ont_sdk, contractAddress)
+		curHeight, err = GetCommitedLayer2Height(ont_sdk, contractAddress)
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	stateRoot, height, err := GetLayer2CommitStateByHeight(ont_sdk, contractAddress, store.Height)
+	stateRoot, height, err := GetCommitedLayer2StateByHeight(ont_sdk, contractAddress, store.Height)
 	if err != nil {
 		panic(err)
 	}

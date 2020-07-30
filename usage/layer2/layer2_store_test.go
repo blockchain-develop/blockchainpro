@@ -194,4 +194,46 @@ func TestVerifyContractStore(t *testing.T) {
 	fmt.Printf("verify successful!\n")
 }
 
+func TestVerifyContractStore1(t *testing.T) {
+	sdk := newLayer2Sdk()
+	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetStoreProof(key)
+	if err  != nil {
+		panic(err)
+	}
+	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
+
+	ont_sdk := newOntologySdk()
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
+	curHeight, err := GetCommitedLayer2Height(ont_sdk, contractAddress)
+	if err != nil {
+		panic(err)
+	}
+	for curHeight < store.Height {
+		time.Sleep(time.Second * 1)
+		curHeight, err = GetCommitedLayer2Height(ont_sdk, contractAddress)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	stateRoot, height, err := GetCommitedLayer2StateByHeight(ont_sdk, contractAddress, store.Height)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("state root: %s, height: %d\n", hex.EncodeToString(stateRoot), height)
+
+	proof_byte, _ := hex.DecodeString(store.Proof)
+	value_bytes, _ := hex.DecodeString(store.Value)
+	result, err := sdk.VerifyStoreProof(key, value_bytes, proof_byte, stateRoot)
+	if err != nil {
+		panic(err)
+	}
+	if result {
+		fmt.Printf("verify successful!\n")
+	} else {
+		fmt.Printf("verify failed!\n")
+	}
+}
+
 

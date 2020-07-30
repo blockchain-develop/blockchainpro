@@ -176,6 +176,62 @@ func TestCommitLayer2State2Ontology(t *testing.T) {
 	fmt.Printf("hash: %s", txHash.ToHexString())
 }
 
+func TestCommitLayer2State2OntologyBatch(t *testing.T) {
+	//
+	ontSdk := newOntologySdk()
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
+	stateRootsBatch := make([]string, 0)
+	heightsBatch := make([]uint32, 0)
+	versionsBatch := make([]string, 0)
+	depositidsBatch := make([]interface{}, 0)
+	withdrawAmountsBatch := make([]interface{}, 0)
+	toAddressesBatch := make([]interface{}, 0)
+	assetAddressBatch := make([]interface{}, 0)
+	for i := 0;i < 10;i ++ {
+		stateRootsBatch = append(stateRootsBatch, "0000000000000000000000000000000000000000000000000000000000000000")
+		heightsBatch = append(heightsBatch, uint32(i + 1))
+		versionsBatch = append(versionsBatch, "1")
+		depositids := make([]int, 0)
+		for j := 0; j < 2; j ++ {
+			depositids = append(depositids, i * 2 + j)
+		}
+		depositidsBatch = append(depositidsBatch, depositids)
+		withdrawAmounts := make([]uint64, 0)
+		toAddresses := make([]common.Address, 0)
+		assetAddress := make([][]byte, 0)
+		for i := 0; i < 1; i ++ {
+			withdrawAmounts = append(withdrawAmounts, 3)
+			toAddress, _ := common.AddressFromBase58("AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc")
+			toAddresses = append(toAddresses, toAddress)
+			tokenAddress, _ := hex.DecodeString("0000000000000000000000000000000000000002")
+			assetAddress = append(assetAddress, tokenAddress)
+		}
+		withdrawAmountsBatch = append(withdrawAmountsBatch, withdrawAmounts)
+		toAddressesBatch = append(toAddressesBatch, toAddresses)
+		assetAddressBatch = append(assetAddressBatch, assetAddress)
+	}
+	tx, err := ontSdk.NeoVM.NewNeoVMInvokeTransaction(2500, 4000000, contractAddress, []interface{}{"updateStates", []interface{}{
+		stateRootsBatch, heightsBatch, versionsBatch,
+		depositidsBatch, withdrawAmountsBatch, toAddressesBatch, assetAddressBatch}})
+	if err != nil {
+		fmt.Printf("new transaction failed!")
+	}
+	account_operator, err := newOntologyOperatorAccount(ontSdk)
+	if err != nil {
+		fmt.Printf("newOntologyAccount failed!")
+	}
+	ontSdk.SetPayer(tx, account_operator.Address)
+	err = ontSdk.SignToTransaction(tx, account_operator)
+	if err != nil {
+		fmt.Printf("SignToTransaction failed!")
+	}
+	txHash, err := ontSdk.SendTransaction(tx)
+	if err != nil {
+		fmt.Printf("SignToTransaction failed! err: %s", err.Error())
+	}
+	fmt.Printf("hash: %s", txHash.ToHexString())
+}
+
 func TestOntologyDeposit2Layer2(t *testing.T) {
 	ontSdk := newOntologySdk()
 	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)

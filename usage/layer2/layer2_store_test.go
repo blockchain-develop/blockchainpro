@@ -100,6 +100,7 @@ func TestGetContractStoreProof(t *testing.T) {
 	if err  != nil {
 		panic(err)
 	}
+	fmt.Printf("key: %s\n", hex.EncodeToString(key))
 	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 
 	proof_byte, _ := hex.DecodeString(store.Proof)

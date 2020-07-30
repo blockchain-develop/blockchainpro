@@ -37,7 +37,6 @@ func GetCommitedLayer2StateByHeight(ontsdk *ontology_go_sdk.OntologySdk, contrac
 }
 
 func GetCommitedLayer2Height(ontsdk *ontology_go_sdk.OntologySdk, contract common.Address) (uint32, error) {
-	//
 	tx, err := ontsdk.NeoVM.NewNeoVMInvokeTransaction(0, 0, contract, []interface{}{"getCurrentHeight", []interface{}{}})
 	if err != nil {
 		return 0, err

@@ -10,7 +10,7 @@ require (
 	github.com/joeqian10/neo-gogogo v0.0.0-20200611102831-c17de5e1f0f8
 	github.com/ontio/multi-chain v0.0.0
 	github.com/ontio/multi-chain-go-sdk v0.0.0
-	github.com/ontio/ontology v1.9.0
+	github.com/ontio/ontology v1.10.0
 	github.com/ontio/ontology-crypto v1.0.9
 	github.com/ontio/ontology-go-sdk v0.0.0
 	github.com/tendermint/iavl v0.13.2
@@ -22,6 +22,6 @@ require (
 replace (
 	github.com/ontio/multi-chain => C:\Users\DELL\go\src\github.com\ontio\multi-chain
 	github.com/ontio/multi-chain-go-sdk => C:\Users\DELL\go\src\github.com\ontio\multi-chain-go-sdk
-	github.com/ontio/ontology => github.com/blockchain-develop/ontology v1.11.1-0.20200727091754-3d023db47cf5
-	github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.4-0.20200727093535-ced11e8f3636
+	github.com/ontio/ontology => github.com/blockchain-develop/ontology v1.11.1-0.20200730060137-9536ff8e2e20
+	github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200730071003-9c89be56d774
 )

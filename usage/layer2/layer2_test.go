@@ -3,7 +3,7 @@ package layer2
 import (
 	"encoding/hex"
 	"fmt"
-	ontology_common "github.com/ontio/ontology/common"
+	"github.com/ontio/ontology/common"
 	"testing"
 	"time"
 )
@@ -139,17 +139,17 @@ func TestGetLayer2Block(t *testing.T) {
 func TestCommitLayer2State2Ontology(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	depositids := make([]int, 0)
 	for i := 0;i < 2;i ++ {
 		depositids = append(depositids, 3 + i)
 	}
 	withdrawAmounts := make([]uint64, 0)
-	toAddresses := make([]ontology_common.Address, 0)
+	toAddresses := make([]common.Address, 0)
 	assetAddress := make([][]byte, 0)
 	for i := 0;i < 1;i ++ {
 		withdrawAmounts = append(withdrawAmounts, 3)
-		toAddress, _ := ontology_common.AddressFromBase58("AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc")
+		toAddress, _ := common.AddressFromBase58("AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc")
 		toAddresses = append(toAddresses,toAddress)
 		tokenAddress, _ := hex.DecodeString("0000000000000000000000000000000000000002")
 		assetAddress = append(assetAddress, tokenAddress)
@@ -179,13 +179,13 @@ func TestCommitLayer2State2Ontology(t *testing.T) {
 func TestCommitLayer2State2OntologyBatch(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	stateRootsBatch := make([]string, 0)
 	heightsBatch := make([]uint32, 0)
 	versionsBatch := make([]string, 0)
 	depositidsBatch := make([][]int, 0)
 	withdrawAmountsBatch := make([][]uint64, 0)
-	toAddressesBatch := make([][]ontology_common.Address, 0)
+	toAddressesBatch := make([][]common.Address, 0)
 	assetAddressBatch := make([][][]byte, 0)
 	for i := 0;i < 10;i ++ {
 		stateRootsBatch = append(stateRootsBatch, "0000000000000000000000000000000000000000000000000000000000000000")
@@ -197,11 +197,11 @@ func TestCommitLayer2State2OntologyBatch(t *testing.T) {
 		}
 		depositidsBatch = append(depositidsBatch, depositids)
 		withdrawAmounts := make([]uint64, 0)
-		toAddresses := make([]ontology_common.Address, 0)
+		toAddresses := make([]common.Address, 0)
 		assetAddress := make([][]byte, 0)
 		for i := 0; i < 1; i ++ {
 			withdrawAmounts = append(withdrawAmounts, 3)
-			toAddress, _ := ontology_common.AddressFromBase58("AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc")
+			toAddress, _ := common.AddressFromBase58("AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc")
 			toAddresses = append(toAddresses, toAddress)
 			tokenAddress, _ := hex.DecodeString("0000000000000000000000000000000000000002")
 			assetAddress = append(assetAddress, tokenAddress)
@@ -234,7 +234,7 @@ func TestCommitLayer2State2OntologyBatch(t *testing.T) {
 
 func TestOntologyDeposit2Layer2(t *testing.T) {
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	account_user, err := newOntologyUserAccount(ontSdk)
 	if err != nil {
 		fmt.Printf("ontology account err: %s", err.Error())
@@ -251,7 +251,7 @@ func TestOntologyDeposit2Layer2(t *testing.T) {
 func TestGetCommitedLayer2StateByHeight(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	stateRoot, height, err := GetCommitedLayer2StateByHeight(ontSdk, contractAddress, 1)
 	if err != nil {
 		panic(err)
@@ -262,7 +262,7 @@ func TestGetCommitedLayer2StateByHeight(t *testing.T) {
 func TestGetCurrentCommitedLayer2Height(t *testing.T) {
 	//
 	ontSdk := newOntologySdk()
-	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	height, err := GetCommitedLayer2Height(ontSdk, contractAddress)
 	if err != nil {
 		panic(err)

@@ -3,11 +3,9 @@ package layer2
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/ontio/layer2/node/common"
-	"github.com/ontio/layer2/node/core/types"
-	"github.com/tendermint/iavl"
-
-	ontology_common "github.com/ontio/ontology/common"
+	"github.com/ontio/ontology/common"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/cosmos/iavl"
 	"testing"
 	"time"
 )
@@ -20,7 +18,7 @@ func TestLayer2TransferStable(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
 	layer2_account, _ := newLayer2UserAccount(layer2_sdk)
 	init_layer2_account_balance := getLayer2Balance(layer2_sdk, layer2_account.Address)
-	layer2ContractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
+	layer2ContractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	tokenAddress, _ := hex.DecodeString("0000000000000000000000000000000000000002")
 	deposit_amount := 300000000
 	withdraw_amount := 200000000
@@ -61,7 +59,7 @@ func TestGetProofStable(t *testing.T) {
 
 		proof_byte, _ := hex.DecodeString(store.Proof)
 		source := common.NewZeroCopySource(proof_byte)
-		proof := new(types.StoreProof)
+		proof := new(utils.StoreProof)
 		err = proof.Deserialization(source)
 		if err != nil {
 			panic(err)

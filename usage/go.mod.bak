@@ -24,5 +24,4 @@ replace (
 	github.com/ontio/multi-chain => C:\Users\DELL\go\src\github.com\ontio\multi-chain
 	github.com/ontio/multi-chain-go-sdk => C:\Users\DELL\go\src\github.com\ontio\multi-chain-go-sdk
 	github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200814092642-6b4c073268a7
-	github.com/tendermint/iavl => github.com/cosmos/iavl v0.14.0
 )

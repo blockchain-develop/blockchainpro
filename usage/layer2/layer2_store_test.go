@@ -4,9 +4,10 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology/core/types"
+	"github.com/ontio/layer2/node/common"
+	"github.com/ontio/layer2/node/core/types"
 	"github.com/tendermint/iavl"
+	ontology_common "github.com/ontio/layer2/node/common"
 	"testing"
 	"time"
 )
@@ -158,7 +159,7 @@ func TestVerifyContractStore(t *testing.T) {
 	}
 
 	ont_sdk := newOntologySdk()
-	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
 	curHeight, err := GetCommitedLayer2Height(ont_sdk, contractAddress)
 	if err != nil {
 		panic(err)
@@ -204,7 +205,7 @@ func TestVerifyContractStore1(t *testing.T) {
 	fmt.Printf("value: %s, proof: %s, height: %d\n", store.Value, store.Proof, store.Height)
 
 	ont_sdk := newOntologySdk()
-	contractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
+	contractAddress, _ := ontology_common.AddressFromHexString(LAYER2_CONTRACT)
 	curHeight, err := GetCommitedLayer2Height(ont_sdk, contractAddress)
 	if err != nil {
 		panic(err)

@@ -234,3 +234,40 @@ func TestLockEvent_ETH2Cosmos(t *testing.T) {
 			hex.EncodeToString(evt.ToAssetHash), hex.EncodeToString(evt.ToAddress), evt.Amount.Uint64())
 	}
 }
+
+func TestLockEvent_ONT2ETH(t *testing.T) {
+	url := "http://18.139.17.85:10331"
+	ethclient, err := ethclient.Dial(url)
+	if err != nil {
+		fmt.Printf("getmocktokeninfo - cannot dial sync node, err: %s", err)
+		return
+	}
+
+	addressString := "570230e8fde617516b4f8a208864eada69349438"
+	eccmContractAddr := common.HexToAddress(addressString)
+	eccmContract, err := eccm_abi.NewEthCrossChainManager(eccmContractAddr, ethclient)
+	if err != nil {
+		fmt.Printf("NewEthCrossChainManager error: %v\n", err)
+		return
+	}
+
+	height := uint64(8430757)
+	opt := &bind.FilterOpts{
+		Start:   height,
+		End:     &height,
+		Context: context.Background(),
+	}
+
+	// get ethereum lock events from given block
+	unlockEvents, err := eccmContract.FilterVerifyHeaderAndExecuteTxEvent(opt)
+	if err != nil {
+		fmt.Printf("FilterVerifyAndExecuteTxEvent error: %v\n", err)
+		return
+	}
+
+	for unlockEvents.Next() {
+		evt := unlockEvents.Event
+		fmt.Printf("txhash: %s, crosschain txhash: %s\n",
+			evt.Raw.TxHash.String(), hex.EncodeToString(evt.CrossChainTxHash))
+	}
+}

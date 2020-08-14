@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-go-sdk/utils"
-	"github.com/cosmos/iavl"
+	"github.com/tendermint/iavl"
 	"testing"
 	"time"
 )
@@ -77,7 +77,7 @@ func TestGetProofStable(t *testing.T) {
 				panic(err)
 			}
 		}
-		block, err := sdk.GetBlockByHeight(curHeight)
+		block, err := sdk.GetLayer2BlockByHeight(curHeight)
 		if err != nil {
 			panic(err)
 		}

@@ -129,7 +129,7 @@ func TestGetLayer2CurrentHeight(t *testing.T) {
 
 func TestGetLayer2Block(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
-	block, err := layer2_sdk.GetBlockByHeight(20)
+	block, err := layer2_sdk.GetLayer2BlockByHeight(20)
 	if err != nil {
 		fmt.Printf("get current block height err: %s", err.Error())
 	}

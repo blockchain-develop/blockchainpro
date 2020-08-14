@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology/core/types"
-	"github.com/cosmos/iavl"
+	"github.com/tendermint/iavl"
 	"testing"
 	"time"
 )
@@ -75,7 +75,7 @@ func TestGetProof(t *testing.T) {
 			panic(err)
 		}
 	}
-	block, err := sdk.GetBlockByHeight(curHeight)
+	block, err := sdk.GetLayer2BlockByHeight(curHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -105,7 +105,7 @@ func TestGetContractStoreProof(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	source := common.NewZeroCopySource(proof_byte)
-	proof := new(types.StoreProof)
+	proof := new(utils.StoreProof)
 	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)
@@ -122,7 +122,7 @@ func TestGetContractStoreProof(t *testing.T) {
 			panic(err)
 		}
 	}
-	block, err := sdk.GetBlockByHeight(curHeight)
+	block, err := sdk.GetLayer2BlockByHeight(curHeight)
 	if err != nil {
 		panic(err)
 	}
@@ -151,7 +151,7 @@ func TestVerifyContractStore(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	source := common.NewZeroCopySource(proof_byte)
-	proof := new(types.StoreProof)
+	proof := new(utils.StoreProof)
 	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)

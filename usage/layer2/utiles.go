@@ -23,7 +23,7 @@ func newLayer2Sdk() *ontology_go_sdk.OntologySdk {
 
 func newOntologySdk() *ontology_go_sdk.OntologySdk {
 	ontSdk := ontology_go_sdk.NewOntologySdk()
-	ontSdk.NewRpcClient().SetAddress("http://polaris5.ont.io:20336")
+	ontSdk.NewRpcClient().SetAddress("http://polaris4.ont.io:20336")
 	return ontSdk
 }
 
@@ -113,7 +113,7 @@ func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology
 	}
 	if payer != nil {
 		ontsdk.SetPayer(tx, payer.Address)
-		err = ontsdk.SignToTransaction(tx, payer)
+		err = ontsdk.SignToLayer2Transaction(tx, payer)
 		if err != nil {
 			return ontology_common.UINT256_EMPTY, err
 		}
@@ -128,7 +128,7 @@ func layer2Transfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.
 	}
 	if payer != nil {
 		ontsdk.SetPayer(tx, payer.Address)
-		err = ontsdk.SignToTransaction(tx, payer)
+		err = ontsdk.SignToLayer2Transaction(tx, payer)
 		if err != nil {
 			return ontology_common.UINT256_EMPTY, err
 		}

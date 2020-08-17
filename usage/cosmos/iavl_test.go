@@ -2,7 +2,7 @@ package cosmos
 
 import (
 	"fmt"
-	"github.com/cosmos/iavl"
+	"github.com/tendermint/iavl"
 	"github.com/tendermint/tm-db"
 	"sync"
 	"testing"

@@ -34,7 +34,7 @@ func TestInvokeContract(t *testing.T) {
 		panic(err)
 	}
 	layer2_sdk.SetPayer(tx, account_operator.Address)
-	err = layer2_sdk.SignToTransaction(tx, account_operator)
+	err = layer2_sdk.SignToLayer2Transaction(tx, account_operator)
 	if err != nil {
 		panic(err)
 	}

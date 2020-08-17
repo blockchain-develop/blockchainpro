@@ -73,6 +73,8 @@ github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kB
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
 github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817025127-31009a468565 h1:m2ICkvDim/eX6X72JFcBfGcRNE3q8R2oyUcbN858Jrc=
 github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817025127-31009a468565/go.mod h1:+5igQKvnhkJuqqJFRoyG9zx6QoFkRpsAoGS/UvIjyCk=
+github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817030802-b8e5f5c2fe4f/go.mod h1:+5igQKvnhkJuqqJFRoyG9zx6QoFkRpsAoGS/UvIjyCk=
+github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817062317-080ec5c42bb5/go.mod h1:+5igQKvnhkJuqqJFRoyG9zx6QoFkRpsAoGS/UvIjyCk=
 github.com/btcsuite/btcd v0.0.0-20171128150713-2e60448ffcc6/go.mod h1:Dmm/EzmjnCiweXmzRIAiUWCInVmPgjkzgv5k4tVyXiQ=
 github.com/btcsuite/btcd v0.0.0-20190115013929-ed77733ec07d/go.mod h1:d3C0AkH6BRcvO8T0UEPu53cnw4IbV63x1bEjildYhO0=
 github.com/btcsuite/btcd v0.20.1-beta h1:Ik4hyJqN8Jfyv3S4AGBOmyouMsYE3EdYODkMbQjwPGw=

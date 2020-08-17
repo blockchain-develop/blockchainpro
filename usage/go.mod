@@ -23,5 +23,5 @@ require (
 replace (
 	github.com/ontio/multi-chain => C:\Users\DELL\go\src\github.com\ontio\multi-chain
 	github.com/ontio/multi-chain-go-sdk => C:\Users\DELL\go\src\github.com\ontio\multi-chain-go-sdk
-	github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817025127-31009a468565
+	github.com/ontio/ontology-go-sdk => github.com/blockchain-develop/ontology-go-sdk v1.11.5-0.20200817062317-080ec5c42bb5
 )

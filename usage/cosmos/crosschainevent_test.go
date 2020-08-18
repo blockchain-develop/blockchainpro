@@ -14,7 +14,7 @@ func TestCrossChainEvent_from_cosmos(t *testing.T) {
 	}
 	fmt.Printf("current height: %d\n", status.SyncInfo.LatestBlockHeight)
 
-	query := fmt.Sprintf("tx.height=%d AND make_from_cosmos_proof.status='1'", 1761)
+	query := fmt.Sprintf("tx.height=%d AND make_from_cosmos_proof.status='1'", 12165)
 	//query := fmt.Sprintf("tx.height=%d AND tm.event='make_from_cosmos_proof'", 1761)
 	res, err := client.TxSearch(query, false, 1, 100, "asc")
 	if err != nil {
@@ -27,6 +27,7 @@ func TestCrossChainEvent_from_cosmos(t *testing.T) {
 
 	for _, tx := range res.Txs {
 		for _, e := range tx.TxResult.Events {
+			fmt.Printf("event type: %s\n", e.Type)
 			if e.Type == "make_from_cosmos_proof" {
 				fmt.Printf("event: %s, status: %s, txhash: %s, txid: %s, key: %s, fromaddress: %s, from contract: %s, to chainid: %s, txparam: %s\n",
 					e.Type, string(e.Attributes[0].Value), tx.Hash.String(), string(e.Attributes[1].Value), string(e.Attributes[2].Value),

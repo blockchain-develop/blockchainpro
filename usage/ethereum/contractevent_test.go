@@ -236,14 +236,15 @@ func TestLockEvent_ETH2Cosmos(t *testing.T) {
 }
 
 func TestLockEvent_ONT2ETH(t *testing.T) {
-	url := "http://18.139.17.85:10331"
+	// url := "http://18.139.17.85:10331"
+	url := "http://onto-eth.ont.io:10331"
 	ethclient, err := ethclient.Dial(url)
 	if err != nil {
 		fmt.Printf("getmocktokeninfo - cannot dial sync node, err: %s", err)
 		return
 	}
 
-	addressString := "570230e8fde617516b4f8a208864eada69349438"
+	addressString := "838bf9e95cb12dd76a54c9f9d2e3082eaf928270"
 	eccmContractAddr := common.HexToAddress(addressString)
 	eccmContract, err := eccm_abi.NewEthCrossChainManager(eccmContractAddr, ethclient)
 	if err != nil {
@@ -251,7 +252,7 @@ func TestLockEvent_ONT2ETH(t *testing.T) {
 		return
 	}
 
-	height := uint64(8430757)
+	height := uint64(10651196)
 	opt := &bind.FilterOpts{
 		Start:   height,
 		End:     &height,

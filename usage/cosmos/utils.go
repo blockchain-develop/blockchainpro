@@ -11,16 +11,16 @@ import (
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/crypto/multisig"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
-	"github.com/tendermint/tendermint/rpc/client"
+	"github.com/tendermint/tendermint/rpc/client/http"
 	"github.com/tendermint/tendermint/types"
 	"strings"
 )
 
-func NewHTTPClient() *client.HTTP {
+func NewHTTPClient() *http.HTTP {
 	//c, err := client.NewHTTP("http://172.168.3.93:26657", "/websocket")
 	//c, err := client.NewHTTP("http://172.168.3.94:26657", "/websocket")
 	//c, err := client.NewHTTP("https://lcd.nylira.net:26657", "/websocket")
-	c, err := client.NewHTTP("http://40.115.182.238:26657", "/websocket")
+	c, err := http.New("http://54.179.34.89:26657", "/websocket")
 	if err != nil {
 		fmt.Printf("new http failed, err: %s\n", err.Error())
 	}
@@ -44,7 +44,7 @@ func NewCDC() *codec.Codec {
 	return cdc
 }
 
-func GetBlock(c *client.HTTP, height int64) *types.Block {
+func GetBlock(c *http.HTTP, height int64) *types.Block {
 	blockResult, err := c.Block(&height)
 	if err != nil {
 		panic(err)
@@ -52,7 +52,7 @@ func GetBlock(c *client.HTTP, height int64) *types.Block {
 	return blockResult.Block
 }
 
-func GetValidatorSet(c *client.HTTP, height int64) []*types.Validator {
+func GetValidatorSet(c *http.HTTP, height int64) []*types.Validator {
 	validatorsResult, err := c.Validators(&height, 0, 0)
 	if err != nil {
 		panic(err)
@@ -60,7 +60,7 @@ func GetValidatorSet(c *client.HTTP, height int64) []*types.Validator {
 	return validatorsResult.Validators
 }
 
-func GetCommit(c *client.HTTP, height int64) *types.Commit {
+func GetCommit(c *http.HTTP, height int64) *types.Commit {
 	commitResult, err := c.Commit(&height)
 	if err != nil {
 		panic(err)
@@ -68,7 +68,7 @@ func GetCommit(c *client.HTTP, height int64) *types.Commit {
 	return commitResult.Commit
 }
 
-func GetSignedHeader(c *client.HTTP, height int64) types.SignedHeader{
+func GetSignedHeader(c *http.HTTP, height int64) types.SignedHeader{
 	commitResult, err := c.Commit(&height)
 	if err != nil {
 		panic(err)

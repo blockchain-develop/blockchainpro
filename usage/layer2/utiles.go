@@ -15,7 +15,7 @@ const (
 
 func newLayer2Sdk() *ontology_go_sdk.OntologySdk {
 	// create alliance sdk
-	layer2_sdk := ontology_go_sdk.NewOntologySdk()
+	layer2_sdk := ontology_go_sdk.NewLayer2Sdk()
 	layer2_sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
 	//layer2_sdk.NewWebSocketClient().Connect("ws://localhost:40335")
 	return layer2_sdk
@@ -98,7 +98,7 @@ func layer2DepositTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_
 	}
 	if payer != nil {
 		ontsdk.SetPayer(tx, payer.Address)
-		err = ontsdk.SignToLayer2Transaction(tx, payer)
+		err = ontsdk.SignToTransaction(tx, payer)
 		if err != nil {
 			return ontology_common.UINT256_EMPTY, err
 		}
@@ -113,7 +113,7 @@ func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology
 	}
 	if payer != nil {
 		ontsdk.SetPayer(tx, payer.Address)
-		err = ontsdk.SignToLayer2Transaction(tx, payer)
+		err = ontsdk.SignToTransaction(tx, payer)
 		if err != nil {
 			return ontology_common.UINT256_EMPTY, err
 		}
@@ -128,7 +128,7 @@ func layer2Transfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.
 	}
 	if payer != nil {
 		ontsdk.SetPayer(tx, payer.Address)
-		err = ontsdk.SignToLayer2Transaction(tx, payer)
+		err = ontsdk.SignToTransaction(tx, payer)
 		if err != nil {
 			return ontology_common.UINT256_EMPTY, err
 		}

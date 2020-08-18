@@ -16,7 +16,7 @@ func TestDeployContract(t *testing.T) {
 	layer2_sdk := newLayer2Sdk()
 	account_operator, _ := newLayer2OperatorAccount(layer2_sdk)
 	code := "52c56b0568656c6c6f6a00527ac46c59c56b6a00527ac46a51527ac46a52527ac46a51c30548656c6c6f7d9c7c756422006a52c300c36a53527ac46a53c3516a00c3065400000000006e6c7566620300006c756657c56b6a00527ac46a51527ac46a52527ac46203006a52c36a00c300c3681953797374656d2e53746f726167652e476574436f6e74657874681253797374656d2e53746f726167652e5075746a52c3681553797374656d2e52756e74696d652e4e6f74696679516c7566"
-	hash, err := layer2_sdk.NeoVM.DeployNeoVMSmartContract_Layer2(0, 20000000, account_operator, true,
+	hash, err := layer2_sdk.NeoVM.DeployNeoVMSmartContract(0, 20000000, account_operator, true,
 		code, "hello", "1.0.0", "hello", "hello", "hello")
 
 	if err != nil {
@@ -34,7 +34,7 @@ func TestInvokeContract(t *testing.T) {
 		panic(err)
 	}
 	layer2_sdk.SetPayer(tx, account_operator.Address)
-	err = layer2_sdk.SignToLayer2Transaction(tx, account_operator)
+	err = layer2_sdk.SignToTransaction(tx, account_operator)
 	if err != nil {
 		panic(err)
 	}

@@ -13,7 +13,7 @@ const (
 	STORE_CONTRACT = "7680bc3227089ee6ac790be698e88bcd0be04609"
 )
 
-func newLayer2Sdk() *ontology_go_sdk.OntologySdk {
+func newLayer2Sdk() *ontology_go_sdk.Layer2Sdk {
 	// create alliance sdk
 	layer2_sdk := ontology_go_sdk.NewLayer2Sdk()
 	layer2_sdk.NewRpcClient().SetAddress("http://127.0.0.1:20336")
@@ -27,7 +27,7 @@ func newOntologySdk() *ontology_go_sdk.OntologySdk {
 	return ontSdk
 }
 
-func newLayer2OperatorAccount( layer2Sdk *ontology_go_sdk.OntologySdk) (*ontology_go_sdk.Account, error) {
+func newLayer2OperatorAccount( layer2Sdk *ontology_go_sdk.Layer2Sdk) (*ontology_go_sdk.Account, error) {
 	// AMUGPqbVJ3TG6pe7xRpxxaeh4ai4fu9ahc
 	privateKey, err := keypair.WIF2Key([]byte("L5CKUdMTnHQNeBtCzdoEZ1hyRpaCsc7LaesZWvFhfpKbzQV1v7pk"))
 	if err != nil {
@@ -43,7 +43,7 @@ func newLayer2OperatorAccount( layer2Sdk *ontology_go_sdk.OntologySdk) (*ontolog
 	}, nil
 }
 
-func newLayer2UserAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_go_sdk.Account, error) {
+func newLayer2UserAccount(ontsdk *ontology_go_sdk.Layer2Sdk) (*ontology_go_sdk.Account, error) {
 	// AScExXzLbkZV32tDFdV7Uoq7ZhCT1bRCGp
 	privateKey, err := keypair.WIF2Key([]byte("KyxsqZ45MCx3t2UbuG9P8h96TzyrzTXGRQnfs9nZKFx6YkjTfHqb"))
 	if err != nil {
@@ -91,7 +91,7 @@ func newOntologyUserAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_go_s
 	}, nil
 }
 
-func layer2DepositTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2DepositTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, ontology_common.ADDRESS_EMPTY, to, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -106,7 +106,7 @@ func layer2DepositTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_
 	return ontsdk.SendTransaction(tx)
 }
 
-func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, from ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, from, ontology_common.ADDRESS_EMPTY, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -121,7 +121,7 @@ func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology
 	return ontsdk.SendTransaction(tx)
 }
 
-func layer2Transfer(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, from ontology_common.Address, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2Transfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, from, to, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -154,7 +154,7 @@ func ontologyDeposit(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk
 	return txHash, nil
 }
 
-func getLayer2Balance(layer2Sdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
+func getLayer2Balance(layer2Sdk *ontology_go_sdk.Layer2Sdk, addr ontology_common.Address) uint64 {
 	amount, err := layer2Sdk.Native.Ong.BalanceOf(addr)
 	if err != nil {
 		fmt.Printf("getLayer2Balance err: %s", err.Error())

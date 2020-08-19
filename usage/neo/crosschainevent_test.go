@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/joeqian10/neo-gogogo/rpc"
+	"strconv"
 	"testing"
 )
 
@@ -16,7 +17,7 @@ func NewNeoClient() *rpc.RpcClient {
 func TestNeoCrossChainEvent_Scan(t *testing.T) {
 	client := NewNeoClient()
 
-	for i := 6023717;i < 6024717;i ++ {
+	for i := 6024425;i < 6024426;i ++ {
 		blockResp := client.GetBlockByIndex(uint32(i))
 		block := blockResp.Result
 		for _, tx := range block.Tx {
@@ -48,9 +49,11 @@ func TestNeoCrossChainEvent_Scan(t *testing.T) {
 						fmt.Printf("xx: %s, from address: %s, contract address: %s, to chainid: %s, key: %s, param: %s\n",
 							value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value)
 						//parseNotifyData(notify.State.Value[6].Value)
-					} else if method == "Lock" {
+					} else if method == "LockEvent" {
 						fmt.Printf("xx: %s, from asset: %s, from address: %s, to chainid: %s, to asset: %s, to address: %s, amount: %s\n",
 							value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value, value[6].Value)
+						amount, _ := strconv.ParseUint(value[6].Value, 16, 32)
+						fmt.Printf("==================================== %d\n", amount)
 					}
 				}
 			}
@@ -60,7 +63,7 @@ func TestNeoCrossChainEvent_Scan(t *testing.T) {
 
 func TestNeoCrossChainEvent(t *testing.T) {
 	client := NewNeoClient()
-	txhash := "0b66417146be074489a3556a1093c8e500d11584383c7c25bfc0d4aed7785b7d"
+	txhash := "b16a91d43cefe6490de6bcdd2b1b9741a455c0e4ab88717dae3c212787d04f35"
 	//txhash := "21c6ae12471611d06682f47863f6771acefc0edffd9a4a5eb3fe8ca2c57c72ef"
 	logResp := client.GetApplicationLog(txhash)
 

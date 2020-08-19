@@ -47,16 +47,21 @@ func TestGetValidatorSet(t *testing.T) {
 }
 
 func TestAddressFromBech32(t *testing.T) {
-	address := "cosmos1fhj7pkuvwflr7z7ngp2v9tj7g58aq2tjtl56r4"
+	address := "cosmos1rfu9elzahmpwz5vwrvwndy256r8909jqtvwhfq"
 	addr, err := sdk.AccAddressFromBech32(address)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("New address: %s, %s", address, addr.String())
+	fmt.Printf("New address: %s, %s, %s", address, addr.String(), hex.EncodeToString(addr.Bytes()))
 }
 
 func TestAddressFromHex(t *testing.T) {
-	address := "f71b55ef55cedc91fd007f7a9ba386ec978f3aa8"
+	config := sdk.GetConfig()
+	config.SetBech32PrefixForAccount("swth", "swthpub")
+	config.SetBech32PrefixForValidator("swthvaloper", "swthvaloperpub")
+	config.SetBech32PrefixForConsensusNode("swthvalcons", "swthvalconspub")
+
+	address := "1a785cfc5dbec2e1518e1b1d369154d0ce579640"
 	addr, err := sdk.AccAddressFromHex(address)
 	if err != nil {
 		panic(err)

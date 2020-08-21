@@ -102,11 +102,16 @@ func TestGetLayer2Block_ft(t *testing.T) {
 
 func TestGetLayer2Transaction_ft(t *testing.T) {
 	layer2Sdk := newLayer2Sdk()
-	tx, err := layer2Sdk.GetTransaction("")
+	txHash := ""
+	tx, err := layer2Sdk.GetTransaction(txHash)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("tx hash is: %s\n", tx.Hash().ToHexString())
+	if tx == nil {
+		panic("this is no this tx!")
+	}
+	getTxHash := tx.Hash()
+	fmt.Printf("tx hash is: %s\n", getTxHash.ToHexString())
 }
 
 func TestGetCommitedLayer2StateByHeight_ft(t *testing.T) {

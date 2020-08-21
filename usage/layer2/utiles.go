@@ -91,7 +91,7 @@ func newOntologyUserAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_go_s
 	}, nil
 }
 
-func layer2DepositTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2DepositTransferOng(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, ontology_common.ADDRESS_EMPTY, to, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -106,7 +106,7 @@ func layer2DepositTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go
 	return ontsdk.SendTransaction(tx)
 }
 
-func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2WithdrawTransferOng(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, from, ontology_common.ADDRESS_EMPTY, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -121,7 +121,7 @@ func layer2WithdrawTransfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_g
 	return ontsdk.SendTransaction(tx)
 }
 
-func layer2Transfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
+func layer2TransferOng(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Account, from ontology_common.Address, to ontology_common.Address, amount uint64) (ontology_common.Uint256, error) {
 	tx, err := ontsdk.Native.Ong.NewTransferTransaction(0, 20000, from, to, amount)
 	if err != nil {
 		return ontology_common.UINT256_EMPTY, err
@@ -136,36 +136,34 @@ func layer2Transfer(ontsdk *ontology_go_sdk.Layer2Sdk, payer *ontology_go_sdk.Ac
 	return ontsdk.SendTransaction(tx)
 }
 
-func ontologyDeposit(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, contract ontology_common.Address, token []byte, amount uint64) (ontology_common.Uint256, error) {
-	tx, err := ontsdk.NeoVM.NewNeoVMInvokeTransaction(2500, 400000, contract, []interface{}{"deposit", []interface{}{
-		payer.Address, amount, token}})
-	if err != nil {
-		fmt.Printf("new transaction failed!")
-	}
-	ontsdk.SetPayer(tx, payer.Address)
-	err = ontsdk.SignToTransaction(tx, payer)
-	if err != nil {
-		fmt.Printf("SignToTransaction failed!")
-	}
-	txHash, err := ontsdk.SendTransaction(tx)
-	if err != nil {
-		fmt.Printf("SignToTransaction failed! err: %s", err.Error())
-	}
-	return txHash, nil
-}
-
-func getLayer2Balance(layer2Sdk *ontology_go_sdk.Layer2Sdk, addr ontology_common.Address) uint64 {
+func getLayer2OngBalance(layer2Sdk *ontology_go_sdk.Layer2Sdk, addr ontology_common.Address) uint64 {
 	amount, err := layer2Sdk.Native.Ong.BalanceOf(addr)
 	if err != nil {
-		fmt.Printf("getLayer2Balance err: %s", err.Error())
+		fmt.Printf("getLayer2OngBalance err: %s", err.Error())
 	}
 	return amount
 }
 
-func getOntologyBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
+func getLayer2OntBalance(layer2Sdk *ontology_go_sdk.Layer2Sdk, addr ontology_common.Address) uint64 {
+	amount, err := layer2Sdk.Native.Ont.BalanceOf(addr)
+	if err != nil {
+		fmt.Printf("getLayer2OntBalance err: %s", err.Error())
+	}
+	return amount
+}
+
+func getOntologyOngBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
 	amount, err := ontSdk.Native.Ong.BalanceOf(addr)
 	if err != nil {
-		fmt.Printf("getOntologyBalance err: %s", err.Error())
+		fmt.Printf("getOntologyOngBalance err: %s", err.Error())
+	}
+	return amount
+}
+
+func getOntologyOntBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
+	amount, err := ontSdk.Native.Ont.BalanceOf(addr)
+	if err != nil {
+		fmt.Printf("getOntologyOntBalance err: %s", err.Error())
 	}
 	return amount
 }

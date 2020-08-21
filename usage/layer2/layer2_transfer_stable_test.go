@@ -14,10 +14,10 @@ func TestLayer2TransferStable(t *testing.T) {
 	// init
 	ont_sdk := newOntologySdk()
 	ont_account, _ := newOntologyUserAccount(ont_sdk)
-	init_ont_account_balance := getOntologyBalance(ont_sdk, ont_account.Address)
+	init_ont_account_balance := getOntologyOngBalance(ont_sdk, ont_account.Address)
 	layer2_sdk := newLayer2Sdk()
 	layer2_account, _ := newLayer2UserAccount(layer2_sdk)
-	init_layer2_account_balance := getLayer2Balance(layer2_sdk, layer2_account.Address)
+	init_layer2_account_balance := getLayer2OngBalance(layer2_sdk, layer2_account.Address)
 	layer2ContractAddress, _ := common.AddressFromHexString(LAYER2_CONTRACT)
 	tokenAddress, _ := hex.DecodeString("0000000000000000000000000000000000000002")
 	deposit_amount := 300000000
@@ -31,7 +31,7 @@ func TestLayer2TransferStable(t *testing.T) {
 			fmt.Printf("ontology deposit tx hash: %s\n", tx.ToHexString())
 		}
 		{
-			txhash, err := layer2WithdrawTransfer(layer2_sdk, layer2_account, layer2_account.Address, uint64(withdraw_amount))
+			txhash, err := layer2WithdrawTransferOng(layer2_sdk, layer2_account, layer2_account.Address, uint64(withdraw_amount))
 			if err != nil {
 				panic(err)
 			}
@@ -40,17 +40,17 @@ func TestLayer2TransferStable(t *testing.T) {
 		time.Sleep(time.Second * 10)
 	}
 	time.Sleep(time.Second * 60)
-	new_ont_account_balance := getOntologyBalance(ont_sdk, ont_account.Address)
+	new_ont_account_balance := getOntologyOngBalance(ont_sdk, ont_account.Address)
 	fmt.Printf("amount of ontology address %s is: %d %d\n", ont_account.Address.ToBase58(), init_ont_account_balance, new_ont_account_balance)
-	new_layer2_account_balance := getLayer2Balance(layer2_sdk, layer2_account.Address)
+	new_layer2_account_balance := getLayer2OngBalance(layer2_sdk, layer2_account.Address)
 	fmt.Printf("amount of layer2 address %s is: %d %d\n", layer2_account.Address.ToBase58(), init_layer2_account_balance, new_layer2_account_balance)
 }
 
 func TestGetProofStable(t *testing.T) {
 	sdk := newLayer2Sdk()
-	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
+	key, _ := sdk.GetLayer2StoreKey(STORE_CONTRACT, []byte("hello"))
 	for i := 0;i < 720;i ++ {
-		store, err := sdk.GetStoreProof(key)
+		store, err := sdk.GetLayer2StoreProof(key)
 		if err != nil {
 			panic(err)
 		}
@@ -59,7 +59,7 @@ func TestGetProofStable(t *testing.T) {
 
 		proof_byte, _ := hex.DecodeString(store.Proof)
 		source := common.NewZeroCopySource(proof_byte)
-		proof := new(utils.StoreProof)
+		proof := new(utils.Layer2StoreProof)
 		err = proof.Deserialization(source)
 		if err != nil {
 			panic(err)

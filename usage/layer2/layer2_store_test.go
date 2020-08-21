@@ -46,11 +46,11 @@ func TestInvokeContract(t *testing.T) {
 	fmt.Printf("layer2 state commit transaction hash: %s", txHash.ToHexString())
 }
 
-func TestGetProof(t *testing.T) {
+func TestGetLayer2Proof(t *testing.T) {
 	sdk := newLayer2Sdk()
 	key_str := "040dac0b6a91ac2fd5203ff2c5156fa4b4f9dc3902"
 	key, _ := hex.DecodeString(key_str)
-	store, err := sdk.GetStoreProof(key)
+	store, err := sdk.GetLayer2StoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
@@ -58,7 +58,7 @@ func TestGetProof(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	source := common.NewZeroCopySource(proof_byte)
-	proof := new(utils.StoreProof)
+	proof := new(utils.Layer2StoreProof)
 	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)
@@ -95,8 +95,8 @@ func TestGetProof(t *testing.T) {
 
 func TestGetContractStoreProof(t *testing.T) {
 	sdk := newLayer2Sdk()
-	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
-	store, err := sdk.GetStoreProof(key)
+	key, _ := sdk.GetLayer2StoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetLayer2StoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
@@ -105,7 +105,7 @@ func TestGetContractStoreProof(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	source := common.NewZeroCopySource(proof_byte)
-	proof := new(utils.StoreProof)
+	proof := new(utils.Layer2StoreProof)
 	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)
@@ -142,8 +142,8 @@ func TestGetContractStoreProof(t *testing.T) {
 
 func TestVerifyContractStore(t *testing.T) {
 	sdk := newLayer2Sdk()
-	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
-	store, err := sdk.GetStoreProof(key)
+	key, _ := sdk.GetLayer2StoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetLayer2StoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
@@ -151,7 +151,7 @@ func TestVerifyContractStore(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	source := common.NewZeroCopySource(proof_byte)
-	proof := new(utils.StoreProof)
+	proof := new(utils.Layer2StoreProof)
 	err = proof.Deserialization(source)
 	if err != nil {
 		panic(err)
@@ -196,8 +196,8 @@ func TestVerifyContractStore(t *testing.T) {
 
 func TestVerifyContractStore1(t *testing.T) {
 	sdk := newLayer2Sdk()
-	key, _ := sdk.GetStoreKey(STORE_CONTRACT, []byte("hello"))
-	store, err := sdk.GetStoreProof(key)
+	key, _ := sdk.GetLayer2StoreKey(STORE_CONTRACT, []byte("hello"))
+	store, err := sdk.GetLayer2StoreProof(key)
 	if err  != nil {
 		panic(err)
 	}
@@ -225,7 +225,7 @@ func TestVerifyContractStore1(t *testing.T) {
 
 	proof_byte, _ := hex.DecodeString(store.Proof)
 	value_bytes, _ := hex.DecodeString(store.Value)
-	result, err := sdk.VerifyStoreProof(key, value_bytes, proof_byte, stateRoot)
+	result, err := sdk.VerifyLayer2StoreProof(key, value_bytes, proof_byte, stateRoot)
 	if err != nil {
 		panic(err)
 	}

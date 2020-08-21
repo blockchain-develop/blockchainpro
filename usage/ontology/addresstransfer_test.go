@@ -18,7 +18,7 @@ func TestHex2Base58(t *testing.T) {
 }
 
 func TestBase582Hex(t *testing.T) {
-	addrBase58 := "AWkohq8GbV1pyfXYF2SpcuAGwg4CHfk7mr"
+	addrBase58 := "AHe5NrFRBWYaJo9uB5iQkViXQ7naqQ8y6a"
 	addr, err := common.AddressFromBase58(addrBase58)
 	if err != nil {
 		fmt.Printf("AddressFromBase58 err: %s", err.Error())

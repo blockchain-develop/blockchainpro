@@ -1,9 +1,9 @@
+github.com/blockchain-develop/blockchainpro/usage/utiles v0.0.0-20200825033423-d1be9e2d6aa1 h1:XX5pheSTJ/qqXYM34iYXPOPVnrtMzEJNgN8R4QTebtY=
+github.com/blockchain-develop/blockchainpro/usage/utiles v0.0.0-20200825033423-d1be9e2d6aa1/go.mod h1:HnUWQQwsOhhxGxKy1WnqV2Ns/kvcB+RlkSt0XMqVmWE=
 github.com/blockchain-develop/neo-gogogo v0.0.0-20200824102609-fddf06a45f66 h1:PJ2bHzMB/jTEYa3oI3r1rljZ3gssbXJlDsLsB+GHWgY=
 github.com/blockchain-develop/neo-gogogo v0.0.0-20200824102609-fddf06a45f66/go.mod h1:1fVDp4U1ROZQBRIooecbGNHHJpfs3bG9528sqlZ096g=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/joeqian10/neo-gogogo v0.0.0-20200814072357-20f86305fd8b h1:eK6Y9KknPoDZxOYuyEP4j1Y9g0GX+kgitQzUdQNDgMs=
-github.com/joeqian10/neo-gogogo v0.0.0-20200814072357-20f86305fd8b/go.mod h1:1fVDp4U1ROZQBRIooecbGNHHJpfs3bG9528sqlZ096g=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=

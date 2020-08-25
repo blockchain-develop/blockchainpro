@@ -3,17 +3,10 @@ package neo
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/blockchainpro/usage/utils"
-	"github.com/joeqian10/neo-gogogo/rpc"
+	"github.com/blockchainpro/usage/utiles/common"
 	"strconv"
 	"testing"
 )
-
-func NewNeoClient() *rpc.RpcClient {
-	url := "http://seed9.ngd.network:11332"
-	client := rpc.NewClient(url)
-	return client
-}
 
 func TestNeoCrossChainEvent_Scan(t *testing.T) {
 	client := NewNeoClient()
@@ -90,7 +83,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 			} else if method == "LockEvent" {
 				fmt.Printf("xx: %s, from asset: %s, from address: %s, to chainid: %s, to asset: %s, to address: %s, amount: %s\n",
 					value[0].Value, value[1].Value, value[2].Value, value[3].Value, value[4].Value, value[5].Value, value[6].Value)
-				amount, _ := strconv.ParseUint(utils.HexStringReverse(value[6].Value), 16, 64)
+				amount, _ := strconv.ParseUint(common.HexStringReverse(value[6].Value), 16, 64)
 				fmt.Printf("==================================== %d\n", amount)
 			}
 		}

@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"github.com/ontio/ontology-crypto/keypair"
 	"github.com/ontio/ontology-go-sdk"
-	"github.com/ontio/ontology-go-sdk/utils"
-	ontology_common "github.com/ontio/ontology/common"
-	ontology_types "github.com/ontio/ontology/core/types"
+	"github.com/ontio/ontology/common"
+	"github.com/ontio/ontology/core/types"
 )
 
 const (
@@ -15,8 +14,8 @@ const (
 )
 
 func newOntologySdk() *ontology_go_sdk.OntologySdk {
-	ontSdk := ontology_go_sdk.NewOntologySdk(utils.ONTOLOGY_SDK)
-	ontSdk.NewRpcClient(utils.ONTOLOGY_SDK).SetAddress("http://polaris5.ont.io:20336")
+	ontSdk := ontology_go_sdk.NewOntologySdk()
+	ontSdk.NewRpcClient().SetAddress("http://polaris4.ont.io:20336")
 	return ontSdk
 }
 
@@ -27,7 +26,7 @@ func newOntologyOperatorAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_
 		return nil, fmt.Errorf("decrypt privateKey error:%s", err)
 	}
 	pub := privateKey.Public()
-	address := ontology_types.AddressFromPubKey(pub)
+	address := types.AddressFromPubKey(pub)
 	fmt.Printf("address: %s\n", address.ToBase58())
 	return &ontology_go_sdk.Account{
 		PrivateKey: privateKey,
@@ -43,7 +42,7 @@ func newOntologyUserAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_go_s
 		return nil, fmt.Errorf("decrypt privateKey error:%s", err)
 	}
 	pub := privateKey.Public()
-	address := ontology_types.AddressFromPubKey(pub)
+	address := types.AddressFromPubKey(pub)
 	fmt.Printf("address: %s\n", address.ToBase58())
 	return &ontology_go_sdk.Account{
 		PrivateKey: privateKey,
@@ -52,7 +51,7 @@ func newOntologyUserAccount(ontsdk *ontology_go_sdk.OntologySdk) (*ontology_go_s
 	}, nil
 }
 
-func ontologyContractInvoke(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, contract ontology_common.Address, token []byte, amount uint64) (ontology_common.Uint256, error) {
+func ontologyContractInvoke(ontsdk *ontology_go_sdk.OntologySdk, payer *ontology_go_sdk.Account, contract common.Address, token []byte, amount uint64) (common.Uint256, error) {
 	tx, err := ontsdk.NeoVM.NewNeoVMInvokeTransaction(2500, 400000, contract, []interface{}{"deposit", []interface{}{
 		payer.Address, amount, token}})
 	if err != nil {
@@ -75,7 +74,7 @@ func createOntologyAccount() {
 	ontsdk := newOntologySdk()
 	var wallet *ontology_go_sdk.Wallet
 	var err error
-	if !ontology_common.FileExisted("./wallet_ontology_new.dat") {
+	if !common.FileExisted("./wallet_ontology_new.dat") {
 		wallet, err = ontsdk.CreateWallet("./wallet_ontology_new.dat")
 		if err != nil {
 			return
@@ -104,10 +103,89 @@ func createOntologyAccount() {
 	fmt.Printf("private key: %s, address: %s %s\n", string(pri_key), addr, signer.Address.ToHexString())
 }
 
-func getOntologyOngBalance(ontSdk *ontology_go_sdk.OntologySdk, addr ontology_common.Address) uint64 {
+func getOntologyOngBalance(ontSdk *ontology_go_sdk.OntologySdk, addr common.Address) uint64 {
 	amount, err := ontSdk.Native.Ong.BalanceOf(addr)
 	if err != nil {
 		fmt.Printf("getOntologyBalance err: %s", err.Error())
 	}
 	return amount
 }
+
+func OEP4Name(ontsdk *ontology_go_sdk.OntologySdk, contract string) (string, error) {
+	contractAddr, err := common.AddressFromHexString(contract)
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return "", err
+	}
+
+	preResult, err := ontsdk.NeoVM.PreExecInvokeNeoVMContract(contractAddr,
+		[]interface{}{"name", []interface{}{}})
+	/*
+	preResult, err := ontsdk.WasmVM.PreExecInvokeWasmVMContract(contractAddr, "name", []interface{}{})
+	if err != nil {
+		return "", err
+	}
+	*/
+	name, _ := preResult.Result.ToString()
+	return name, nil
+}
+
+func OEP4Symbol(ontsdk *ontology_go_sdk.OntologySdk, contract string) (string, error) {
+	contractAddr, err := common.AddressFromHexString(contract)
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return "", err
+	}
+
+	preResult, err := ontsdk.NeoVM.PreExecInvokeNeoVMContract(contractAddr,
+		[]interface{}{"symbol", []interface{}{}})
+	/*
+	preResult, err := ontsdk.WasmVM.PreExecInvokeWasmVMContract(contractAddr, "symbol", []interface{}{})
+	if err != nil {
+		return "", err
+	}
+	*/
+	symbol, _ := preResult.Result.ToString()
+	return symbol, nil
+}
+
+func OEP4Decimals(ontsdk *ontology_go_sdk.OntologySdk, contract string) (byte, error){
+	contractAddr, err := common.AddressFromHexString(contract)
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return 0, err
+	}
+
+	preResult, err := ontsdk.NeoVM.PreExecInvokeNeoVMContract(contractAddr,
+		[]interface{}{"decimals", []interface{}{}})
+	/*
+	preResult, err := ontsdk.WasmVM.PreExecInvokeWasmVMContract(contractAddr, "decimals", []interface{}{})
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return 0, err
+	}
+	*/
+	decimal, _ := preResult.Result.ToInteger()
+	return byte(decimal.Uint64()), nil
+}
+
+func OEP4Supply(ontsdk *ontology_go_sdk.OntologySdk, contract string) (uint64, error) {
+	contractAddr, err := common.AddressFromHexString(contract)
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return 0, err
+	}
+
+	preResult, err := ontsdk.NeoVM.PreExecInvokeNeoVMContract(contractAddr,
+		[]interface{}{"totalSupply", []interface{}{}})
+	/*
+	preResult, err := ontsdk.WasmVM.PreExecInvokeWasmVMContract(contractAddr, "totalSupply", []interface{}{})
+	if err != nil {
+		fmt.Printf("error is %+v\n", err)
+		return 0, err
+	}
+	*/
+	supply, _ := preResult.Result.ToInteger()
+	return supply.Uint64(), nil
+}
+

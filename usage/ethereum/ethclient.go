@@ -91,6 +91,10 @@ func (ec *EthereumClient) GetTransactionReceipt(ctx context.Context, hash common
 	}
 }
 
+func (ec *EthereumClient) SuggestGasPrice(ctx context.Context) (*big.Int, error) {
+	return ec.Client.SuggestGasPrice(ctx)
+}
+
 // Close client
 func (ec *EthereumClient) Close() {
 	ec.rpcClient.Close()

@@ -59,7 +59,7 @@ func TestNeoCrossChainEvent(t *testing.T) {
 	client := NewNeoClient()
 	countrep := client.GetBlockCount()
 	fmt.Printf("xxxxxxxxxxx %d", countrep.Result)
-	txhash := "bfecda63670b3b914c5ad0e986f4432237dc27db455e18b4cef14f3e66545ae5"
+	txhash := "542e6319cf85a8ca662dfdc2dcf515c9ef0d5871a7587a091704e5c7461f015a"
 	//txhash := "21c6ae12471611d06682f47863f6771acefc0edffd9a4a5eb3fe8ca2c57c72ef"
 	logResp := client.GetApplicationLog(txhash)
 

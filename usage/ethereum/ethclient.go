@@ -16,6 +16,10 @@ type EthereumClient struct {
 	Client    *ethclient.Client
 }
 
+func DefaultEthereumClient() (client *EthereumClient) {
+	return NewEthereumClient("https://ropsten.infura.io/v3/dc891b662f354817983633c828b46eff")
+}
+
 func NewEthereumClient(url string) (client *EthereumClient) {
 	rpcClient, err := rpc.Dial(url)
 	if err != nil {

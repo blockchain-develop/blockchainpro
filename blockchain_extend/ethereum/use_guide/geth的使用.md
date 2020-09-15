@@ -11,3 +11,7 @@ geth attach http://127.0.0.1:7545
 ```
 web3.padLeft("1", 64);
 ```
+
+
+## reference
+[以太坊 Truffle Debugger](https://www.jianshu.com/p/588511ffecb3)

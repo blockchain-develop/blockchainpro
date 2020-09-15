@@ -1,11 +1,13 @@
 package ethereum
 
 import (
+	"crypto/ecdsa"
 	"fmt"
 	"context"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
 	"math/big"
@@ -37,6 +39,18 @@ func NewEthereumClient(url string) (client *EthereumClient) {
 	}
 }
 
+
+func DefaultPrivateKey() *ecdsa.PrivateKey {
+	return NewPrivateKey("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+}
+
+func NewPrivateKey(key string) *ecdsa.PrivateKey {
+	priKey, err := crypto.HexToECDSA(key)
+	if err != nil {
+		panic(err)
+	}
+	return priKey
+}
 // GetBlockByHash returns the given full block.
 func (ec *EthereumClient) GetBlockByHash(ctx context.Context, hash common.Hash) (block *types.Block, _ error) {
 	block, err := ec.Client.BlockByHash(ctx, hash)
@@ -97,6 +111,14 @@ func (ec *EthereumClient) GetTransactionReceipt(ctx context.Context, hash common
 
 func (ec *EthereumClient) SuggestGasPrice(ctx context.Context) (*big.Int, error) {
 	return ec.Client.SuggestGasPrice(ctx)
+}
+
+func (ec *EthereumClient) GetNonceAt(ctx context.Context, address common.Address) uint64 {
+	nonce, err := ec.Client.PendingNonceAt(ctx, address)
+	if err != nil {
+		panic(err)
+	}
+	return nonce
 }
 
 // Close client

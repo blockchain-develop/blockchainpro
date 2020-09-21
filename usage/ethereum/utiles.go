@@ -11,6 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
 	"math/big"
+	"time"
 )
 
 type EthereumClient struct {
@@ -125,4 +126,23 @@ func (ec *EthereumClient) GetNonceAt(ctx context.Context, address common.Address
 func (ec *EthereumClient) Close() {
 	ec.rpcClient.Close()
 	ec.Client.Close()
+}
+
+func waitTransactionConfirm(ethclient *ethclient.Client, hash common.Hash) {
+	//
+	errNum := 0
+	for errNum < 100 {
+		time.Sleep(time.Second * 1)
+		_, ispending, err := ethclient.TransactionByHash(context.Background(), hash)
+		fmt.Printf("transaction %s is pending: %v\n",  hash.String(), ispending)
+		if err != nil {
+			errNum ++
+			continue
+		}
+		if ispending == true{
+			continue
+		} else {
+			break
+		}
+	}
 }

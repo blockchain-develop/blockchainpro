@@ -16,7 +16,7 @@ import (
 func TestECCMNotify(t *testing.T) {
 	client := DefaultEthereumClient()
 	contractAddr := "726532586c50ec9f4080b71f906a3d9779bbd64f"
-	height := uint64(8681839)
+	height := uint64(8711998)
 	lockAddress := ethcommon.HexToAddress(contractAddr)
 	lockContract, err := eccm_abi.NewEthCrossChainManager(lockAddress, client.Client)
 	if err != nil {
@@ -61,7 +61,7 @@ func TestECCMNotify(t *testing.T) {
 func TestLockNotify(t *testing.T) {
 	client := DefaultEthereumClient()
 	contractAddr := "d8ae73e06552e270340b63a8bcabf9277a1aac99"
-	height := uint64(8663359)
+	height := uint64(8711998)
 	proxyAddress := ethcommon.HexToAddress(contractAddr)
 	lockContract, err := lock_proxy_abi.NewLockProxy(proxyAddress, client.Client)
 	if err != nil {

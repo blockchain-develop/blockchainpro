@@ -16,6 +16,6 @@ func NewNep5(hash string) *nep5.Nep5Helper {
 	if err != nil {
 		panic(err)
 	}
-	nep5 := nep5.NewNep5Helper(scriptHash, "http://seed1.ngd.network:20332")
+	nep5 := nep5.NewNep5Helper(scriptHash, "http://seed1.ngd.network:10332")
 	return nep5
 }

@@ -26,7 +26,7 @@ func TestOep4(t *testing.T) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("oep4: %s, name: %s, symbol: %s, decimal: %d, supply: %s\n", contract, name, symbol, decimal, supply)
+		fmt.Printf("oep4: %s, name: %s, symbol: %s, decimal: %d, supply: %d\n", contract, name, symbol, decimal, supply)
 	}
 }
 
@@ -49,5 +49,5 @@ func TestOep4_One(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("oep4: %s, name: %s, symbol: %s, decimal: %d, supply: %s\n", contract, name, symbol, decimal, supply)
+	fmt.Printf("oep4: %s, name: %s, symbol: %s, decimal: %d, supply: %d\n", contract, name, symbol, decimal, supply)
 }

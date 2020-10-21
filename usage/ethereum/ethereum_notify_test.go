@@ -60,8 +60,8 @@ func TestECCMNotify(t *testing.T) {
 
 func TestLockNotify(t *testing.T) {
 	client := DefaultEthereumClient()
-	contractAddr := "d8ae73e06552e270340b63a8bcabf9277a1aac99"
-	height := uint64(8711998)
+	contractAddr := "250e76987d838a75310c34bf422ea9f1ac4cc906"
+	height := uint64(10927126)
 	proxyAddress := ethcommon.HexToAddress(contractAddr)
 	lockContract, err := lock_proxy_abi.NewLockProxy(proxyAddress, client.Client)
 	if err != nil {

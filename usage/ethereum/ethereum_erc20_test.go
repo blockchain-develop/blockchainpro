@@ -33,7 +33,7 @@ func TestErc20BalanceOf(t *testing.T) {
 
 func TestErc20Info_One(t *testing.T) {
 	client := DefaultEthereumClient()
-	erc20Addr_hex := "239100e629a9ca8e0bf45c7892b0fc72d78aa97a"
+	erc20Addr_hex := "Bb2b8038a1640196FbE3e38816F3e67Cba72D940"
 	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
 	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
 	if err != nil {
@@ -56,8 +56,91 @@ func TestErc20Info_One(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+	user1 := ethcommon.HexToAddress("c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2")
+	balance1, err := erc20Contract.BalanceOf(&bind.CallOpts{}, user1)
+	if err != nil {
+		panic(err)
+	}
+
+	user2 := ethcommon.HexToAddress("2260fac5e5542a773aa44fbcfedf7c193bc2c599")
+	balance2, err := erc20Contract.BalanceOf(&bind.CallOpts{}, user2)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("erc20: %s, name: %s, totolSupply: %s, decimal: %s, symbol: %s\n",
 		erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol)
+	fmt.Printf("user1 balance: %s, user2 balance: %s\n", balance1.String(), balance2.String())
+}
+
+func TestErc20Info_Two(t *testing.T) {
+	client := DefaultEthereumClient()
+	erc20Addr_hex := "c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
+	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
+	if err != nil {
+		fmt.Printf("GetSmartContractEventByBlock, error: %s", err.Error())
+		return
+	}
+	name, err := erc20Contract.Name(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	totolSupply, err := erc20Contract.TotalSupply(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	decimal, err := erc20Contract.Decimals(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	symbol, err := erc20Contract.Symbol(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	user1 := ethcommon.HexToAddress("Bb2b8038a1640196FbE3e38816F3e67Cba72D940")
+	balance1, err := erc20Contract.BalanceOf(&bind.CallOpts{}, user1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("erc20: %s, name: %s, totolSupply: %s, decimal: %s, symbol: %s， balance:%s\n",
+		erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol, balance1.String())
+}
+
+
+func TestErc20Info_Three(t *testing.T) {
+	client := DefaultEthereumClient()
+	erc20Addr_hex := "2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
+	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
+	if err != nil {
+		fmt.Printf("GetSmartContractEventByBlock, error: %s", err.Error())
+		return
+	}
+	name, err := erc20Contract.Name(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	totolSupply, err := erc20Contract.TotalSupply(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	decimal, err := erc20Contract.Decimals(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	symbol, err := erc20Contract.Symbol(&bind.CallOpts{})
+	if err != nil {
+		panic(err)
+	}
+	user1 := ethcommon.HexToAddress("Bb2b8038a1640196FbE3e38816F3e67Cba72D940")
+	balance1, err := erc20Contract.BalanceOf(&bind.CallOpts{}, user1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("erc20: %s, name: %s, totolSupply: %s, decimal: %s, symbol: %s, balance: %s\n",
+		erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol, balance1.String())
 }
 
 

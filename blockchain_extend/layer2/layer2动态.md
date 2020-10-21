@@ -40,3 +40,7 @@ Gods Unchained的公司Immutable将基于StarkEx开发一个非同质化代币(N
 代表作Counterfactual
 
 ### Finality Labs
+
+### Aztec Protocol
+
+Aztec Protocol推出用于以太坊扩的扩容解决方案Aztec 2.0。Aztec 2.0是基于zkRollup的Layer 2网络，目前已在测试网Ropsten上线。该解决方案支持用户在默认情况下隐私发送ERC-20代币，为用户提供隐私保护。同时，支持基于社交的私钥恢复（Social-key recovery），基于可扩展且私密的方式使用 DeFi 应用（比如 Uniswap）。

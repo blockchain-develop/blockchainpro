@@ -43,7 +43,7 @@ func (sdk  *CoinMarketCapSdk) ListingsLatest() ([]*Listing, error) {
 	q.Add("convert", "USD")
 
 	req.Header.Set("Accepts", "application/json")
-	req.Header.Add("X-CMC_PRO_API_KEY", "8c175886-3aec-4276-8961-1f0ce06ab69e")
+	req.Header.Add("X-CMC_PRO_API_KEY", "8efe5156-8b37-4c77-8e1d-a140c97bf466")
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := sdk.client.Do(req);
@@ -74,11 +74,11 @@ func (sdk  *CoinMarketCapSdk) QuotesLatest() (map[string]*Ticker, error) {
 	}
 
 	q := url.Values{}
-	q.Add("id", "1,2620,2316")
+	q.Add("id", "1,2620,2316,7083")
 	q.Add("convert", "USD")
 
 	req.Header.Set("Accepts", "application/json")
-	req.Header.Add("X-CMC_PRO_API_KEY", "8c175886-3aec-4276-8961-1f0ce06ab69e")
+	req.Header.Add("X-CMC_PRO_API_KEY", "8efe5156-8b37-4c77-8e1d-a140c97bf466")
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := sdk.client.Do(req);

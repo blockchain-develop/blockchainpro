@@ -23,7 +23,7 @@ func NewSwitcheoClient() *http.HTTP {
 	config.SetBech32PrefixForAccount("swth", "swthpub")
 	config.SetBech32PrefixForValidator("swthvaloper", "swthvaloperpub")
 	config.SetBech32PrefixForConsensusNode("swthvalcons", "swthvalconspub")
-	c, err := http.New("http://54.255.5.46:26657", "/websocket")
+	c, err := http.New("http://175.41.151.35:26657", "/websocket")
 	if err != nil {
 		fmt.Printf("new http failed, err: %s\n", err.Error())
 	}

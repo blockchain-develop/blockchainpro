@@ -15,7 +15,7 @@ func TestCrossChainEvent_from_cosmos(t *testing.T) {
 	}
 	fmt.Printf("current height: %d\n", status.SyncInfo.LatestBlockHeight)
 
-	query := fmt.Sprintf("tx.height=%d AND make_from_cosmos_proof.status='1'", 12165)
+	query := fmt.Sprintf("tx.height=%d AND make_from_cosmos_proof.status='1'", 2880742)
 	//query := fmt.Sprintf("tx.height=%d AND tm.event='make_from_cosmos_proof'", 1761)
 	res, err := client.TxSearch(query, false, 1, 100, "asc")
 	if err != nil {
@@ -108,7 +108,7 @@ func TestCrossChainEventSearch(t *testing.T) {
 
 func TestCrossChainEventSearch1(t *testing.T) {
 	client := NewSwitcheoClient()
-	query := fmt.Sprintf("tx.height=%d", 208623)
+	query := fmt.Sprintf("tx.height=%d", 2880742)
 	res, err := client.TxSearch(query, false, 1, 100, "asc")
 	if err != nil {
 		panic(err)

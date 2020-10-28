@@ -8,6 +8,7 @@ package fabric
 
 import (
 	"github.com/blockchainpro/usage/fabric/pkcs11"
+	"os"
 	"testing"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
@@ -16,8 +17,17 @@ import (
 	"github.com/blockchainpro/usage/fabric/configless"
 )
 
+func init() {
+	os.Setenv("FABRIC_SDK_GO_PROJECT_PATH", "/root/gopath/src/github.com/blockchainpro/usage/fabric")
+	os.Setenv("CRYPTOCONFIG_FIXTURES_PATH", "organizations")
+	os.Setenv("username", "User1")
+}
+
 func TestE2E(t *testing.T) {
 	t.Run("Base", func(t *testing.T) {
+		os.Setenv("FABRIC_SDK_GO_PROJECT_PATH", "/root/gopath/src/github.com/blockchainpro/usage/fabric")
+		os.Setenv("CRYPTOCONFIG_FIXTURES_PATH", "organizations")
+		os.Setenv("username", "User1")
 		configPath := integration.GetConfigPath("config_e2e.yaml")
 		Run(t, config.FromFile(configPath))
 	})

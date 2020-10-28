@@ -257,7 +257,7 @@ func createCCLifecycle(t *testing.T, orgResMgmt *resmgmt.Client, sdk *fabsdk.Fab
 	// Query installed cc
 	queryInstalled(t, label, packageID, orgResMgmt)
 
-	/*
+
 	// Approve cc
 	approveCC(t, packageID, orgResMgmt)
 
@@ -275,9 +275,6 @@ func createCCLifecycle(t *testing.T, orgResMgmt *resmgmt.Client, sdk *fabsdk.Fab
 
 	// Init cc
 	initCC(t, sdk)
-
-	 */
-
 }
 
 func packageCC(t *testing.T) (string, []byte) {
@@ -307,7 +304,7 @@ func installCC(t *testing.T, label string, ccPkg []byte, orgResMgmt *resmgmt.Cli
 	} else if len(resp) == 0 {
 		fmt.Printf("chain code has installed on all peers!\n")
 	} else {
-		fmt.Printf("chain code has installed! packageID: %v, %v\n", resp[0].PackageID, packageID)
+		fmt.Printf("chain code has installed successful! packageID: %v, %v\n", resp[0].PackageID, packageID)
 	}
 }
 

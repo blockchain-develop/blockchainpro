@@ -75,8 +75,8 @@ var (
 		CryptoConfig:    msp.CCType{Path: pathvar.Subst("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}")},
 		CredentialStore: msp.CredentialStoreType{Path: "/tmp/msp"},
 		TLSCerts: endpoint.MutualTLSConfig{Client: endpoint.TLSKeyPair{
-			Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.key"),
-			Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.crt")}},
+			Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.key"),
+			Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.crt")}},
 	}
 
 	channelsConfig = map[string]fab.ChannelEndpointConfig{
@@ -235,8 +235,8 @@ var (
 			TLSCACerts: endpoint.MutualTLSConfig{
 				Path: pathvar.Subst("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"),
 				Client: endpoint.TLSKeyPair{
-					Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.key"),
-					Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.crt"),
+					Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.key"),
+					Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.crt"),
 				},
 			},
 			Registrar: msp.EnrollCredentials{
@@ -251,8 +251,8 @@ var (
 			TLSCACerts: endpoint.MutualTLSConfig{
 				Path: pathvar.Subst("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem"),
 				Client: endpoint.TLSKeyPair{
-					Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.key"),
-					Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/tls.example.com/users/User1@tls.example.com/tls/client.crt"),
+					Key:  newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.key"),
+					Cert: newTLSConfig("${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.crt"),
 				},
 			},
 			Registrar: msp.EnrollCredentials{

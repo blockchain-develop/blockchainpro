@@ -28,7 +28,7 @@ func newResMgmt(sdk *fabsdk.FabricSDK) *resmgmt.Client {
 }
 
 func newChannelClient(sdk *fabsdk.FabricSDK) *channel.Client {
-	ccp := sdk.ChannelContext("mychannel", fabsdk.WithUser("User1"))
+	ccp := sdk.ChannelContext("mychannel", fabsdk.WithUser("User1"), fabsdk.WithOrg("Org1"))
 	cc, err := channel.New(ccp)
 	if err != nil {
 		panic(err)
@@ -49,14 +49,14 @@ func TestCCQuery(t *testing.T) {
 	channelClient := newChannelClient(sdk)
 	req := channel.Request{
 		ChaincodeID: "basic",
-		Fcn: "query",
-		Args: packArgs([]string{"GetAllAssets"}),
+		Fcn: "GetAllAssets",
+		Args: packArgs([]string{}),
 	}
 	response, err := channelClient.Query(req, channel.WithRetry(retry.DefaultChannelOpts))
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("response: %v\n", response)
+	fmt.Printf("response: %s\n", string(response.Payload))
 }
 
 func TestCCInvoke(t *testing.T) {
@@ -71,5 +71,5 @@ func TestCCInvoke(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("response: %v\n", response)
+	fmt.Printf("response: %v\n", string(response.TransactionID))
 }

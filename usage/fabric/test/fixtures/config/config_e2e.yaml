@@ -117,7 +117,7 @@ channels:
 
     # Optional. list of peers from participating orgs
     peers:
-      peer1.org1.example.com:
+      peer0.org1.example.com:
         # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
         # have the chaincode installed. The app can also use this property to decide which peers
         # to send the chaincode install request. Default: true

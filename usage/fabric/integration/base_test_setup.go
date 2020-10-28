@@ -209,13 +209,13 @@ func GetChannelConfigTxPath(filename string) string {
 
 // GetConfigPath returns the path to the named config fixture file
 func GetConfigPath(filename string) string {
-	const configPath = "config"
+	const configPath = "test/fixtures/config"
 	return filepath.Join(metadata.GetProjectPath(), configPath, filename)
 }
 
 // GetConfigOverridesPath returns the path to the named config override fixture file
 func GetConfigOverridesPath(filename string) string {
-	const configPath = "config"
+	const configPath = "test/fixtures/config"
 	return filepath.Join(metadata.GetProjectPath(), configPath, "overrides", filename)
 }
 

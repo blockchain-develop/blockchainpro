@@ -10,3 +10,6 @@ IPFS是一个P2P的存储网络，通过部署在世界各地的节点来访问�
 ## IPFS的基本组件
 + libp2p
 + bitswap
+
+## IPFS的节点
++ 桌面程序，会安装一个带UI的应用程序，同时会部署一个IPFS的node，桌面UI程序通过访问IPFS的node来

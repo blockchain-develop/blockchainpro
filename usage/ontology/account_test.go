@@ -14,3 +14,7 @@ func TestOntologyBalance1(t *testing.T) {
 	balance := getOntologyOngBalance(ontSdk, account_user)
 	fmt.Printf("amount of address %s is: %d\n", account_user.ToBase58(), balance)
 }
+
+func TestCreateAccount(t *testing.T) {
+	createOntologyAccount()
+}

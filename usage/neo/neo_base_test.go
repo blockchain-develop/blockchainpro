@@ -23,3 +23,7 @@ func TestNeoAddress(t *testing.T) {
 	addr_str := helper.ScriptHashToAddress(addr)
 	fmt.Printf("addr, %s, %s\n", hash_str, addr_str)
 }
+
+func TestCreateNeoAccount(t *testing.T) {
+	CreateNeoAccount()
+}

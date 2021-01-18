@@ -49,3 +49,7 @@ func TestTransactionEncode(t *testing.T) {
 	rlp.Encode(bf, tx)
 	fmt.Printf("TestTransactionEncode - tx is %s\n", hex.EncodeToString(bf.Bytes()))
 }
+
+func TestHash(t *testing.T) {
+
+}

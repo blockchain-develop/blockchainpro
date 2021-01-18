@@ -155,5 +155,7 @@ func GetCommitedLayer2Height(ontsdk *ontology_go_sdk.OntologySdk, contract commo
 	if err != nil {
 		return 0, fmt.Errorf("current height is not right!")
 	}
+	xxx, _ := result.Result.ToString()
+	fmt.Printf("xxxx : %s\n", xxx)
 	return uint32(height.Uint64()), nil
 }

@@ -3,15 +3,8 @@ package poly
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/polynetwork/poly-go-sdk"
 	"testing"
 )
-
-func NewSdk(url string) *poly_go_sdk.PolySdk {
-	sdk := poly_go_sdk.NewPolySdk()
-	sdk.NewRpcClient().SetAddress(url)
-	return sdk
-}
 
 func TestGetTransactionByHash(t *testing.T) {
 	url := "http://138.91.6.125:20336"
@@ -38,5 +31,9 @@ func TestGetLatestHeight(t *testing.T) {
 		panic(err)
 	}
 	fmt.Printf("%d\n", height)
+}
+
+func TestCreatePolyAccount(t *testing.T) {
+	createPolyAccount()
 }
 

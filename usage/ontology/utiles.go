@@ -15,8 +15,8 @@ const (
 
 func newOntologySdk() *ontology_go_sdk.OntologySdk {
 	ontSdk := ontology_go_sdk.NewOntologySdk()
-	//ontSdk.NewRpcClient().SetAddress("http://polaris4.ont.io:20336")
-	ontSdk.NewRpcClient().SetAddress("http://dappnode4.ont.io:20336")
+	ontSdk.NewRpcClient().SetAddress("http://polaris4.ont.io:20336")
+	//ontSdk.NewRpcClient().SetAddress("http://dappnode4.ont.io:20336")
 	return ontSdk
 }
 

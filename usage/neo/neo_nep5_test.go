@@ -6,7 +6,7 @@ import (
 )
 
 func TestNep5_One(t *testing.T) {
-	nep5Hash := "ceab719b8baa2310f232ee0d277c061704541cfb"
+	nep5Hash := "658cabf9c1f71ba0fa64098a7c17e52b94046ece"
 	nep5 := NewNep5(nep5Hash)
 	decimal, err := nep5.Decimals()
 	if err != nil {

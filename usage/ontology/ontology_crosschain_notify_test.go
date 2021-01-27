@@ -45,7 +45,7 @@ func HexStringReverse(value string) string {
 
 func TestCrossChainNotify(t *testing.T) {
 	sdk := newOntologySdk()
-	localHeight := uint32(13651657)
+	localHeight := uint32(13965800)
 	events, err := sdk.GetSmartContractEventByBlock(localHeight)
 	if err != nil {
 		panic(err)

@@ -21,7 +21,7 @@ type EthereumClient struct {
 
 func DefaultEthereumClient() (client *EthereumClient) {
 	//return NewEthereumClient("https://ropsten.infura.io/v3/dc891b662f354817983633c828b46eff")
-	return NewEthereumClient("http://onto-eth.ont.io:10331")
+	return NewEthereumClient("http://18.140.187.37:10331")
 }
 
 func NewEthereumClient(url string) (client *EthereumClient) {

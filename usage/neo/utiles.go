@@ -10,7 +10,7 @@ import (
 
 func NewNeoClient() *rpc.RpcClient {
 	//rawClient := rpc.NewClient("http://seed8.ngd.network:10332")
-	rawClient := rpc.NewClient("http://seed1.ngd.network:20332")
+	rawClient := rpc.NewClient("http://seed1.ngd.network:10332")
 	return rawClient
 }
 

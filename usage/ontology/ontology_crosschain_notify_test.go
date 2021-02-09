@@ -74,7 +74,7 @@ func TestCrossChainNotify(t *testing.T) {
 						Asset := HexStringReverse(statesnew[1].(string))
 						amount, _ := strconv.ParseUint(HexStringReverse(statesnew[6].(string)), 16, 64)
 						Amount := uint64(amount)
-						toChain, _ := strconv.ParseUint(statesnew[3].(string), 16, 32)
+						toChain, _ := strconv.ParseUint(HexStringReverse(statesnew[3].(string)), 16, 32)
 						ToChain := uint32(toChain)
 						ToAsset := statesnew[4].(string)
 						ToUser := Hash2Address(statesnew[5].(string))

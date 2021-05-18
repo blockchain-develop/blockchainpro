@@ -74,7 +74,7 @@ func (sdk  *CoinMarketCapSdk) QuotesLatest() (map[string]*Ticker, error) {
 	}
 
 	q := url.Values{}
-	q.Add("id", "1,2620,2316,7083")
+	q.Add("id", "1,2620,2316,7083,9386")
 	q.Add("convert", "USD")
 
 	req.Header.Set("Accepts", "application/json")

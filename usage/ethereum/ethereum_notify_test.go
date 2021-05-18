@@ -15,8 +15,8 @@ import (
 
 func TestECCMNotify(t *testing.T) {
 	client := DefaultEthereumClient()
-	contractAddr := "726532586c50ec9f4080b71f906a3d9779bbd64f"
-	height := uint64(8711998)
+	contractAddr := "838bf9e95cb12dd76a54c9f9d2e3082eaf928270"
+	height := uint64(12431286)
 	lockAddress := ethcommon.HexToAddress(contractAddr)
 	lockContract, err := eccm_abi.NewEthCrossChainManager(lockAddress, client.Client)
 	if err != nil {
@@ -41,6 +41,7 @@ func TestECCMNotify(t *testing.T) {
 		fmt.Printf("cross id: %s, tx hash: %s, user: %s, tchain: %d, contract: %s, height: %d\n", 
 			hex.EncodeToString(evt.TxId), evt.Raw.TxHash.String()[2:], strings.ToLower(evt.Sender.String()[2:]),uint32(evt.ToChainId),
 			strings.ToLower(evt.ProxyOrAssetContract.String()[2:]), height)
+		fmt.Printf("raw: %s\n", hex.EncodeToString(evt.Rawdata))
 	}
 
 	// ethereum unlock events from given block
@@ -54,6 +55,7 @@ func TestECCMNotify(t *testing.T) {
 		evt := unlockEvents.Event
 		fmt.Printf("unlock event: tx hash: %s, rtx hash: %s, contract: %s, fchain id: %d, height: %d\n", evt.Raw.TxHash.String()[2:], 
 			common.HexStringReverse(hex.EncodeToString(evt.CrossChainTxHash)), hex.EncodeToString(evt.ToContract), uint32(evt.FromChainID), height)
+		fmt.Printf("raw: %s\n", hex.EncodeToString(evt.Raw.Data))
 	}
 	fmt.Printf("successful\n")
 }

@@ -1,3 +1,7 @@
+# bittorrent
+
+## bittorrent协议
+
 [官方的BitTorrent协议详解](https://www.bittorrent.org/beps/bep_0003.html)
 
 BitTorrent(简称BT，比特洪流)是一个文件分发协议。它通过URL识别内容并且和网络无缝结合。它和普通HTTP协议相比优势在于，同时下载一个文件的下载者在下载同时不断互相上传数据，使文件源可以在很有限的负载增加的情况下支持大量下载者同时下载。
@@ -204,4 +208,22 @@ interested 被关注
 four bytes big-endian 四字节高端字节序
 congestion control 挤塞控制（待定）
 optimistic unchoking 尝试性疏通
+
+## bittorrent中的tracker
+Tracker ：
+
+是指运行于服务器上的一个程序，这个程序能够追踪到底有多少人同时在下载同一个文件。 客户端连上tracker服务器，就会获得一个下载人员的名单，根据这个，BT会自动连上别人的机器进行下载。它是提供bt的服务器。把文件用bt发布出来的人需要知道该使用哪个服务器来为要发布的文件提供tracker。由于不指定服务器，BitTorrent采用BT文件来确定下载源。
+tracker服务器是BT下载中必须的角色。一个BTclient在下载开始以及下载进行的过程中，要不停的与tracker服务器进行通信，以报告自己的信息，并获取其它下载client的信息。这种通信是通过HTTP协议进行的，又被称为tracker
+HTTP协议，它的过程是这样的：
+client向tracker发一个HTTP的GET请求，并把它自己的信息放在GET的参数中；这个请求的大致意思是：我是xxx（一个唯一的id），我想下载yyy文件，我的ip是aaa，我用的端口是bbb。。。
+tracker对所有下载者的信息进行维护，当它收到一个请求后，首先把对方的信息记录下来（如果已经记录在案，那么就检查是否需要更新），然后将一部分（并非全部，根据设置的参数已经下载者的请求）参与下载同一个文件（一个tracker服务器可能同时维护多个文件的下载）的下载者的信息返回给对方。
+Client在收到tracker的响应后，就能获取其它下载者的信息，那么它就可以根据这些信息，与其它下载者建立连接，从它们那里下载文件片断。
+
+## 参考
+
++ [BitTorrent简介](https://blog.csdn.net/longjef/article/details/106108550)
++ [BitTorrent的工作机制](https://www.cnblogs.com/coderlee/articles/1123252.html)
++ [BitTorrent详解](https://www.cnblogs.com/hnrainll/archive/2011/08/02/2125103.html)
++ [BT技术原理](https://blog.csdn.net/m0_38139979/article/details/82915202)
++ [种子搜索引擎原理](https://www.zhihu.com/question/38545253)
 

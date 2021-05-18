@@ -50,6 +50,6 @@ func TestTransactionEncode(t *testing.T) {
 	fmt.Printf("TestTransactionEncode - tx is %s\n", hex.EncodeToString(bf.Bytes()))
 }
 
-func TestHash(t *testing.T) {
-
+func TestAddressEncode(t *testing.T) {
 }
+

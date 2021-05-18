@@ -74,7 +74,7 @@ func TestErc20Info_One(t *testing.T) {
 
 func TestErc20Info_Two(t *testing.T) {
 	client := DefaultEthereumClient()
-	erc20Addr_hex := "c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+	erc20Addr_hex := "ee9801669c6138e84bd50deb500827b776777d28"
 	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
 	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
 	if err != nil {
@@ -97,7 +97,7 @@ func TestErc20Info_Two(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	user1 := ethcommon.HexToAddress("Bb2b8038a1640196FbE3e38816F3e67Cba72D940")
+	user1 := ethcommon.HexToAddress("c23E44fF96EE6070f446826FB4EEcFE917F3C6fE")
 	balance1, err := erc20Contract.BalanceOf(&bind.CallOpts{}, user1)
 	if err != nil {
 		panic(err)
@@ -110,7 +110,7 @@ func TestErc20Info_Two(t *testing.T) {
 
 func TestErc20Info_Three(t *testing.T) {
 	client := DefaultEthereumClient()
-	erc20Addr_hex := "2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+	erc20Addr_hex := "c7283b66Eb1EB5FB86327f08e1B5816b0720212B"
 	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
 	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
 	if err != nil {
@@ -146,7 +146,7 @@ func TestErc20Info_Three(t *testing.T) {
 
 func TestErc20Info(t *testing.T) {
 	client := DefaultEthereumClient()
-	tokens := []string{"ad3f96ae966ad60347f31845b7e4b333104c52fb"}
+	tokens := []string{"aa00FBcFAce6FF4913CC8322B12F63e2AD45D448"}
 	for _, token := range tokens {
 		erc20Addr_hex := token
 		erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
@@ -171,6 +171,12 @@ func TestErc20Info(t *testing.T) {
 		if err != nil {
 			panic(err)
 		}
+		owner := ethcommon.HexToAddress("D8aE73e06552E270340b63A8bcAbf9277a1aac99")
+		balance, err := erc20Contract.BalanceOf(&bind.CallOpts{}, owner)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("blance of address: %s is %d\n", owner.String(), balance.Uint64())
 		fmt.Printf("erc20: %s, name: %s, totolSupply: %s, decimal: %s, symbol: %s\n",
 			erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol)
 	}

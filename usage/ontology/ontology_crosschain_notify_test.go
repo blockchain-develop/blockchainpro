@@ -3,9 +3,9 @@ package ontology
 import (
 	"encoding/hex"
 	"fmt"
+	"github.com/ontio/ontology/common"
 	"strconv"
 	"testing"
-	"github.com/ontio/ontology/common"
 )
 
 const (
@@ -40,7 +40,6 @@ func HexStringReverse(value string) string {
 	bb := HexReverse(aa)
 	return hex.EncodeToString(bb)
 }
-
 
 
 func TestCrossChainNotify(t *testing.T) {

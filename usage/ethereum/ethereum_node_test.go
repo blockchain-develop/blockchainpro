@@ -10,7 +10,7 @@ import (
 )
 
 func TestGetCurrentBlockHeight(t *testing.T) {
-	ethClient := NewEthereumClient("http://onto-eth.ont.io:10331")
+	ethClient := NewEthereumClient("http://40.115.136.96:8545")
 	ctx := context.Background()
 	height, err := ethClient.GetCurrentBlockHeight(ctx)
 	if err != nil {
@@ -78,4 +78,15 @@ func TestGetTransactionFee(t *testing.T) {
 	precision := decimal.New(int64(1000000000000000000), 0)
 	fee_new := decimal.New(int64(fee.Int64()), 0)
 	fmt.Printf("transaction: %s, fee: %s\n", hash.String(), fee_new.Div(precision).String())
+}
+
+
+func TestSuggestGasPrice(t *testing.T) {
+	ethClient := NewEthereumClient("https://ropsten.infura.io/v3/1ba5f3635395470e9a3f19ba7a852144")
+	ctx := context.Background()
+	gasprice, err := ethClient.SuggestGasPrice(ctx)
+	if err != nil {
+		t.Errorf("TestSuggestGasPrice %v", err)
+	}
+	fmt.Println(gasprice.String())
 }

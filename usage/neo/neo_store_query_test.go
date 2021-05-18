@@ -1,9 +1,11 @@
 package neo
 
 import (
+	"encoding/hex"
 	"fmt"
 	"github.com/joeqian10/neo-gogogo/helper"
 	"github.com/joeqian10/neo-gogogo/rpc/models"
+	"github.com/joeqian10/neo-gogogo/sc"
 	"testing"
 )
 
@@ -27,9 +29,17 @@ func TestStore(t *testing.T) {
 
 func TestStore2(t *testing.T) {
 	client := NewNeoClient()
-	arg := models.InvokeStack{Type: "Integer", Value: 0}
+	assetHash := sc.ContractParameter{
+		Type:  sc.ByteArray,
+		Value: []byte{},
+	}
+	toChainId := sc.ContractParameter{
+		Type:  sc.Integer,
+		Value: 3,
+	}
+	args := []sc.ContractParameter{assetHash, toChainId}
 	//arg := models.InvokeStack{}
-	response := client.InvokeFunction("0xe1695b1314a1331e3935481620417ed835669407", "currentSyncHeight", helper.ZeroScriptHashString, arg)
+	response := client.InvokeFunction("0xe1695b1314a1331e3935481620417ed835669407", "currentSyncHeight", helper.ZeroScriptHashString, args)
 	if response.HasError() || response.Result.State == "FAULT" {
 		panic(fmt.Errorf("[GetCurrentNeoChainSyncHeight] GetCurrentHeight error: %s", "Engine faulted! "+response.Error.Message))
 	}
@@ -51,4 +61,29 @@ func TestStore2(t *testing.T) {
 		height++ // means the next block header needs to be synced
 	}
 	fmt.Printf("height: %d\n", height)
+}
+
+func TestStore3(t *testing.T) {
+	client := NewNeoClient()
+	hash, _ := hex.DecodeString("17da3881ab2d050fea414c80b3fa8324d756f60e")
+	assetHash := sc.ContractParameter{
+		Type:  sc.ByteArray,
+		Value: hash,
+	}
+	toChainId := sc.ContractParameter{
+		Type:  sc.Integer,
+		Value: 3,
+	}
+	args := []sc.ContractParameter{assetHash, toChainId}
+	response := client.InvokeFunction("edd2862dceb90b945210372d229f453f2b705f4f", "getAssetHash", helper.ZeroScriptHashString, args)
+	if response.HasError() || response.Result.State == "FAULT" {
+		panic(fmt.Errorf("[GetCurrentNeoChainSyncHeight] GetCurrentHeight error: %s", "Engine faulted! "+response.Error.Message))
+	}
+	var address string
+	s := response.Result.Stack
+	if s != nil && len(s) != 0 {
+		s[0].Convert()
+		address = (s[0].Value.(string))
+	}
+	fmt.Printf("address: %s\n", address)
 }

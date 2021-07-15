@@ -11,15 +11,15 @@
 
 ## london hard fork
 
-![EIP1559](https://eips.ethereum.org/EIPS/eip-1559): ETH1.0交易费用市场改革,本质上是关于以太坊网络交易定价机制的解决方案，包括交易的base fee和tips、区块大小弹性机制
+[EIP1559](https://eips.ethereum.org/EIPS/eip-1559): ETH1.0交易费用市场改革,本质上是关于以太坊网络交易定价机制的解决方案，包括交易的base fee和tips、区块大小弹性机制
 
-![EIP3198](https://eips.ethereum.org/EIPS/eip-3198): basefee操作码
+[EIP3198](https://eips.ethereum.org/EIPS/eip-3198): basefee操作码
 
-![EIP3529](https://eips.ethereum.org/EIPS/eip-3529): 降低gas退款
+[EIP3529](https://eips.ethereum.org/EIPS/eip-3529): 降低gas退款
 
-![EIP3541](https://eips.ethereum.org/EIPS/eip-3541): 拒绝0xef开头的新合约
+[EIP3541](https://eips.ethereum.org/EIPS/eip-3541): 拒绝0xef开头的新合约
 
-![EIP3554](https://eips.ethereum.org/EIPS/eip-3554): 难度炸弹推迟到2021.12.01，区块难度将提升。区块越来越难被挖掘，从而变得无利可图，矿工将停止在eth1.0上的挖矿。
+[EIP3554](https://eips.ethereum.org/EIPS/eip-3554): 难度炸弹推迟到2021.12.01，区块难度将提升。区块越来越难被挖掘，从而变得无利可图，矿工将停止在eth1.0上的挖矿。
 
 ### EIP1559
 
@@ -45,13 +45,13 @@ bakhta观点：
 4. 矿工可以选择生产空块或者只包含有tip的交易，只要这类攻击持续下去，那么遵守规则的节点将获利。(It is possible that miners will mine empty blocks until such time as the base fee is very low and then proceed to mine half full blocks and revert to sorting transactions by the priority fee. While this attack is possible, it is not a particularly stable equilibrium as long as mining is decentralized. Any defector from this strategy will be more profitable than a miner participating in the attack for as long as the attack continues (even after the base fee reached 0). Since any miner can anonymously defect from a cartel, and there is no way to prove that a particular miner defected, the only feasible way to execute this attack would be to control 50% or more of hashing power. If an attacker had exactly 50% of hashing power, they would make no money from priority fee while defectors would make double the money from priority fees. For an attacker to turn a profit, they need to have some amount over 50% hashing power, which means they can instead execute double spend attacks or simply ignore any other miners which is a far more profitable strategy.)
 5. 以太坊将没有固定量的增发，如果焚毁的大于挖矿奖励，eth变成通缩，如果挖矿奖励大于焚毁，eth是通胀的。
 
-![以太坊EIP1559实施后，51%攻击更难了吗](http://www.liujia.name/?p=40462)
+[以太坊EIP1559实施后，51%攻击更难了吗](http://www.liujia.name/?p=40462)
 
 ### EIP3529
 
 #### EIP3529内容
 
-![EIP-3529：减少gas返还](http://www.finacerun.com/home/news/detail/article_id/71963.html)
+[EIP-3529：减少gas返还](http://www.finacerun.com/home/news/detail/article_id/71963.html)
 
 
 ### EIP3541
@@ -169,11 +169,18 @@ class Transaction1559Payload:
 
 ## 参考
 
-![EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)
-![一文告诉你什么是EIP-1559](https://www.btcfans.com/article/35665)
-![Vitalik：以太坊网络或面临经济安全威胁，EIP 1559可解决](https://www.8btc.com/article/625910)
-![EIP-1559究竟在吵什么](https://zhuanlan.zhihu.com/p/361104358)
-![london hard fork announcement for development](https://blog.ethereum.org/2021/06/18/london-testnets-announcement/)
-![全面梳理解密，EIP-1559为何能让市场如此兴奋？](https://www.163.com/dy/article/GEF97JCH0511QUF7.html)
-![解读以太坊提案EIP1559：降低交易费总额和交易费波动性](https://www.jinse.com/blockchain/552029.html)
-![观点：EIP-1559只是徒劳，毫无益处](https://baijiahao.baidu.com/s?id=1683869264859376411&wfr=spider&for=pc)
+[EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)
+
+[一文告诉你什么是EIP-1559](https://www.btcfans.com/article/35665)
+
+[Vitalik：以太坊网络或面临经济安全威胁，EIP 1559可解决](https://www.8btc.com/article/625910)
+
+[EIP-1559究竟在吵什么](https://zhuanlan.zhihu.com/p/361104358)
+
+[london hard fork announcement for development](https://blog.ethereum.org/2021/06/18/london-testnets-announcement/)
+
+[全面梳理解密，EIP-1559为何能让市场如此兴奋？](https://www.163.com/dy/article/GEF97JCH0511QUF7.html)
+
+[解读以太坊提案EIP1559：降低交易费总额和交易费波动性](https://www.jinse.com/blockchain/552029.html)
+
+[观点：EIP-1559只是徒劳，毫无益处](https://baijiahao.baidu.com/s?id=1683869264859376411&wfr=spider&for=pc)

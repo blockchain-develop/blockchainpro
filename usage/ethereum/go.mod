@@ -1,9 +1,8 @@
 module github.com/blockchainpro/usage/ethereum
 
-go 1.14
+go 1.16
 
 require (
-	github.com/Workiva/go-datastructures v1.0.52
 	github.com/blockchainpro/usage/utiles v0.0.0-00010101000000-000000000000
 	github.com/ethereum/go-ethereum v1.9.15
 	github.com/shopspring/decimal v1.2.0

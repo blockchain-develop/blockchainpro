@@ -166,6 +166,99 @@ class Transaction1559Payload:
 2. 计算矿工小费并支付tip，tip = min(transaction.max_priority_fee_per_gas, transaction.max_fee_per_gas - block.base_fee_per_gas) * gas_used
 
 
+## London Hard Fork编程
+
+### 两种不同的写法
+
+1.1 使用Legacy交易，这和EIP1559以前兼容，但交易参数gas_price意义不一样，EIP1559交易的gas_price包含了base fee和tip，但仍然可以通过eth client的SuggestGasPrice获得，所以编程上仍然兼容。但签名器需要用London签名器。
+```
+	ethClient, _ := ethclient.Dial("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	ctx := context.Background()
+	privateKey,_ := crypto.HexToECDSA("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+	fromAddr := crypto.PubkeyToAddress(privateKey.PublicKey)
+	nonce,_ := ethClient.PendingNonceAt(ctx, fromAddr)
+	contractAddr := common.HexToAddress("239100e629a9ca8e0bf45c7892b0fc72d78aa97a")
+	amount := big.NewInt(0)
+	gasPrice, _ := ethClient.SuggestGasPrice(ctx)
+	gasLimit := uint64(8000000)
+	tx := types.NewTransaction(nonce, contractAddr, amount, gasLimit, gasPrice, nil)
+	/*
+	tx = types.NewTx(&types.LegacyTx{
+		Nonce:    nonce,
+		To:       &contractAddr,
+		Value:    amount,
+		Gas:      gasLimit,
+		GasPrice: gasPrice,
+		Data:     nil,
+	})
+	 */
+	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(12900000))
+	signed_tx, err := types.SignTx(tx, signer, privateKey)
+```
+
+1.2 使用legacy交易，不支付tip，只支付base fee
+
+```
+	ethClient, _ := ethclient.Dial("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	ctx := context.Background()
+	privateKey,_ := crypto.HexToECDSA("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+	fromAddr := crypto.PubkeyToAddress(privateKey.PublicKey)
+	nonce,_ := ethClient.PendingNonceAt(ctx, fromAddr)
+	contractAddr := common.HexToAddress("239100e629a9ca8e0bf45c7892b0fc72d78aa97a")
+	amount := big.NewInt(0)
+	gasPrice, _ := ethClient.SuggestGasPrice(ctx)
+	gasTip, _ := ethClient.SuggestGasTipCap(ctx)
+	gasLimit := uint64(8000000)
+	tx := types.NewTransaction(nonce, contractAddr, amount, gasLimit, gasPrice.Sub(gasPrice, gasTip), nil)
+	/*
+	tx = types.NewTx(&types.LegacyTx{
+		Nonce:    nonce,
+		To:       &contractAddr,
+		Value:    amount,
+		Gas:      gasLimit,
+		GasPrice: gasPrice.Sub(gasPrice, gasTip),
+		Data:     nil,
+	})
+	*/
+	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(12900000))
+	signed_tx, err := types.SignTx(tx, signer, privateKey)
+```
+
+2.1 使用DynamicFee交易，指定可以接受的最大base fee和最大tip
+
+```
+	ethClient, _ := ethclient.Dial("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	ctx := context.Background()
+	privateKey,_ := crypto.HexToECDSA("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+	fromAddr := crypto.PubkeyToAddress(privateKey.PublicKey)
+	nonce,_ := ethClient.PendingNonceAt(ctx, fromAddr)
+	contractAddr := common.HexToAddress("239100e629a9ca8e0bf45c7892b0fc72d78aa97a")
+	amount := big.NewInt(0)
+	//gasPrice, _ := ethClient.SuggestGasPrice(ctx)
+	gasTip, _ := ethClient.SuggestGasTipCap(ctx)
+	gasLimit := uint64(8000000)
+	tx := types.NewTx(&types.DynamicFeeTx{
+		Nonce:    nonce,
+		To:       &contractAddr,
+		Value:    amount,
+		Gas:      gasLimit,
+		GasFeeCap: abi.MaxUint256,
+		GasTipCap: gasTip,
+		Data:     nil,
+	})
+	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(12900000))
+	signed_tx, err := types.SignTx(tx, signer, privateKey)
+```
+
+### 以上写法的区别
+
+1.1和1.2两种写法是指定了这笔交易用户愿意支付的费用，包括base fee和tip，这和非EIP1559没有区别，如果gas price小于区块的基础费用，交易失败，如果大于区块的基础费用，则根据排序结果决定是否能打包到区块，不能则尝试下一个区块。
+
+意义：我愿意支付这些费用，如果小于基础费用就失败，如果大于基础费用则作为tip给矿工。
+
+2.1写法指定了可以接受的最大base fee和最大tip，只要区块的基础费用小于交易中的GasFee，则总是尝试打包进区块，收取的tip则是min(GasFeeCap - base_fee, GasTipCap)，上述GasFeeCap写的是MaxUint256意味着所有的网络基础费用用户交易都接受，而GasTipCap则是支付给矿工的tip，如果写0则不支付tip，只支付网络基础费用。
+
+意义：任何网络波动造成的网络基础费用变动我都接受，而且我额外的支付一部分tip。
 
 ## 参考
 

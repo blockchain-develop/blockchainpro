@@ -260,6 +260,10 @@ class Transaction1559Payload:
 
 意义：任何网络波动造成的网络基础费用变动我都接受，而且我额外的支付一部分tip。
 
+###
+
+[London JSON RPC Considerations](https://notes.ethereum.org/@timbeiko/london-json-rpc)
+
 ## 参考
 
 [EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)

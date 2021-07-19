@@ -257,8 +257,6 @@ class Transaction1559Payload:
 
 意义：任何网络波动造成的网络基础费用变动我都接受，而且我额外的支付一部分tip。
 
-如果构造的是Legacy的交易，使用非London signer也是可以的。也就是说
-
 ###
 
 [London JSON RPC Considerations](https://notes.ethereum.org/@timbeiko/london-json-rpc)

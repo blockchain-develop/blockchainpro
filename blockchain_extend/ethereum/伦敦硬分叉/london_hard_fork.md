@@ -2,7 +2,7 @@
 
 ## 以太坊的问题
 
-目前以太坊的收费机制是拍卖机制，用户出价，矿工选择出价最高的交易，将起打包进区块。这种机制简单且高效，但有问题：
+目前以太坊的收费机制是拍卖机制，用户出价，矿工选择出价最高的交易，将起打包进区块。这种机制简单且高效，但存在问题：
 
 1. 竞价效率低，用户发送交易时选择出价费用，而矿工选择最高出价的交易，对用户来说，出价多少合适很难预估，经常出现恶性出价竞争导致超额支付，用户交易费用应该和网络拥塞正相关，而不是纯粹的用户竞价。
 2. 交易延迟，每个区块gas limit的限制导致交易可能需要等待几个区块才能被打包进区块。这需要区块大小可伸缩，在一个长周期里区块平均大小是限制的，而不是每个区块大小都是限制的。
@@ -52,9 +52,6 @@ bakhta观点：
 #### EIP3529内容
 
 [EIP-3529：减少gas返还](http://www.finacerun.com/home/news/detail/article_id/71963.html)
-
-
-### EIP3541
 
 ## Long Hard Fork所做的修改
 
@@ -166,11 +163,11 @@ class Transaction1559Payload:
 2. 计算矿工小费并支付tip，tip = min(transaction.max_priority_fee_per_gas, transaction.max_fee_per_gas - block.base_fee_per_gas) * gas_used
 
 
-## London Hard Fork编程
+## London Hard Fork交易构造方式
 
 ### 两种不同的写法
 
-1.1 使用Legacy交易，这和EIP1559以前兼容，但交易参数gas_price意义不一样，EIP1559交易的gas_price包含了base fee和tip，但仍然可以通过eth client的SuggestGasPrice获得，所以编程上仍然兼容。但签名器需要用London签名器。
+1.1 使用Legacy交易，这和EIP1559以前兼容，但交易参数gas_price意义不一样，EIP1559交易的gas_price包含了base fee和tip，但仍然可以通过eth client的SuggestGasPrice获得，所以编程上仍然兼容。签名器可以用London signer，也可以是以前的非London signer。
 ```
 	ethClient, _ := ethclient.Dial("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
 	ctx := context.Background()
@@ -259,6 +256,8 @@ class Transaction1559Payload:
 2.1写法指定了可以接受的最大base fee和最大tip，只要区块的基础费用小于交易中的GasFee，则总是尝试打包进区块，收取的tip则是min(GasFeeCap - base_fee, GasTipCap)，上述GasFeeCap写的是MaxUint256意味着所有的网络基础费用用户交易都接受，而GasTipCap则是支付给矿工的tip，如果写0则不支付tip，只支付网络基础费用。
 
 意义：任何网络波动造成的网络基础费用变动我都接受，而且我额外的支付一部分tip。
+
+如果构造的是Legacy的交易，使用非London signer也是可以的。也就是说
 
 ###
 

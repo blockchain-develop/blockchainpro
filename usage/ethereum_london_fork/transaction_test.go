@@ -33,7 +33,7 @@ func TestEIP1559Transaction1(t *testing.T) {
 		GasPrice: gasPrice,
 		Data:     nil,
 	})
-	 */
+	*/
 	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(12900000))
 	signed_tx, err := types.SignTx(tx, signer, privateKey)
 	if err != nil {
@@ -103,6 +103,41 @@ func TestEIP1559Transaction3(t *testing.T) {
 		Data:     nil,
 	})
 	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(12900000))
+	signed_tx, err := types.SignTx(tx, signer, privateKey)
+	if err != nil {
+		fmt.Printf("TestInvokeContract - err:" + err.Error())
+		return
+	}
+	err = ethClient.SendTransaction(context.Background(), signed_tx)
+	if err != nil {
+		fmt.Printf("TestInvokeContract - send transaction error:%s\n", err.Error())
+		return
+	}
+}
+
+
+func TestEIP1559Transaction4(t *testing.T) {
+	ethClient, _ := ethclient.Dial("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	ctx := context.Background()
+	privateKey,_ := crypto.HexToECDSA("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+	fromAddr := crypto.PubkeyToAddress(privateKey.PublicKey)
+	nonce,_ := ethClient.PendingNonceAt(ctx, fromAddr)
+	to := common.HexToAddress("0xd8d50Be55FE241B3c026361a793aA950BceAE845")
+	amount := big.NewInt(1000000000)
+	gasPrice, _ := ethClient.SuggestGasPrice(ctx)
+	gasLimit := uint64(40000)
+	tx := types.NewTransaction(nonce, to, amount, gasLimit, gasPrice, nil)
+	/*
+		tx = types.NewTx(&types.LegacyTx{
+			Nonce:    nonce,
+			To:       &contractAddr,
+			Value:    amount,
+			Gas:      gasLimit,
+			GasPrice: gasPrice,
+			Data:     nil,
+		})
+	*/
+	signer := types.MakeSigner(params.RopstenChainConfig, new(big.Int).SetInt64(10660000))
 	signed_tx, err := types.SignTx(tx, signer, privateKey)
 	if err != nil {
 		fmt.Printf("TestInvokeContract - err:" + err.Error())

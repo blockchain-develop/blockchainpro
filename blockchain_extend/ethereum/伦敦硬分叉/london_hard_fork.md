@@ -268,6 +268,42 @@ class Transaction1559Payload:
 Ropsten|10499401|2021.06.24
 Mainnet|12965000|2021.08.04
 
+
+### ethereum钱包支持London Hard Fork
+
+1 构造交易
+```
+rpc：
+personal_signTransaction
+
+param:
+type TransactionArgs struct {
+From                 *common.Address `json:"from"`
+To                   *common.Address `json:"to"`
+Gas                  *hexutil.Uint64 `json:"gas"`
+GasPrice             *hexutil.Big    `json:"gasPrice"`
+MaxFeePerGas         *hexutil.Big    `json:"maxFeePerGas"`
+MaxPriorityFeePerGas *hexutil.Big    `json:"maxPriorityFeePerGas"`
+Value                *hexutil.Big    `json:"value"`
+Nonce                *hexutil.Uint64 `json:"nonce"`
+Data  *hexutil.Bytes `json:"data"`
+Input *hexutil.Bytes `json:"input"`
+AccessList *types.AccessList `json:"accessList,omitempty"`
+ChainID    *hexutil.Big      `json:"chainId,omitempty"`
+}
+```
+参数可以只填写gasPrice，也可以填写maxFeePerGas和maxPriorityFeePerGas。London Hard Fork后是兼容以前的。
+
+我建议使用目前的写法，填gasPrice，和目前的兼容。
+
+2 gasPrice
+
+目前gasPrice从配置、geth节点rpc的eth_gasPrice、GasStation的API三个值中取最大值。
+
+London Hard Ford后，geth节点rpc的eth_gasPrice返回的gasPrice包含了base fee和矿工tip两部分。GasStation的API目前不确定。
+
+在没有确定GasStation的API对London Hard Fork的支持情况之前，代码不做修改，这最坏情况下退化为从geth节点获取gasPrice。
+
 ## 参考
 
 [EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)

@@ -1,4 +1,4 @@
-# Alogrand节点
+# Algorand节点
 
 两种类型的节点：relay node（中继节点、非参选节点）和non-relay node（非中继节点、参选节点）。
 
@@ -24,7 +24,7 @@ non-relay节点默认情况下是非全节点，仅仅保存有限数量的区�
 缺点：
 1. 老的block不可用。
 
-将archival设置为true可以开启为全节点模式。而relay node总是为全节点模式。
+将non-relay节点的archival设置为true可以开启为全节点模式。而relay node总是为全节点模式。
 
 ![](./img.png)
 

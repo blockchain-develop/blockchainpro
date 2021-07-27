@@ -304,6 +304,20 @@ London Hard Ford后，geth节点rpc的eth_gasPrice返回的gasPrice包含了base
 
 在没有确定GasStation的API对London Hard Fork的支持情况之前，代码不做修改，这最坏情况下退化为从geth节点获取gasPrice。
 
+## 动态
+
+1. 2021.07.23  Geth升级
+
+修复EIP1559导致的共识失败，以太坊主网上的geth用户需要在London Hard Fork激活之前升级到geth v1.10.6版本才能保持共识。
+
+2. 2021.07.23 Vitalik回应EIP-1559推迟传言
+
+vitalik回应EIP-1559推迟传言：大部分Geth核心开发者诶呦参与EthCC。
+
+3. 2021.07.21 Ropsten测试网分叉
+
+以太坊客户端OpenEthereum团队在Ropsten测试网区块高度10679538发现节点暂停出块，使用不同客户端可能导致分叉。
+
 ## 参考
 
 [EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)

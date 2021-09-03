@@ -1,9 +1,9 @@
 package ethereum
 
 import (
+	"context"
 	"crypto/ecdsa"
 	"fmt"
-	"context"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -20,8 +20,8 @@ type EthereumClient struct {
 }
 
 func DefaultEthereumClient() (client *EthereumClient) {
-	return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
-	//return NewEthereumClient("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	//return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	return NewEthereumClient("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
 }
 
 func NewEthereumClient(url string) (client *EthereumClient) {
@@ -43,7 +43,7 @@ func NewEthereumClient(url string) (client *EthereumClient) {
 
 
 func DefaultPrivateKey() *ecdsa.PrivateKey {
-	return NewPrivateKey("994D7BC4C1DE95D4C3069F3F64A032BC55482970F40141D074141D099CC88569")
+	return NewPrivateKey("d2e10ad0c53aec44302b2fd5c1f656fe5ba3f6e7f3ba671d4bfb26ddda93114c")
 }
 
 func NewPrivateKey(key string) *ecdsa.PrivateKey {

@@ -11,15 +11,11 @@
 
 ## london hard fork
 
-[EIP1559](https://eips.ethereum.org/EIPS/eip-1559): ETH1.0交易费用市场改革,本质上是关于以太坊网络交易定价机制的解决方案，包括交易的base fee和tips、区块大小弹性机制
-
-[EIP3198](https://eips.ethereum.org/EIPS/eip-3198): basefee操作码
-
-[EIP3529](https://eips.ethereum.org/EIPS/eip-3529): 降低gas退款
-
-[EIP3541](https://eips.ethereum.org/EIPS/eip-3541): 拒绝0xef开头的新合约
-
-[EIP3554](https://eips.ethereum.org/EIPS/eip-3554): 难度炸弹推迟到2021.12.01，区块难度将提升。区块越来越难被挖掘，从而变得无利可图，矿工将停止在eth1.0上的挖矿。
+* [EIP1559](https://eips.ethereum.org/EIPS/eip-1559): ETH1.0交易费用市场改革,本质上是关于以太坊网络交易定价机制的解决方案，包括交易的base fee和tips、区块大小弹性机制
+* [EIP3198](https://eips.ethereum.org/EIPS/eip-3198): basefee操作码
+* [EIP3529](https://eips.ethereum.org/EIPS/eip-3529): 降低gas退款
+* [EIP3541](https://eips.ethereum.org/EIPS/eip-3541): 拒绝0xef开头的新合约
+* [EIP3554](https://eips.ethereum.org/EIPS/eip-3554): 难度炸弹推迟到2021.12.01，区块难度将提升。区块越来越难被挖掘，从而变得无利可图，矿工将停止在eth1.0上的挖矿。
 
 ### EIP1559
 
@@ -155,7 +151,7 @@ class Transaction1559Payload:
 1. 用户balance必须大于转账金额和手续费金额
 2. 用户交易的max_fee_per_gas必须大于区块的base_fee_per_gas
 3. 用户交易的max_fee_per_gas必须小于2^256
-4. 户交易的max_priority_fee_per_gas必须小于2^256
+4. 用户交易的max_priority_fee_per_gas必须小于2^256
 5. 用户交易的max_fee_per_gas必须大于max_priority_fee_per_gas
 
 交易执行:
@@ -320,18 +316,16 @@ vitalik回应EIP-1559推迟传言：大部分Geth核心开发者诶呦参与EthC
 
 ## 参考
 
-[EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)
+* [EIP-1559创作者：EIP-1559无法解决以太坊拥堵和高费用问题](https://www.8btc.com/article/6625023)
+* [一文告诉你什么是EIP-1559](https://www.btcfans.com/article/35665)
+* [Vitalik：以太坊网络或面临经济安全威胁，EIP 1559可解决](https://www.8btc.com/article/625910)
+* [EIP-1559究竟在吵什么](https://zhuanlan.zhihu.com/p/361104358)
+* [london hard fork announcement for development](https://blog.ethereum.org/2021/06/18/london-testnets-announcement/)
+* [全面梳理解密，EIP-1559为何能让市场如此兴奋？](https://www.163.com/dy/article/GEF97JCH0511QUF7.html)
+* [解读以太坊提案EIP1559：降低交易费总额和交易费波动性](https://www.jinse.com/blockchain/552029.html)
+* [观点：EIP-1559只是徒劳，毫无益处](https://baijiahao.baidu.com/s?id=1683869264859376411&wfr=spider&for=pc)
+* [以太坊的伦敦硬分叉预计将于周四抵达，将迎来EIP-1559](https://news.huoxing24.com/20210804094939077146.html)
 
-[一文告诉你什么是EIP-1559](https://www.btcfans.com/article/35665)
+* [以太坊燃烧第一个24小时，中文社区在关心什么？](https://www.8btc.com/article/6670915)
+* [EIP-1559上线之际，泼一点冷水](https://news.huoxing24.com/20210809171533498961.html)
 
-[Vitalik：以太坊网络或面临经济安全威胁，EIP 1559可解决](https://www.8btc.com/article/625910)
-
-[EIP-1559究竟在吵什么](https://zhuanlan.zhihu.com/p/361104358)
-
-[london hard fork announcement for development](https://blog.ethereum.org/2021/06/18/london-testnets-announcement/)
-
-[全面梳理解密，EIP-1559为何能让市场如此兴奋？](https://www.163.com/dy/article/GEF97JCH0511QUF7.html)
-
-[解读以太坊提案EIP1559：降低交易费总额和交易费波动性](https://www.jinse.com/blockchain/552029.html)
-
-[观点：EIP-1559只是徒劳，毫无益处](https://baijiahao.baidu.com/s?id=1683869264859376411&wfr=spider&for=pc)

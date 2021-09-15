@@ -20,8 +20,8 @@ type EthereumClient struct {
 }
 
 func DefaultEthereumClient() (client *EthereumClient) {
-	//return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
-	return NewEthereumClient("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	//return NewEthereumClient("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
 }
 
 func NewEthereumClient(url string) (client *EthereumClient) {

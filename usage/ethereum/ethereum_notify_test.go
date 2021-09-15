@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"github.com/blockchainpro/usage/ethereum/contractabi/eccm_abi"
 	"github.com/blockchainpro/usage/ethereum/contractabi/lock_proxy_abi"
+	"github.com/blockchainpro/usage/ethereum/contractabi/usdt_abi"
 	"github.com/blockchainpro/usage/utiles/common"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	ethcommon "github.com/ethereum/go-ethereum/common"
+	"math/big"
 	"strings"
 	"testing"
 )
@@ -105,4 +107,52 @@ func TestLockNotify(t *testing.T) {
 			evt.Raw.TxHash.String()[2:], evt.ToAssetHash.String()[2:], evt.ToAddress.String()[2:], evt.Amount.String())
 	}
 	fmt.Printf("successful\n")
+}
+
+func TestUsdtNotify(t *testing.T) {
+	client := DefaultEthereumClient()
+	contractAddr := "0xdac17f958d2ee523a2206206994597c13d831ec7"
+	height := uint64(10097862)
+	usdtAddress := ethcommon.HexToAddress(contractAddr)
+	usdtContract, err := usdt_abi.NewERC20(usdtAddress, client.Client)
+	if err != nil {
+		panic(err)
+	}
+	opt := &bind.FilterOpts{
+		Start:   height,
+		End:     &height,
+		Context: context.Background(),
+	}
+
+	// get ethereum lock events from given block
+	transferEvents, err := usdtContract.FilterTransfer(opt, nil, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	for transferEvents.Next() {
+		evt := transferEvents.Event
+		fmt.Printf("evt: \n    from: %s\n    to: %s\n    value: %s\n", evt.From.String(), evt.To.String(), evt.Value.String())
+	}
+}
+
+func TestUsdtNotify1(t *testing.T) {
+	client := DefaultEthereumClient()
+	ctx := context.Background()
+	hash := ethcommon.HexToHash("0xeef1725fd660767404e94dad7f5280a7eeca838210457d8026e9b73645de338f")
+	receipt, err := client.GetTransactionReceipt(ctx, hash)
+	if err != nil {
+		panic(err)
+	}
+
+	logs := receipt.Logs
+	for _, log := range logs {
+		txHash := log.TxHash.String()
+		blockHash := log.BlockHash.String()
+		from := ethcommon.BytesToAddress(log.Topics[1].Bytes())
+		to := ethcommon.BytesToAddress(log.Topics[2].Bytes())
+		value := new(big.Int).SetBytes(log.Data)
+
+		fmt.Printf("evt: \n    block hash: %s\n    tx hash: %s\n    from: %s\n    to: %s\n    value: %s\n", blockHash, txHash, from.String(), to.String(), value.String())
+	}
 }

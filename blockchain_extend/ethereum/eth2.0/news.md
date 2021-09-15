@@ -3,3 +3,6 @@
 2021.07.23 V神等发起EIP-3675提案，提议将ETH主网共识由PoW升级为PoS
 
 以太坊2.0客户端Teku的Mikhail Kalinin、以太坊基金会核心开发人员Danny Ryan、V神（Vitalik Buterin）发起EIP-3675提案，将共识升级为权益证明（Eth1和Eth2合并）。提案目前仍是草稿，提案表示，该EIP弃用了工作量证明 (PoW)，并用由信标链驱动的新的权益证明共识机制 (PoS) 取而代之。提案指出，信标链网络自2020年12月开始运行，在此期间未检测到安全和活性故障。长期无故障运行证明了信标链系统的可持续性，也见证了它准备开始驱动并成为以太坊主网的安全提供者。
+
+* [以太坊核心开发者会议：深入探讨以太坊合并及其路线演变](https://www.chainnews.com/articles/274362880124.htm)
+* [EIP-3675: Upgrade consensus to Proof-of-Stake](https://eips.ethereum.org/EIPS/eip-3675)

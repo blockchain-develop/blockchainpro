@@ -19,6 +19,7 @@
 [钱包](https://docs.solana.com/cli/conventions#keypair-conventions)  
 
 ## 生成钱包
+
 solana-keygen new --outfile /Users/tangaoyuan/.config/solana/my_wallet.json
 [生成文件系统钱包](https://docs.solana.com/wallet-guide/file-system-wallet)
 

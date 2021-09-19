@@ -24,9 +24,29 @@ solana config set --url https://api.devnet.solana.com
 solana-keygen new --outfile /Users/tangaoyuan/.config/solana/my_wallet.json 
 ```
 
+3. 配置钱包
+```
+solana config set --wallet /Users/tangaoyuan/.config/solana/my_wallet.json 
+```
+
 ## 编译合约
 
 进入到项目目录 src/program-rust
 ```
-cargo build
+cargo build-bpf
 ```
+
+## 部署合约
+
+## 运行合约
+
+## web3.js
+```
+npm install
+npm run build:program-rust
+solana program depoly dist/program/helloworld.so
+npm run start
+```
+
+## 参考
+[example-helloworld](https://github.com/solana-labs/example-helloworld/blob/master/README.md)

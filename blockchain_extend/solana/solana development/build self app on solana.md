@@ -532,18 +532,365 @@ use crate::{instruction::EscrowInstruction, error::EscrowError};
 接下来我们需要访问data字段，因为数据也是u8的一个数组，所以我们需要使用Escrow::unpack_unchecked对其进行反序列化，这是state.rs中的一个函数，我们在后面就创建它。
 
 ### state.rs
+创建state.rs并在lib.rs中注册它，state.rs负责1、定义processor可以使用的状态对象 2、分别将这些对象序列化到u8数组中或者从u8数字反序列化出来
 
+添加如下代码到state.rs
+```
+use solana_program::pubkey::Pubkey;
 
+pub struct Escrow {
+    pub is_initialized: bool,
+    pub initializer_pubkey: Pubkey,
+    pub temp_token_account_pubkey: Pubkey,
+    pub initializer_token_to_receive_account_pubkey: Pubkey,
+    pub expected_amount: u64,
+}
+```
 
+我们需要保存temp_token_account_pubkey，以便当Bob进行交易时，escrow program可以从temp_token_account_pubkey的账户向Bob的账户发送token，我们知道Bob在执行交易时会把这个account加入到entrypoint的参数中，为什么我们还需要在这里保存它呢？首先，如果我们在这里保存他的pubkey，Bob可以很容易地知道他需要填入entrypoint参数的账户地址，否则Alice不仅需要给Bob发送escrow account地址，还需要发送上面的地址。其次，对于安全性来说，Bob可以传入不同的token account，如果我们不增加检查，要求Bob以temp_token_account_pubkey公钥作为账户加入entrypoint参数，那么这里就有问题。为了在稍后的processor中添加该检查，我们需要在InitEscrow的instruction中保存temp_token_account_pubkey。
 
+```
+When writing Solana programs, be mindful of the fact that any accounts may be passed into the entrypoint, including different ones than those defined in the API inside instruction.rs. It's the program's responsibility to check that received accounts == expected accounts
+```
 
+initializer_token_to_receive_account_pubkey需要被保存，以便Bob进行交易时，他的token可以发送给该account，expected_amount将用于检查Bob是否发送了足够的token。这里还有initializer_pubkey和is_initialized，这留在后面解释。
 
+我们使用is_initialized来确定给定的escrow账户是否被使用，serialization和deserialization是标准化的方法。首先实现Sealed和IsInitialized。
 
+```
+use solana_program::{
+    program_pack::{IsInitialized, Pack, Sealed},
+    program_error::ProgramError,
+    pubkey::Pubkey,
+};
+use arrayref::{array_mut_ref, array_ref, array_refs, mut_array_refs};
 
+pub struct Escrow {
+    pub is_initialized: boool,
+    pub initializer_pubkey: Pubkey,
+    pub temp_token_account_pubkey: Pubkey,
+    pub initializer_token_to_receive_account_pubkey: Pubkey,
+    pub expected_amount: u64,
+}
 
+impl Sealed for Escrow {
 
+}
 
+impl IsInitialized for Escrow {
+    fn is_initialized(&self) -> bool {
+        self.is_initialized
+    }
+}
 
+impl Pack for Escrow {
+    const LEN: usize = 105;
+    fn unpack_from_slice(src: &[u8]) -> Result<Self, ProgramError> {
+        let src = array_ref![src, 0, Escrow::LEN];
+        let (is_initialized,initializer_pubkey,temp_token_account_pubkey, initializer_token_to_receive_account_pubkey, expected_amount,) = array_refs![src, 1, 32, 32, 32, 8];
+        let is_initialized = match is_initialized {
+            [0] => false,
+            [1] => true,
+            _ => return Err(ProgramError::InvalidAccountData),
+        };
+        OK(Escrow{
+            is_initialized,
+            initializer_pubkey: Pubkey::new_from_array(*initializer_pubkey),
+            temp_token_account_pubkey: Pubkey::new_form_array(*temp_token_account_pubkey),
+            initializer_token_to_receive_account_pubkey: Pubkey::new_from_array(*initializer_token_to_receive_account_pubkey),
+            expected_amount: u64::from_le_bytes(*expected_amount),
+        })
+    }
+}
+```
+
+值得注意的是arrayref的使用，这是一个获取slice部分引用的库，确保将其添加到Cargo.toml中。
+
+开始实现deserialize和serialization。
+
+```
+impl Pack for Escrow {
+    ...
+    fn pack_into_slice(&self, dst: &mut [u8]) {
+        let dst = array_mut_ref![dst, 0, Escrow::LEN];
+        let (
+            is_initialized_dst,
+            initializer_pubkey_dst,
+            temp_token_account_pubkey_dst,
+            initializer_token_to_receive_account_pubkey_dst,
+            expected_amount_dst,
+        ) = mut_array_refs![dst, 1, 32, 32, 32, 8];
+
+        let Escrow {
+            is_initialized,
+            initializer_pubkey,
+            temp_token_account_pubkey,
+            initializer_token_to_receive_account_pubkey,
+            expected_amount,
+        } = self;
+
+        is_initialized_dst[0] = *is_initialized as u8;
+        initializer_pubkey_dst.copy_from_slice(initializer_pubkey.as_ref());
+        temp_token_account_pubkey_dst.copy_from_slice(temp_token_account_pubkey.as_ref());
+        initializer_token_to_receive_account_pubkey_dst.copy_from_slice(initializer_token_to_receive_account_pubkey.as_ref());
+        *expected_amount_dst = expected_amount.to_le_bytes();
+    }
+}
+```
+
+state.rs实现完成后，回到processor.rs，首先调整一个use语句：
+```
+old:
+use crate::{instruction::EscrowInstruction, error::EscrowError};
+
+new:
+use crate::{instruction::EscrowInstruction, error::EscrowError, state::Escrow};
+```
+
+### Processor Part 2, PDAs Part 2, CPIs Part 1
+我们添加状态序列化，来完善process_init_escrow函数，我们已经创建了escrow结构实例，可以检查是否初始化。
+```
+let mut escrow_info = Escrow::unpack_unchecked(&escrow_account.data.borrow())?;
+if escrow_info.is_initialized() {
+    return Err(ProgramError::AccountAlreadyInitialized);
+}
+
+escrow_info.is_initialized = true;
+escrow_info.initializer_pubkey = *initializer.key;
+escrow_info.temp_token_account_pubkey = *temp_token_account.key;
+escrow_info.initializer_token_to_receive_account_pubkey = *token_to_receive_account.key;
+escrow_info.expected_amount = amount;
+
+Escrow::pack(escrow_info, &mut escrow_account.data.borrow_mut())?;
+```
+
+#### PDAs Part 2
+在process_init_escrow中还有一件事情要做：将temp_token_account的用户空间所有权转给PDA，我们在这里再次解释什么是PDA，以及为什么我们需要使用program id。
+```
+// inside process_init_escrow
+...
+escrow_info.expected_amount = amount;
+Escrow::pack(escrow_info, &mut escrow_account.data.borrow_mut())?;
+let (pda, _bump_seed) = Pubkey::find_program_address(&[b"escrow"], program_id);
+```
+
+我们通过将seed数组和program id作为参数调用find_program_address函数来创建PDA，我们得到一个新的pda和bump_seed。在我们的例子中，seed可以是静态的，有些情况下，例如在关联的[token account program](https://github.com/solana-labs/solana-program-library/blob/596700b6b100902cde33db0f65ca123a6333fa58/associated-token-account/program/src/lib.rs#L24)中，他们又不是（因为不同的用户应该拥有不同的关联token account）。我们只需要一个PDA，可以拥有N个临时token account，可以在任何时间点关联不同的escrow。
+
+但是什么是PDA？，通常，Solana密钥使用[ed25519](http://ed25519.cr.yp.to)标准，这意味着普通公钥位于ed25519椭圆曲线上，PDA是从program id和seed派生的公钥。
+
+```
+Program Derived Addresses do not lie on the ed25519 curve and therefore have no private key associated with them.
+```
+
+![](./pic/this_is_pda.jpg)
+
+PDA只是一个随机的字节数组。
+
+#### CPIs Part 1
+现在，我们开始将临时token account的用户空间所有权转给PDA，为此，我们将调用escrow program中的token program，这是[跨程序调用](https://docs.solana.com/developing/programming-model/calling-between-programs#cross-program-invocations)，并使用invoke或者invoke_signed函数执行，我们在这里使用invoke。在Bob的交易中，我们将使用invoke_signed，到时候会看到两者的区别是什么。invoke有两个参数：一个instruction和accounts的数组。
+```
+use solana_program::{
+    account_info::{next_account_info, AccountInfo},
+    entrypoint::ProgramResult,
+    program_error::ProgramError,
+    msg,
+    pubkey::Pubkey,
+    program_pack::{Pack, IsInitialized},
+    sysvar::{rent::Rent, Sysvar},
+    program::invoke
+};
+// inside process_init_escrow
+...
+let token_program = next_account_info(account_info_iter)?;
+let owner_change_ix = spl_token::instruction::set_authority(
+    token_program.key,
+    temp_token_account.key,
+    Some(&pda),
+    spl_token::instruction::AuthorityType::AccountOwner,
+    initializer.key,
+    &[&initializer.key],
+)?;
+
+msg!("Calling the token program to transfer token account ownership...");
+invoke(
+    &owner_change_ix,
+    &[
+        temp_token_account.clone(),
+        initializer.clone(),
+        token_program.clone(),
+    ],
+)?;
+
+Ok(())
+// end of process_init_escrow
+```
+
+替换solana_program的use语句，在procrss_init_escrow中继续，首先获取token_program的account，通过CPI被调用的program必须被包含在invoke函数的第二个参数中。接下来我们创建instruction，这是token program在执行调用是所期望的instruction。token program在其instruction.rs中定义了一些我们可以使用的helper函数。在这里要特别注意set_authority函数，它是创建此类instruction的生成器函数，我们传入token program id、然后是要更改其权限的account、获取权限的account（这里是PDA）、要更改的权限类型（token program有不同的权限类型，我们这里关心的是owner）、当前账户的owner，最后是签署CPI的公钥。
+
+上面涉及到的相关概念在[这里](https://docs.solana.com/developing/programming-model/calling-between-programs#instructions-that-require-privileges)。
+
+```
+When including a signed account in a program call, in all CPIs including that account made by that program inside the current instruction, the account will also be signed, i.e. the signature is extended to the CPIs.
+```
+
+在我们的例子中，这意味着因为Alice签署了InitEscrow交易，所以escrow program可以使token program set_authority CPI，并将Alice的公钥作为前者公钥，这是必要的，因为更改token account的owner当然需要当前owner的approval。
+
+除了调用的program账户外，我们还需要传入instruction所需的各个accounts，可以在token program的instruction.rs中查找setAuthority的枚举账户，其注释将告诉我们需要哪些账户（在本例中，是当前owner的账户和要更改owner的账户）。
+
+注意在进行CPI之前，我们还需要添加另一项检查，以确保token program确实是token的账户，否则，我们可能会调用错误程序。如果使用的是3.1.1以上版本的SPL token，使用的是instrcution生成器功能的话，就不必这样做，函数里面已经做了检查。
+
+最后，调整entrypoint.rs的代码，如下：
+```
+use solana_program::{
+    account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, pubkey::Pubkey
+};
+
+use crate::processor::Processor;
+
+entrypoint!(process_instruction);
+fn process_instruction(
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    instruction_data: &[u8],
+) -> ProgramResult {
+    Processor::process(program_id, accounts, instruction_data)
+}
+```
+
+你可能会有疑问，“我们让escrow program控制临时账户，但Alice从未将token转入该账户，这不应该在这里进行吗？”，这应该在这个交易之前进行，它不必发生在escrow creation内部，在后面我们会介绍，如何在调用程序执行一个交易的过程中转移token。
+
+### 小结
+* Program Derived Addresses不是ed25519椭圆曲线上，因此没有与之关联的私钥。
+* 当在程序调用中，该交易包括已签名账户时，在所有的CPI中，包括当前instruction中该程序创建的账户，该账号也将被签名，即签名扩展到CPI。
+
+### Trying out the program, understanding Alice's transaction
+我们已经创建了一个完整的程序，我们现在可以体验一下。可以使用这个[UI](https://github.com/paul-schaaf/escrow-ui)来体验你的程序，我们会解释它是如何工作的，以及要做哪些工作才能运行起来。你可以随意基于此构建属于自己的。
+
+![](./pic/escrow_ui.jpg)
+
+#### Deploying your program on localnet
+首先，使用cargo build-bpf命令来compile这个program，顺利的话，会生产一个so的文件。
+
+在运行solana-keygen new在本地环境下创建并保存Solana keypair。[Solana钱包管理](https://docs.solana.com/wallet-guide/cli)
+
+你可以运行本地的Solana环境或者使用开发测试环境，通过solana config get来检查Solana的环境配置。通过solana balance查看本地账户余额，如果是接入的测试网并没有token可以去领取[测试币]()。
+
+使用solana deploy命令行来部署program到Solana链上，部署成功会打印输出program id，我们在上面的ui需要使用这个program id。
+
+#### Creating a throwaway private key
+这个UI需要一个private key作为main account，可以去[sollte.io](https://www.sollet.io)上创建一个新的账户，这就是Alice的账户。
+
+创建账户之后，向Alice airdrop一个SOL token用于支付交易fee。
+
+#### 创建tokens
+我们需要在escrow里交易token，请参考[SPL Token UI](https://www.spl-token-ui.com/#/)。
+
+在接下来的步骤中，我们将创建X token和Y token的mint账户以及两个token account，Alice的X token account和Y token account。
+
+创建每个token account后，复制账户地址到对应的UI中，你需要记下他们，因为后续还会使用它们。
+
+进入SPL Token UI，在Tokens中选择Create new token，填写正确的mint地址并创建新的token，请记住token和token mint账户（保存token metadata数据的账户，包括token的供应量，允许谁来创建），你可以在explorer上进一步验证账户信息。
+
+然后切换到Accounts中的Edit account，默认情况下，选择mint，输入Alice的X token account作为目标账户，并在amount字段中输入金额，点击Mint to account。
+
+对Y token执行相同的步骤，但不必向Alice的Y token account进行mint。
+
+#### Creating the escrow
+完成所有的步骤后，剩下要做的是填写Alice的exptect amount和她要存入escrow的X token金额，之后点击InitEscrow。
+
+#### nderstanding what just happened, Rent Part 2, and Commitment
+
+![](./pic/escrow-alice-initial.jpg)
+
+![](./pic/escrow-alice-ix1.jpg)
+
+```
+there can be several instructions (ix) inside one transaction (tx) in Solana. These instructions are executed out synchronously and the tx as a whole is executed atomically. These instructions can call different programs.
+```
+
+如果一条instruction失败，则整个交易失败，在ix1中，我们可以看到账户是如何实现的。
+
+```
+The system program is responsible for allocating account space and assigning (internal - not user space) account ownership
+```
+
+Alice的交易由5条instruction组成。
+
+```
+1. create empty account owned by token program
+2. initialize empty account as Alice's X token account
+3. transfer X tokens from Alice's main X token account to her temporary X token account
+4. create empty account owned by escrow program
+5. initialize empty account as escrow state and transfer temporary X token account ownership to PDA
+```
+
+```
+instructions may depend on previous instructions inside the same transaction
+```
+
+接下来是Solana前端代码的js/ts部分，可以在[查看代码](https://github.com/paul-schaaf/escrow-ui/blob/master/src/util/initEscrow.ts)。
+
+```
+const tempTokenAccount = new Account();
+const createTempTokenAccountIx = SystemProgram.createAccount({
+    programId: TOKEN_PROGRAM_ID,
+    space: AccountLayout.span,
+    lamports: await connection.getMinimumBalanceForRentExemption(AccountLayout.span, 'singleGossip'),
+    fromPubkey: feePayerAcc.publicKey,
+    newAccountPubkey: tempTokenAccount.publicKey
+});
+```
+
+第一条instrction是创建新的X token account，该账户最终将转给PDA，它只是在这里创建，不发送任何token。该函数要求用户指定新账户应属于哪个program（programId）、具有多少空间（space）、初始余额为多少（lamports）、从何处转移余额（fromPubkey）以及新账户的地址（newAccountPubkey）。
+
+```
+const initTempAccountIx = Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, XTokenMintAccountPubkey, tempTokenAccount.publicKey, feePayerAcc.publicKey);
+const transferXTokensToTempAccIx = Token
+    .createTransferInstruction(TOKEN_PROGRAM_ID, initializerXTokenAccountPubkey, tempTokenAccount.publicKey, feePayerAcc.publicKey, [], amountXTokensToSendToEscrow);
+```
+
+在创建新账户之后，我们调用spl token的js，提供两个函数来创建接下来的两条instruction，第4条instrction创建另一个账户，该账户由escrow program拥有，与第一条instruction非常相似。
+
+```
+const initEscrowIx = new TransactionInstruction({
+    programId: escrowProgramId,
+    keys: [
+        { pubkey: initializerAccount.publicKey, isSigner: true, isWritable: false },
+        { pubkey: tempTokenAccount.publicKey, isSigner: false, isWritable: true },
+        { pubkey: new PublicKey(initializerReceivingTokenAccountPubkeyString), isSigner: false, isWritable: false },
+        { pubkey: escrowAccount.publicKey, isSigner: false, isWritable: true },
+        { pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false},
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+    ],
+    data: Buffer.from(Uint8Array.of(0, ...new BN(expectedAmount).toArray("le", 8)))
+})
+```
+
+第5条instruction就是InitEscrow，这里需要我们完整构造交易，通过调用new TransactionInstruction来手动创建instruction。所需的格式就是escrow program的entrypoint所期望的。传入escrow program id，然后是密钥，在这里，我们指定一个账户给发送的交易签名、一个账户是否为只读，最后，我们构造instruction_data。
+
+我们从0开始，因为第一个字节是我们在instruction.rs中用作确定如何解码指令的标记的字节。0表示InitEscrow。下一个字节将是expected_amount。我们使用bn.js库将预期数量写入一个8字节的小尾数数组。8字节，因为在instruction.rs中，我们解码一个u64和一个小的endian，因为我们用u64::from_le_字节对它进行解码。我们使用u64，因为这是token的最大供应量）。
+
+```
+const tx = new Transaction()
+        .add(createTempTokenAccountIx, initTempAccountIx, transferXTokensToTempAccIx, createEscrowAccountIx, initEscrowIx);
+await connection.sendTransaction(tx, [initializerAccount, tempTokenAccount, escrowAccount], {skipPreflight: false, preflightCommitment: 'singleGossip'});
+```
+
+最后，我们创建一个新交易并添加所有的instruction，然后，我们签名并发送交易。在js中，帐户具有双重含义，还意味着持有密钥对。这意味着我们传入的签名账户包括私钥，可以签名。显然，我们必须将Alice的帐户添加为签名账户-她支付费用并需要授权从她的帐户转账。我们还必须添加另外两个帐户，因为当system program创建新帐户时，交易需要由该帐户签名。
+
+在这之后，有一个新的escrow state account，保存完成交易的相关数据，还有一个新的token account，由escrow program的PDA拥有。该token account的token余额是Alice想用X token换取Y token的expected amount（保存在escrow account中）。
+
+这里需要注意的一点是，所有instruction都在同一个交易，但也可以不用在同一个交易中，但是至少ix 1,2和ix 4,5在同一个交易中。这是因为在system program创建了一个帐户之后，它只是floating在区块链上，仍然没有初始化，没有用户空间所有者。例如，如果您将ix 1和ix 2放在不同的交易中，则有人可以尝试在这两个交易之间发送一个交易，并使用ix 1创建的当时仍然没有owner的帐户初始化他们自己的token account。如果将ix 1和ix 2放在同一交易中，则不会发生这种情况，因为交易是以原子方式执行的。
+
+#### Adapting the frontend for real life use
+
+有几件事被遗漏了，但对于一个真正的程序来说绝对应该被添加。首先，token最大供应量是U64_MAX，它高于javascript的数值。因此，您需要找到一种方法来处理这个问题，或者限制允许放入的token数量，或者将token数量作为字符串参数，然后使用类似于bn.js的库来转换字符串。其次，您不应该让您的用户输入私钥，而是使用solong或sol wallet适配器库等外部钱包。您将创建交易，添加说明，然后询问您正在使用的任何可信服务来签名交易并将其发送回您。然后，您可以添加其他两个keypair account并将交易发送到Solana网络。
+
+### 小结
+
+* Solana中的一个交易（tx）中可能有多个instructions（ix）。这些instructions同步执行，整个tx以原子方式执行。这些instructions可以调用不同的program。
+* system program负责分配帐户空间和分配（内部-而不是用户空间）帐户所有权（program owner）。
+* instruction可能依赖于同一个交易中以前的instruction。
 
 
 

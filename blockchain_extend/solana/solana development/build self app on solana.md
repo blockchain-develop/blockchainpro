@@ -764,23 +764,23 @@ fn process_instruction(
 * 当在程序调用中，该交易包括已签名账户时，在所有的CPI中，包括当前instruction中该程序创建的账户，该账号也将被签名，即签名扩展到CPI。
 
 ### Trying out the program, understanding Alice's transaction
-我们已经创建了一个完整的程序，我们现在可以体验一下。可以使用这个[UI](https://github.com/paul-schaaf/escrow-ui)来体验你的程序，我们会解释它是如何工作的，以及要做哪些工作才能运行起来。你可以随意基于此构建属于自己的。
+我们已经创建了一个完整的程序，我们现在可以体验一下。可以使用这个[UI](https://github.com/paul-schaaf/escrow-ui)来体验你的程序，我们会解释它是如何工作的，以及要做哪些工作才能运行起来。你可以随意基于此构建属于自己的程序。
 
 ![](./pic/escrow_ui.jpg)
 
 #### Deploying your program on localnet
-首先，使用cargo build-bpf命令来compile这个program，顺利的话，会生产一个so的文件。
+首先，使用cargo build-bpf命令来compile这个program，顺利的话，会生成一个so的文件。
 
 在运行solana-keygen new在本地环境下创建并保存Solana keypair。[Solana钱包管理](https://docs.solana.com/wallet-guide/cli)
 
-你可以运行本地的Solana环境或者使用开发测试环境，通过solana config get来检查Solana的环境配置。通过solana balance查看本地账户余额，如果是接入的测试网并没有token可以去领取[测试币]()。
+你可以运行本地的Solana环境或者使用开发测试环境，通过solana config get来检查Solana的环境配置。通过solana balance查看本地账户余额，如果是接入的测试网且没有token的话可以去领取[测试币]()。
 
 使用solana deploy命令行来部署program到Solana链上，部署成功会打印输出program id，我们在上面的ui需要使用这个program id。
 
 #### Creating a throwaway private key
 这个UI需要一个private key作为main account，可以去[sollte.io](https://www.sollet.io)上创建一个新的账户，这就是Alice的账户。
 
-创建账户之后，向Alice airdrop一个SOL token用于支付交易fee。
+创建账户之后，向Alice airdrop或者transfer SOL token用于支付交易fee。
 
 #### 创建tokens
 我们需要在escrow里交易token，请参考[SPL Token UI](https://www.spl-token-ui.com/#/)。
@@ -796,7 +796,7 @@ fn process_instruction(
 对Y token执行相同的步骤，但不必向Alice的Y token account进行mint。
 
 #### Creating the escrow
-完成所有的步骤后，剩下要做的是填写Alice的exptect amount和她要存入escrow的X token金额，之后点击InitEscrow。
+完成所有的步骤后，剩下要做的是填写Alice的expected amount和她要存入escrow的X token金额，之后点击InitEscrow。
 
 #### nderstanding what just happened, Rent Part 2, and Commitment
 
@@ -808,7 +808,7 @@ fn process_instruction(
 there can be several instructions (ix) inside one transaction (tx) in Solana. These instructions are executed out synchronously and the tx as a whole is executed atomically. These instructions can call different programs.
 ```
 
-如果一条instruction失败，则整个交易失败，在ix1中，我们可以看到账户是如何实现的。
+如果一条instruction失败，则整个交易失败。在ix1中，我们可以看到账户是如何生成的。
 
 ```
 The system program is responsible for allocating account space and assigning (internal - not user space) account ownership
@@ -828,7 +828,7 @@ Alice的交易由5条instruction组成。
 instructions may depend on previous instructions inside the same transaction
 ```
 
-接下来是Solana前端代码的js/ts部分，可以在[查看代码](https://github.com/paul-schaaf/escrow-ui/blob/master/src/util/initEscrow.ts)。
+接下来是Solana前端代码的js/ts部分，可以[查看代码](https://github.com/paul-schaaf/escrow-ui/blob/master/src/util/initEscrow.ts)。
 
 ```
 const tempTokenAccount = new Account();
@@ -841,7 +841,7 @@ const createTempTokenAccountIx = SystemProgram.createAccount({
 });
 ```
 
-第一条instrction是创建新的X token account，该账户最终将转给PDA，它只是在这里创建，不发送任何token。该函数要求用户指定新账户应属于哪个program（programId）、具有多少空间（space）、初始余额为多少（lamports）、从何处转移余额（fromPubkey）以及新账户的地址（newAccountPubkey）。
+第一条instrction是创建新的临时X token account，该账户最终将转给PDA，它只是在这里创建，不发送任何token。该函数要求用户指定新账户应属于哪个program（programId）、具有多少空间（space）、初始余额为多少（lamports）、从何处转移余额（fromPubkey）以及新账户的地址（newAccountPubkey）。
 
 ```
 const initTempAccountIx = Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, XTokenMintAccountPubkey, tempTokenAccount.publicKey, feePayerAcc.publicKey);
@@ -868,7 +868,7 @@ const initEscrowIx = new TransactionInstruction({
 
 第5条instruction就是InitEscrow，这里需要我们完整构造交易，通过调用new TransactionInstruction来手动创建instruction。所需的格式就是escrow program的entrypoint所期望的。传入escrow program id，然后是密钥，在这里，我们指定一个账户给发送的交易签名、一个账户是否为只读，最后，我们构造instruction_data。
 
-我们从0开始，因为第一个字节是我们在instruction.rs中用作确定如何解码指令的标记的字节。0表示InitEscrow。下一个字节将是expected_amount。我们使用bn.js库将预期数量写入一个8字节的小尾数数组。8字节，因为在instruction.rs中，我们解码一个u64和一个小的endian，因为我们用u64::from_le_字节对它进行解码。我们使用u64，因为这是token的最大供应量）。
+因为instruction_data的第一个字节是我们在instruction.rs中用作确定如何解码指令的标记字节。0表示InitEscrow。下一个字节将是expected_amount。我们使用bn.js库将预期数量写入一个8字节的小尾数数组。8字节，因为在instruction.rs中，我们解码一个u64和一个小的endian，因为我们用u64::from_le_字节对它进行解码。我们使用u64，因为这是token的最大供应量）。
 
 ```
 const tx = new Transaction()
@@ -878,9 +878,9 @@ await connection.sendTransaction(tx, [initializerAccount, tempTokenAccount, escr
 
 最后，我们创建一个新交易并添加所有的instruction，然后，我们签名并发送交易。在js中，帐户具有双重含义，还意味着持有密钥对。这意味着我们传入的签名账户包括私钥，可以签名。显然，我们必须将Alice的帐户添加为签名账户-她支付费用并需要授权从她的帐户转账。我们还必须添加另外两个帐户，因为当system program创建新帐户时，交易需要由该帐户签名。
 
-在这之后，有一个新的escrow state account，保存完成交易的相关数据，还有一个新的token account，由escrow program的PDA拥有。该token account的token余额是Alice想用X token换取Y token的expected amount（保存在escrow account中）。
+在执行交易之后，会有一个新的escrow state account，保存完成交易的相关数据，还有一个新的token account，由escrow program的PDA拥有。该token account的token余额是Alice想用X token换取Y token的expected amount（保存在escrow account中）。
 
-这里需要注意的一点是，所有instruction都在同一个交易，但也可以不用在同一个交易中，但是至少ix 1,2和ix 4,5在同一个交易中。这是因为在system program创建了一个帐户之后，它只是floating在区块链上，仍然没有初始化，没有用户空间所有者。例如，如果您将ix 1和ix 2放在不同的交易中，则有人可以尝试在这两个交易之间发送一个交易，并使用ix 1创建的当时仍然没有owner的帐户初始化他们自己的token account。如果将ix 1和ix 2放在同一交易中，则不会发生这种情况，因为交易是以原子方式执行的。
+这里需要注意的一点是，所有instruction都在同一个交易，但也可以不用在同一个交易中，但是至少ix 1,2和ix 4,5在同一个交易中。这是因为在system program创建了一个帐户之后，它只是floating在区块链上，仍然没有初始化，没有用户空间所有者。例如，如果您将ix 1和ix 2放在不同的交易中，则有人可以尝试在这两个交易之间发送一个交易，并使用ix 1创建的当时仍然没有owner的帐户初始化为他们自己的token account。如果将ix 1和ix 2放在同一交易中，则不会发生这种情况，因为交易是以原子方式执行的。
 
 #### Adapting the frontend for real life use
 

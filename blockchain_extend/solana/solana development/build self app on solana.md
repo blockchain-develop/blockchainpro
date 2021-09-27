@@ -11,7 +11,7 @@ On Solana, smart contracts are called programs
 ```
 在Solana中，智能合约叫program。
 
-在每一节的末尾会有小结：
+在每小节的末尾会有小结：
 
 ```
 小结：
@@ -849,7 +849,7 @@ const transferXTokensToTempAccIx = Token
     .createTransferInstruction(TOKEN_PROGRAM_ID, initializerXTokenAccountPubkey, tempTokenAccount.publicKey, feePayerAcc.publicKey, [], amountXTokensToSendToEscrow);
 ```
 
-在创建新账户之后，我们调用spl token的js，提供两个函数来创建接下来的两条instruction，第4条instrction创建另一个账户，该账户由escrow program拥有，与第一条instruction非常相似。
+在创建新账户之后，我们调用spl token js的两个函数来创建接下来的两条instruction，第2条instruction是初始化临时X token account，该函数要求用户指定token program id、X token的mint account、初始化的临时X token account以及account的owner，第3条instruction从Alice的X token account转账到临时X token account，该函数要求用户指定oken program id、转账的from account（X token account）、转账的to account（X token account）、from account的owner（main account）、签名列表、转账金额，第4条instrction创建另一个账户，该账户由escrow program拥有，与第一条instruction非常相似。
 
 ```
 const initEscrowIx = new TransactionInstruction({
@@ -887,7 +887,6 @@ await connection.sendTransaction(tx, [initializerAccount, tempTokenAccount, escr
 有几件事被遗漏了，但对于一个真正的程序来说绝对应该被添加。首先，token最大供应量是U64_MAX，它高于javascript的数值。因此，您需要找到一种方法来处理这个问题，或者限制允许放入的token数量，或者将token数量作为字符串参数，然后使用类似于bn.js的库来转换字符串。其次，您不应该让您的用户输入私钥，而是使用solong或sol wallet适配器库等外部钱包。您将创建交易，添加说明，然后询问您正在使用的任何可信服务来签名交易并将其发送回您。然后，您可以添加其他两个keypair account并将交易发送到Solana网络。
 
 ### 小结
-
 * Solana中的一个交易（tx）中可能有多个instructions（ix）。这些instructions同步执行，整个tx以原子方式执行。这些instructions可以调用不同的program。
 * system program负责分配帐户空间和分配（内部-而不是用户空间）帐户所有权（program owner）。
 * instruction可能依赖于同一个交易中以前的instruction。

@@ -226,3 +226,11 @@ func TestEIP1559TransferErc20(t *testing.T) {
 		fmt.Printf("tx hash : %s", signed_tx.Hash())
 	}
 }
+
+func TestEIP1559Gas(t *testing.T) {
+	ethClient, _ := ethclient.Dial("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	ctx := context.Background()
+	gasPrice, _ := ethClient.SuggestGasPrice(ctx)
+	gasTip, _ := ethClient.SuggestGasTipCap(ctx)
+	fmt.Printf("gas:%s, %s\n", gasPrice.String(), gasTip.String())
+}

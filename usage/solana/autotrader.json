@@ -1,0 +1,102 @@
+[
+  {
+    "AmmId": "DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1",
+    "PairId": "C4k1gxs9NnPhSWUbtEpnptYiduy2ZWX237gGD22N8QeC",
+    "CurveType": 0,
+    "Curve": {
+      "TokenAPubkey": "So11111111111111111111111111111111111111112",
+      "TokenBPubkey": "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt",
+      "TokenAHolder": "PWoAhT9FTgUY6TftarQePDaDssDTw1z22g6oa7LkDWH",
+      "TokenAAmount": 119042641712,
+      "TokenBHolder": "CrW8moTKrBbyneB4xJ3cL3KnU1cWLrZhyfHxDBdHRtTz",
+      "TokenBAmount": 2575587761,
+      "Pool": "6ojPekCSQimAjDjaMApLvh3jF6wnZeNEVRVVoGNzEXvV",
+      "Fee": "C69yUpJnvYrpv3Zm8To89CfqXMWYCbB9gEzyD259qFcn",
+      "TokenProgramId": "11111111111111111111111111111111",
+      "TradeFeeNumerator": 30,
+      "TradeFeeDenominator": 10000,
+      "OwnerTradeFeeNumerator": 0,
+      "OwnerTradeFeeDenominator": 0
+    }
+  },
+  {
+    "AmmId": "SwaPpA9LAaLfeLi3a68M4DjnLqgtticKg6CnyNwgAC8",
+    "PairId": "AhzVvn5D2hJLsDQC914KDpmmzfKzihjoETDiMpGKjsjS",
+    "CurveType": 0,
+    "Curve": {
+      "TokenAPubkey": "BQcdHdAQW1hczDbBi9hiegXAR7A98Q9jx3X3iBBBDiq4",
+      "TokenBPubkey": "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt",
+      "TokenAHolder": "ExzKeN2br4hKhCPc3NFwYw3uFrhvmJFFVGCG6hM4zZQ7",
+      "TokenAAmount": 268285747,
+      "TokenBHolder": "DSNg8k54FeUQiLs8fmEm9VfG7YdmmB5eRRdKhZ4n7hWx",
+      "TokenBAmount": 36898794,
+      "Pool": "EiBycdfQahs9H7PX4AQyyZm5rmwvCwfwqG5wLQBpw3Fy",
+      "Fee": "5ht4gaunDLh68mBVUcaTqtCfWimL9xrtSfRaQu5ZuuJd",
+      "TokenProgramId": "11111111111111111111111111111111",
+      "TradeFeeNumerator": 25,
+      "TradeFeeDenominator": 10000,
+      "OwnerTradeFeeNumerator": 5,
+      "OwnerTradeFeeDenominator": 10000
+    }
+  },
+  {
+    "AmmId": "SwaPpA9LAaLfeLi3a68M4DjnLqgtticKg6CnyNwgAC8",
+    "PairId": "3CdGXK3qMEbnqVAEsWBRQECCA6pSSkaB25sX49eryEdZ",
+    "CurveType": 0,
+    "Curve": {
+      "TokenAPubkey": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
+      "TokenBPubkey": "BQcdHdAQW1hczDbBi9hiegXAR7A98Q9jx3X3iBBBDiq4",
+      "TokenAHolder": "7dRTDCgwGWYYTMbnFXLs1MHYXGdT1Gp7aDopqfVXNfmW",
+      "TokenAAmount": 6310,
+      "TokenBHolder": "6kE71zMo1QieJG6ULmuY439j5XE1DEmSZ6XHN78EQ8wc",
+      "TokenBAmount": 359523722,
+      "Pool": "59kRtQxjGUxnz1L8417nPmEt1iWv69256ef2tNaJu6df",
+      "Fee": "3DVmFRDNmgJbuVWM7nRzu4QF1hVCCgwvVUYx5pvQoC4P",
+      "TokenProgramId": "11111111111111111111111111111111",
+      "TradeFeeNumerator": 25,
+      "TradeFeeDenominator": 10000,
+      "OwnerTradeFeeNumerator": 5,
+      "OwnerTradeFeeDenominator": 10000
+    }
+  },
+  {
+    "AmmId": "DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1",
+    "PairId": "Fz6yRGsNiXK7hVu4D2zvbwNXW8FQvyJ5edacs3piR1P7",
+    "CurveType": 0,
+    "Curve": {
+      "TokenAPubkey": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
+      "TokenBPubkey": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+      "TokenAHolder": "81w3VGbnszMKpUwh9EzAF9LpRzkKxc5XYCW64fuYk1jH",
+      "TokenAAmount": 1027,
+      "TokenBHolder": "6r14WvGMaR1xGMnaU8JKeuDK38RvUNxJfoXtycUKtC7Z",
+      "TokenBAmount": 16719,
+      "Pool": "8pFwdcuXM7pvHdEGHLZbUR8nNsjj133iUXWG6CgdRHk2",
+      "Fee": "56FGbSsbZiP2teQhTxRQGwwVSorB2LhEGdLrtUQPfFpb",
+      "TokenProgramId": "11111111111111111111111111111111",
+      "TradeFeeNumerator": 30,
+      "TradeFeeDenominator": 10000,
+      "OwnerTradeFeeNumerator": 0,
+      "OwnerTradeFeeDenominator": 0
+    }
+  },
+  {
+    "AmmId": "DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1",
+    "PairId": "4vWJYxLx9F7WPQeeYzg9cxhDeaPjwruZXCffaSknWFxy",
+    "CurveType": 0,
+    "Curve": {
+      "TokenAPubkey": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+      "TokenBPubkey": "So11111111111111111111111111111111111111112",
+      "TokenAHolder": "FidGus13X2HPzd3cuBEFSq32UcBQkF68niwvP6bM4fs2",
+      "TokenAAmount": 573817,
+      "TokenBHolder": "5x1amFuGMfUVzy49Y4Pc3HyCVD2usjLaofnzB3d8h7rv",
+      "TokenBAmount": 14013395877,
+      "Pool": "7bb88DAnQY7LSoWEuqezCcbk4vutQbuRqgJMqpX8h6dL",
+      "Fee": "CYGRBB4qAYzSqdnvVaXvyZLg5j7YNVcuqM6gdD2MMUi1",
+      "TokenProgramId": "11111111111111111111111111111111",
+      "TradeFeeNumerator": 30,
+      "TradeFeeDenominator": 10000,
+      "OwnerTradeFeeNumerator": 0,
+      "OwnerTradeFeeDenominator": 0
+    }
+  }
+]

@@ -16,4 +16,4 @@
 [恒定函数做市商：DeFi 的真正突破](https://ethfans.org/posts/constant-function-market-makers-defis-zero-to-one-innovation)
 [金融市场交易的范式革命 ---自动做市商制度](https://www.panewslab.com/zh/articledetails/1597652853813286.html)
 [以Uniswap、Curve、Balancer为例，详解自动化做市商](https://zhuanlan.zhihu.com/p/156735833)
-[Automated Market Making: Theory and Practice](CMU-CS-12-123.pdf)
+[Automated Market Making: Theory and Practice](Automated Market Making: Theory and Practice.pdf)

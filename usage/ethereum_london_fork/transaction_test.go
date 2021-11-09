@@ -233,4 +233,6 @@ func TestEIP1559Gas(t *testing.T) {
 	gasPrice, _ := ethClient.SuggestGasPrice(ctx)
 	gasTip, _ := ethClient.SuggestGasTipCap(ctx)
 	fmt.Printf("gas:%s, %s\n", gasPrice.String(), gasTip.String())
+	fmt.Printf("gas:%s, %s\n", big.NewInt(0).Mul(gasPrice, big.NewInt(300000)).String(),
+		big.NewInt(0).Mul(gasTip, big.NewInt(300000)).String())
 }

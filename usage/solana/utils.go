@@ -1,0 +1,5 @@
+package solana
+
+var (
+	MainnetWebSocketUrl = ""
+)

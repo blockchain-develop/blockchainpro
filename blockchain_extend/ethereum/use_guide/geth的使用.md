@@ -1,5 +1,14 @@
 # Geth的使用
 
+## 安装web3
+
+npm install web3
+
+## 安装geth
+
+brew tap ethereum/ethereum
+brew install ethereum
+
 ## 基本命令
 
 1. 连接到以太节点

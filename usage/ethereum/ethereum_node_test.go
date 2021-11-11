@@ -2,10 +2,14 @@ package ethereum
 
 import (
 	"context"
+	json2 "encoding/json"
 	"fmt"
+	"github.com/blockchainpro/usage/ethereum/contractabi/usdt_abi"
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/shopspring/decimal"
 	"math/big"
+	"strings"
 	"testing"
 )
 
@@ -89,4 +93,42 @@ func TestSuggestGasPrice(t *testing.T) {
 		t.Errorf("TestSuggestGasPrice %v", err)
 	}
 	fmt.Println(gasprice.String())
+}
+
+func TestGetTransaction(t *testing.T) {
+	ethClient := NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	ctx := context.Background()
+	hash := common.HexToHash("0xa4ad61391bcbff0c9a2465879f5b2cda0a0ccf324ad75c41a338a10bfe7fc071")
+	transaction, err := ethClient.GetTransactionByHash(ctx, hash)
+	if err != nil {
+		t.Errorf("TestSuggestGasPrice %v", err)
+	}
+	json, _ := json2.Marshal(transaction)
+	fmt.Printf("%s", json)
+}
+
+func TestErc20Unpack(t *testing.T) {
+	ethClient := NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	ctx := context.Background()
+	hash := common.HexToHash("0x5794d21808c93ac890151d236be47dcff8b29308f23b962a9a497bcea7932d6d")
+	transaction, err := ethClient.GetTransactionByHash(ctx, hash)
+	if err != nil {
+		t.Errorf("TestSuggestGasPrice %v", err)
+	}
+	fmt.Printf("%v\n", transaction)
+
+	contractabi, err := abi.JSON(strings.NewReader(usdt_abi.ERC20ABI))
+	if err != nil {
+		fmt.Printf("TestTransactionEncode - err:" + err.Error())
+		return
+	}
+	var name string
+	var args []string
+	name = "transfer"
+	err = contractabi.Unpack(args, name, transaction.Data())
+	if err != nil {
+		fmt.Printf("TestTransactionEncode - err:" + err.Error())
+		return
+	}
+	fmt.Printf("erc20  - name:%s, args: %v\n", name, args)
 }

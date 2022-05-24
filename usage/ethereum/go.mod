@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/blockchainpro/usage/utiles v0.0.0-00010101000000-000000000000
-	github.com/ethereum/go-ethereum v1.9.15
+	github.com/ethereum/go-ethereum v1.10.17
 	github.com/polynetwork/eth-contracts v0.0.0-20210115031323-d16252b2b857
 	github.com/shopspring/decimal v1.2.0
 )

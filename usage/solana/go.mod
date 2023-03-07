@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/gagliardetto/binary v0.5.0 // indirect
+	github.com/gagliardetto/binary v0.7.1
 	github.com/gagliardetto/solana-go v0.5.1
 )
 

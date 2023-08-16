@@ -10,7 +10,8 @@ import (
 )
 
 func TestLogSubscribe(t *testing.T) {
-	client, err := ws.Connect(context.Background(), rpc.MainNetBeta_WS)
+	url := "wss://199.127.60.141:443"
+	client, err := ws.Connect(context.Background(), url)
 	if err != nil {
 		panic(err)
 	}

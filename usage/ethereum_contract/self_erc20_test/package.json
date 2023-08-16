@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts --openssl-legacy-provider start",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts --openssl-legacy-provider build"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.4",
+    "truffle-hdwallet-provider": "^0.0.3"
+  }
+}

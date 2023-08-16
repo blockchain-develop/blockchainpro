@@ -20,8 +20,10 @@ type EthereumClient struct {
 }
 
 func DefaultEthereumClient() (client *EthereumClient) {
-	return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	//return NewEthereumClient("https://mainnet.infura.io/v3/dc891b662f354817983633c828b46eff")
+	return NewEthereumClient("https://eth-sepolia.g.alchemy.com/v2/XbmVUkFHpQA7ccJSLzJSdsHmTpEFjJPS")
 	//return NewEthereumClient("https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea")
+	//return NewEthereumClient("http://127.0.0.1:8085")
 }
 
 func NewEthereumClient(url string) (client *EthereumClient) {
@@ -37,12 +39,12 @@ func NewEthereumClient(url string) (client *EthereumClient) {
 	}
 	return &EthereumClient{
 		rpcClient: rpcClient,
-		Client: rawClient,
+		Client:    rawClient,
 	}
 }
 
-
 func DefaultPrivateKey() *ecdsa.PrivateKey {
+	// account 0xd8d50Be55FE241B3c026361a793aA950BceAE845
 	return NewPrivateKey("d2e10ad0c53aec44302b2fd5c1f656fe5ba3f6e7f3ba671d4bfb26ddda93114c")
 }
 
@@ -53,6 +55,24 @@ func NewPrivateKey(key string) *ecdsa.PrivateKey {
 	}
 	return priKey
 }
+
+func NewPrivateKey1() *ecdsa.PrivateKey {
+	key, err := crypto.GenerateKey()
+	if err != nil {
+		panic(err)
+	}
+	return key
+}
+
+func (ec *EthereumClient) GetBalance(ctx context.Context, addr string) *big.Int {
+	address := common.HexToAddress(addr)
+	result, err := ec.Client.BalanceAt(ctx, address, nil)
+	if err != nil {
+		panic(err)
+	}
+	return result
+}
+
 // GetBlockByHash returns the given full block.
 func (ec *EthereumClient) GetBlockByHash(ctx context.Context, hash common.Hash) (block *types.Block, _ error) {
 	block, err := ec.Client.BlockByHash(ctx, hash)
@@ -135,12 +155,12 @@ func waitTransactionConfirm(ethclient *ethclient.Client, hash common.Hash) {
 	for errNum < 100 {
 		time.Sleep(time.Second * 1)
 		_, ispending, err := ethclient.TransactionByHash(context.Background(), hash)
-		fmt.Printf("transaction %s is pending: %v\n",  hash.String(), ispending)
+		fmt.Printf("transaction %s is pending: %v\n", hash.String(), ispending)
 		if err != nil {
-			errNum ++
+			errNum++
 			continue
 		}
-		if ispending == true{
+		if ispending == true {
 			continue
 		} else {
 			break

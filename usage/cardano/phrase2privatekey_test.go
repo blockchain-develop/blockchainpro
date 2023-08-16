@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/coinbase/rosetta-sdk-go/keys"
 	"github.com/coinbase/rosetta-sdk-go/types"
+	"os"
 	"testing"
 )
 
@@ -13,6 +14,11 @@ func TestPhrase2PrivateKey(t *testing.T) {
 	prikey := hex.EncodeToString(keypair.PrivateKey)
 	pubkey := hex.EncodeToString(keypair.PublicKey.Bytes)
 	fmt.Printf("private key: %s, public key: %s\n", prikey, pubkey)
+	file := fmt.Sprintf("%s", pubkey)
+	err := os.WriteFile(file, []byte(prikey), 0644)
+	if err != nil {
+		panic(err)
+	}
 	// private key: d0a6e05eefdc19d965821c6540200448e5ee5bc01eb872db80ffe5ab497e3e31,
 	// public key: d112db6be0349f95950279f3d6e0b8012e5c54d81269a126e6ce742eaeaf9a49
 	// addr_test1vryt3x0dhuya0uw5l7r0c0lqjs4zvdg4ludcc5q4pw3cfwqx6f5yr
@@ -25,6 +31,14 @@ func TestPhrase2PrivateKey(t *testing.T) {
 	// private key: d266cbf18f345bb21e362b319a19c185a590170bdf4b5d2e5173f3f817196d9e,
 	// public key: 0858d5d6bb5ec1d25e4f719ca44190db2e9d18cbe8a803d06231cb3628ef56b8
 	// addr_test1vqm0wdwt5rut2h6jxg7rure0smsgr6lf05x8hwacvd2amscanamxg
+
+	// private key： 399b0e5af500166bee42594787f1a8faad99062f0a34621f9aa3c27b033d31c8
+
+	// private key: 45A04AC83247399C337A26A69567E022E20D3A4BF1A0908411354EEBE56F532F
+
+	// private key: dee4abe45a948a9888ba5c21b53aaf72e1ee91f17f9c821718ae7665daf1cc5d
+
+	// private key: 3b596c94bdc0aab357f0aab5193dadffe7c2a0c9bf8f6a6c45969763c4eca6bd
 }
 
 

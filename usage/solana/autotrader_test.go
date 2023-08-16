@@ -6,7 +6,6 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	bin "github.com/gagliardetto/binary"
 	"github.com/gagliardetto/solana-go"
 	"github.com/gagliardetto/solana-go/rpc"
 	"io/ioutil"
@@ -252,6 +251,7 @@ func TestAutoTrader(t *testing.T) {
 			fmt.Printf("SimulateTransactionResponse: %s\n", string(rJson))
 		}
 
+		/*
 		var accountAfter AccountHolder
 		err = bin.NewBorshDecoder(simulateTransactionResponse.Value.Accounts[0].Data.GetBinary()).Decode(&accountAfter)
 		if err != nil {
@@ -260,5 +260,6 @@ func TestAutoTrader(t *testing.T) {
 		amount = accountAfter.Amount - accountBefore.Amount
 		token = destinationToken
 		fmt.Printf("swap out (%s, %d)\n", destinationToken.String(), amount)
+		 */
 	}
 }

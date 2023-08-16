@@ -65,7 +65,7 @@ func TestGetBlock(t *testing.T) {
 		primaryNetwork = networkList.NetworkIdentifiers[0]
 	}
 	blockIdentifier := &types.BlockIdentifier{
-		Index: 3042923,
+		Index: 3239240,
 		Hash:  "",
 	}
 	identifier := types.ConstructPartialBlockIdentifier(blockIdentifier)
@@ -78,6 +78,36 @@ func TestGetBlock(t *testing.T) {
 		panic(err)
 	}
 	fmt.Printf("block height: %d, tarnsaction count: %d", block.Block.BlockIdentifier.Index, len(block.Block.Transactions))
+}
+
+func TestGetTransaction(t *testing.T) {
+	client := NewClient()
+	ctx := context.Background()
+	var primaryNetwork *types.NetworkIdentifier
+	{
+		request := &types.MetadataRequest{}
+		networkList, rosettaErr, err := client.NetworkAPI.NetworkList(ctx, request)
+		if err != nil {
+			panic(err)
+		}
+		if rosettaErr != nil {
+			panic(err)
+		}
+		primaryNetwork = networkList.NetworkIdentifiers[0]
+	}
+	transactionIdentifier := &types.BlockTransactionRequest{
+		NetworkIdentifier: primaryNetwork,
+		BlockIdentifier: &types.BlockIdentifier{		Index: 3364382, Hash:  ""},
+		TransactionIdentifier:  &types.TransactionIdentifier{Hash: "8de70f0addead859cef16b8d3da6fc06ee21a51508e2384c10cbfc152aa8e4b7"},
+	}
+	transaction, rosettaErr, err := client.BlockAPI.BlockTransaction(ctx, transactionIdentifier)
+	if err != nil {
+		panic(err)
+	}
+	if rosettaErr != nil {
+		panic(err)
+	}
+	fmt.Printf("tarnsaction: %v", transaction.Transaction)
 }
 
 func TestGetBlocks(t *testing.T) {

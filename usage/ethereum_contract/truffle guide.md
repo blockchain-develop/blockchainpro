@@ -20,3 +20,10 @@ truffle console --network ropsten
 
 ## 如何在console中部署和调用合约
 
+## 安装
+npm install @truffle/hdwallet-provider
+
+###
+* Error: error:0308010C:digital envelope routines::unsupported
+  export NODE_OPTIONS=--openssl-legacy-provider
+

@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"github.com/blockchainpro/usage/ethereum/contractabi/erc20_abi"
 	"github.com/blockchainpro/usage/ethereum/contractabi/usdt_abi"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	ethcommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"math/big"
+	"strings"
 	"testing"
 )
 
@@ -107,7 +110,6 @@ func TestErc20Info_Two(t *testing.T) {
 		erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol, balance1.String())
 }
 
-
 func TestErc20Info_Three(t *testing.T) {
 	client := DefaultEthereumClient()
 	erc20Addr_hex := "c7283b66Eb1EB5FB86327f08e1B5816b0720212B"
@@ -142,7 +144,6 @@ func TestErc20Info_Three(t *testing.T) {
 	fmt.Printf("erc20: %s, name: %s, totolSupply: %s, decimal: %s, symbol: %s, balance: %s\n",
 		erc20Addr_hex, name, totolSupply.String(), decimal.String(), symbol, balance1.String())
 }
-
 
 func TestErc20Info(t *testing.T) {
 	client := DefaultEthereumClient()
@@ -182,10 +183,9 @@ func TestErc20Info(t *testing.T) {
 	}
 }
 
-
 func TestErc20Transfer(t *testing.T) {
 	client := DefaultEthereumClient()
-	erc20Addr_hex := "239100e629a9ca8e0bf45c7892b0fc72d78aa97a"
+	erc20Addr_hex := "0x92d6c1e31e14520e676a687f0a93788b716beff5"
 	erc20Address := ethcommon.HexToAddress(erc20Addr_hex)
 	erc20Contract, err := usdt_abi.NewTetherToken(erc20Address, client.Client)
 	if err != nil {
@@ -209,4 +209,34 @@ func TestErc20Transfer(t *testing.T) {
 	fmt.Printf("erc20 transfer - tx: %s", tx.Hash().String())
 
 	waitTransactionConfirm(client.Client, tx.Hash())
+}
+
+func TestErc20Transfer2(t *testing.T) {
+	client := DefaultEthereumClient()
+	//ctx := context.Background()
+	contractabi, err := abi.JSON(strings.NewReader(usdt_abi.ERC20ABI))
+	if err != nil {
+		fmt.Printf("TestInvokeContract - err:" + err.Error())
+		return
+	}
+
+	toAddr := ethcommon.HexToAddress("0x92d6c1e31e14520e676a687f0a93788b716beff5")
+	txData, err := contractabi.Pack("transfer", toAddr, new(big.Int).SetInt64(1000000000000000000000))
+	if err != nil {
+		fmt.Printf("TestInvokeContract - err:" + err.Error())
+		return
+	}
+
+	fromAddr := ethcommon.HexToAddress("")
+
+	callMsg := ethereum.CallMsg{
+		From: fromAddr, To: &toAddr, Gas: 0, GasPrice: big.NewInt(30000000000),
+		Value: big.NewInt(0), Data: txData,
+	}
+	gasLimit, err := client.Client.EstimateGas(context.Background(), callMsg)
+	if err != nil {
+		fmt.Printf("commitDepositEventsWithHeader - estimate gas limit error: %s", err.Error())
+		panic(err)
+	}
+	fmt.Printf("gas limit: %d", gasLimit)
 }

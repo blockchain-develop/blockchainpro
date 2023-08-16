@@ -53,3 +53,9 @@ func TestTransactionEncode(t *testing.T) {
 func TestAddressEncode(t *testing.T) {
 }
 
+func TestNonce(t *testing.T) {
+	client := DefaultEthereumClient()
+	addr := common.HexToAddress("0xE00b78881C6649dccA6D7c378EB13F08A66d7E7B")
+	nonce := client.GetNonceAt(context.Background(), addr)
+	fmt.Printf("address: %s, nonce: %d\n", addr.String(), nonce)
+}

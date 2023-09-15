@@ -79,6 +79,41 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 * 签名聚合器可以将多个用户操作和签名作为输入，输出一个聚合签名，bundler使用
 * 签名聚合器将多个用户操作和聚合签名作为输入，对所有的用户操作验签，链上验证用户操作使用
 
+## EIP4337实现
+* [account abstract implementation](https://github.com/eth-infinitism/account-abstraction)
+* [eip4337 entry point contract](https://etherscan.io/address/0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789)
+* [user operation without paymaster](https://explorer.phalcon.xyz/tx/eth/0xcdaec484cb685416b02b1f8f19cf113e826c0054a8336f497d8a93fd15ec84d4)
+* [user operation with erc20 paymaster]()
+* [create wallet with paymaster](https://explorer.phalcon.xyz/tx/eth/0x7a023f6c2721ba67d7f9b8b30e5d3f64857bf720049f8172e3629a55ef3b1033)
+
+## ecosystem
+* Gnosis Safe
+* Candide
+
+## 智能合约钱包特性
+
+### 社交登录和社交恢复
+* 社交登录和社交恢复在钱包合约中定义
+* 守护者(Guardian)可以授权用户访问账户或者帮助用户重置账户
+* 多因素认证
+* 守护者类型
+  * web2服务，钱包用户的社交媒体账户，OAuth
+  * 用户设备，浏览器存储或者移动端存储
+  * 电子邮件
+  * 多签名，多个EOA账户
+  * MPC
+  * SWIE
+  * Web3Auth
+
+## Unipass Wallet
+
+### reference
+* [unipass](https://github.com/UniPassID/)
+
+### 使用
+* [login](https://wallet.unipass.id/?forceLogin=0)
+* [create wallet](https://polygonscan.com/tx/0x7b94a266e591bf0369b17cdde5cd78f45087f2615651448057bd651702db022d)
+
 ## reference
  * 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
  * [eip4337](https://eips.ethereum.org/EIPS/eip-4337)

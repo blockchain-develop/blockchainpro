@@ -1,6 +1,5 @@
 # account abstract
 
-
 * ambier wallet
 * safe
 

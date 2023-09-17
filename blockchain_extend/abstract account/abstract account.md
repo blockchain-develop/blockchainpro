@@ -114,5 +114,5 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 * [create wallet](https://polygonscan.com/tx/0x7b94a266e591bf0369b17cdde5cd78f45087f2615651448057bd651702db022d)
 
 ## reference
- * 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
- * [eip4337](https://eips.ethereum.org/EIPS/eip-4337)
+* 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
+* [eip4337](https://eips.ethereum.org/EIPS/eip-4337)

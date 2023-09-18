@@ -113,6 +113,24 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 * [login](https://wallet.unipass.id/?forceLogin=0)
 * [create wallet](https://polygonscan.com/tx/0x7b94a266e591bf0369b17cdde5cd78f45087f2615651448057bd651702db022d)
 
+## ambire wallet
+
+### 用户交互
+* sign up: 会有两个key产生，一个在客户端，使用用户email/password和额外的seed作为entropy来生成key，由用户持有。还有一个在ambire的后端生成，由ambire持有，用户可以下载。
+* 发送交易: 两个key都需要对用户操作签名，ambire的后端会自动签名
+* 恢复账户: 如果只有一个key签名用户操作，则为恢复账户操作，会有3天的lock，之后会重置账户
+
+### 探讨
+* 用户的key丢失或者泄漏，可以通过恢复账户拿回权限，如果ambire不可用，用户可以拿回权限，ambire无法窃取账户资产
+* 如果用户key丢失想拿回权限，这时，ambire是可以作恶的，它可以发起恶意的恢复账户操作从而控制账户，或者阻止用户恢复账户
+* 客户端存在key，用户照样需要保存助记词或者私钥
+* 恢复账户需要3天的lock
+
+### reference
+[Ambire Wallet security model](https://gist.github.com/Ivshti/fe86f13c3adff3404a1f5ce1e364304c)
+[Ambire wallet whitepaper](https://ambire.notion.site/ambire/Ambire-Wallet-Whitepaper-d502e54caf584fe7a67f9b0a018cd10f)
+[Ambier wallet DKIM](https://github.com/AmbireTech/adex-protocol-eth/issues/87)
+
 ## reference
 * 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
 * [eip4337](https://eips.ethereum.org/EIPS/eip-4337)

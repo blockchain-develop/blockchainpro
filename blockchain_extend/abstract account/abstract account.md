@@ -1,8 +1,5 @@
 # account abstract
 
-* ambier wallet
-* safe
-
 ## 执行交易
 * 通过EOA账户执行交易
   * 操作简单直接，链协议层就可以支持，交易由EOA账户私钥签名授权
@@ -81,6 +78,8 @@
 ## EIP4337资料
 * [eip4337](https://eips.ethereum.org/EIPS/eip-4337)
 * [account abstract implementation](https://github.com/eth-infinitism/account-abstraction)
+* [decoding entry point contract](https://www.biconomy.io/post/decoding-entrypoint-and-useroperation-with-erc-4337-part1)
+* [Invented Account Abstraction](https://www.alchemy.com/blog/account-abstraction)
 * [eip4337 entry point contract](https://etherscan.io/address/0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789)
 * [user operation without paymaster](https://explorer.phalcon.xyz/tx/eth/0xcdaec484cb685416b02b1f8f19cf113e826c0054a8336f497d8a93fd15ec84d4)
 * [user operation with erc20 paymaster]()
@@ -135,6 +134,6 @@
 * 恢复账户需要3天的lock
 
 ### reference
-[Ambire Wallet security model](https://gist.github.com/Ivshti/fe86f13c3adff3404a1f5ce1e364304c)
-[Ambire wallet whitepaper](https://ambire.notion.site/ambire/Ambire-Wallet-Whitepaper-d502e54caf584fe7a67f9b0a018cd10f)
-[Ambier wallet DKIM](https://github.com/AmbireTech/adex-protocol-eth/issues/87)
+* [Ambire Wallet security model](https://gist.github.com/Ivshti/fe86f13c3adff3404a1f5ce1e364304c)
+* [Ambire wallet whitepaper](https://ambire.notion.site/ambire/Ambire-Wallet-Whitepaper-d502e54caf584fe7a67f9b0a018cd10f)
+* [Ambier wallet DKIM](https://github.com/AmbireTech/adex-protocol-eth/issues/87)

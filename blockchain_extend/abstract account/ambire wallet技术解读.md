@@ -1,6 +1,7 @@
 # Ambire Wallet技术解读
 
 [Ambire Wallet Whitepaper](https://ambire.notion.site/ambire/Ambire-Wallet-Whitepaper-d502e54caf584fe7a67f9b0a018cd10f)
+[Ambire Wallet Srouce](https://github.com/ambireTech/wallet)
 
 ## intro
 * web3 wallet
@@ -48,4 +49,25 @@
 
 ## smart contract wallet， why no adoption up until now
 * technical limitations that have been solved recently (EIP 1271)
-* 
+
+## ambire wallet features
+* hardware wallet support
+* connect any dapp through WalletConnect
+* automatic transaction fee management
+* paying transaction fees in stable coins
+* dashboard of all assets
+* transaction preview
+* build-in swaps and cross-chain transfers
+* multiple network
+* sign up with email/password
+* deposit FIAT
+* gas tank
+* transaction batching
+* front-running/sandwiching protection via flashbots
+* multiples signers can be used to control the account
+
+## email/password accounts
+* authentication is non-custodial
+* on-chain 2/2 multisig, encrypted with the user's password & ambire backend via a HSM
+* access the funds need two keys
+* recovery procedure can be started with on key, with timelocked

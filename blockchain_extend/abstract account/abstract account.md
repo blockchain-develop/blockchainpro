@@ -9,27 +9,26 @@
   * 需要EOA账户支付ETH作为gas
   * 不能在同一个交易中调用多个合约，增加了dapp交互的复杂性
 
-EOA账户以用户的操作作为参数来调用一个合约，然后这个合约执行操作验证，执行指定的操作。用户的操作(或者称为交易)就由这个合约执行了，这个合约就是用户的智能合约钱包。
+用户操作被打包为User Operation，EOA账户以User Operation作为参数来调用用户智能合约钱包。智能合约钱包对用户操作进行授权验证，执行用户的操作，抽象来看，用户操作(或者称为交易)就由这个合约执行了，这个合约就是用户的智能合约钱包。
 
 * 通过合约账户执行交易
-  * 合约账户是代码控制的，可以执行复杂的交易，可以在一个操作中调用多个合约，可以屏蔽dapp交互的复杂性
-  * 合约账户是代码控制的，交易的授权可以自定义，可以自定义签名算法
-  * 合约账户是代码控制的，可以自定义交易验证的规则
-  * 通过合约账户执行交易，合约账户不需要支付ETH gas，由交易的EOA账户支付gas
+  * 可以执行复杂的交易，在一个用户操作中调用多个合约，如在一个用户操作中进行erc20 approve和dex swap，可以屏蔽dapp交互的复杂性
+  * 交易的授权可以自定义，可以自定义签名算法或者授权方式，自定义用户操作验证规则
+  * 通过合约账户执行交易，合约账户不需要支付交易的ETH gas，由交易的EOA账户支付gas
 
-* 这里面临的问题
-  * 用户操作将作为合约参数是由一个EOA账户调用用户智能合约钱包来执行的，用户操作需要指定用户智能合约钱包地址，用户需要将用户操作发送出来，EOA账户构建调用合约交易并发送到ethereum上，那么如何发送出来？发送出来后，会由哪个EOA账户来执行呢？EOA账户为什么会支付gas来执行用户操作呢？
-  * 用户需要将用户操作发送到一个mempool，mempool中包含多个用户的多个操作，mempool如何设计，是否public，是否去中心化？是否存在多个mempool，用户如何选择发送到哪个mempool？
-  * bundlers提供mempool服务，接收用户操作，验证用户操作，将mempool中的多个用户的多个操作打包为ethereum交易，发送到链上。bundlers发送交易到ethereum链上，需要支付gas，这部分费用需要从用户收取，该如何收取？各个用户的操作是由各个用户的智能合约钱包来执行的，要么bundlers为每个用户的操作构建一个ethereum交易(调用用户的智能合约钱包)，或者bundlers构建一个ethereum交易，调用一个entry point合约，合约根据用户操作调用用户的智能合约钱包。如何排序这个ethereum交易中的用户操作呢？
-  * 如果将多个用户的多个操作打包在一个ethereum交易中发送到链上，如果由用户的交易执行失败该如何处理？
-  * 用户操作最终发送到用户智能合约执行，该如何验证用户操作呢？不是任何人的操作都可以发送到用户智能合约上去执行。
+* 问题
+  * EOA账户以User Operation作为参数来调用用户智能合约钱包，那么User Operation需要指定用户智能合约钱包地址，同时用户需要将User Operation广播出来，这时EOA账户构建调用合约交易并发送到ethereum上，User Operation如何广播出来？广播后，哪个EOA账户会来执行呢？EOA账户为什么愿意支付gas来执行用户操作呢？
+  * 用户将User Operation发送到一个mempool，mempool中包含多个用户的多个操作，mempool如何设计，是否public，是否去中心化？是否存在多个mempool，用户如何选择发送到哪个mempool？
+  * mempool服务由bundlers提供，接收用户操作，验证用户操作，将mempool中的多个用户的多个操作打包为ethereum交易，发送到ethereum。bundlers发送交易到ethereum链上，需要支付gas，这部分费用需要从用户收取，该如何收取？各个User Operation是由各个用户的智能合约钱包来执行的，要么bundlers为每个User Operation构建一个ethereum交易(调用用户的智能合约钱包)，或者bundlers构建一个ethereum交易，调用一个entry point合约，entry point合约根据User Operation调用用户的智能合约钱包。如果User Operation包含在一个ethereum交易中，该如何排序这个ethereum交易中的User Operation呢？
+  * 如果将多个用户的多个操作打包在一个ethereum交易中发送到链上，如果有User Operation执行失败该如何处理？
+  * 用户操作最终发送到用户智能合约钱包执行，该如何验证用户操作呢？不是任何人请求的User Operation都可以在用户智能合约钱包上执行。
   * 用户智能合约钱包又该是什么样的？用户如何创建这个智能合约钱包？用户要创建一个什么样的智能合约钱包？这需要一个智能合约钱包市场，用户选择要创建一个什么样的智能合约钱包。
 
 ## EIP4337技术解读
 
 ### 用户操作UserOperation
 * sender，执行用户操作的用户智能合约钱包地址
-* nonce，重放攻击
+* nonce，重放攻击保护
 * initCode，如果是创建用户智能合约钱包，则是用户智能合约钱包的合约code，如果是执行用户操作，则不需要填写
 * callData，用户智能合约钱包调用的dapp参数
 * callGasLimit，用户操作执行的gas limit
@@ -40,16 +39,17 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 * signature，用户操作的签名
 
 ### Bundlers
-* Bundlers接收用户操作，使用EOA账户构造ethereum交易，在用户智能合约钱包上验证和执行用户操作。Bundlers支付了gas来执行用户操作，因为用户为用户操作支付一定的fee给bundlers。
-* 用户不再需要EOA账户就可以执行用户操作
+* Bundlers接收用户操作，验证User Operation。使用EOA账户构造一个ethereum交易包含mempool中的User Operations。在用户智能合约钱包上验证和执行用户操作。Bundlers支付了gas来执行用户操作，用户需要为用户操作支付一定的fee给bundlers。
+* 用户不再需要EOA账户就可以执行User Operation，不再需要管理nonce，不再需要管理EOA账户
 * Bundlers可以选择&排序用户操作
-* Bundlers需要验证用户操作，才能接收用户操作，需要验证授权和fee
-* Bundler是否permissionless，如果有多个Bundlers，用户该如何选择？如果Bundlers的mempool是公有的，如何确保不同的Bundler不会重复打包用户操作到ethereum交易中？
+* Bundlers在接收User Operation之前需要验证，需要验证授权和fee
+* Bundlers是否permissionless，如果有多个Bundlers，用户该如何选择？如果Bundlers的mempool是公有的，如何确保不同的Bundler不会重复打包用户操作到ethereum交易中？
+* 用户如何支付fee给bundlers?
 
 ### EntryPoint Contract
 * 全局单例合约，Bundlers打包用户操作的交易首先调用EntryPoint合约，EntryPoint合约根据用户操作调用对应的用户智能合约钱包，是Bundlers和用户智能合约钱包之间的中间人
-* handleOp函数接受用户操作作为输入参数
-* handleOp函数验证用户操作，检查是否有指定的智能合约钱包地址签名，是否有足够的fee来支付给Bundler
+* handleOp函数以User Operations作为输入参数
+* handleOp函数验证User Operations，验证User Operation的授权，是否有足够的fee来支付给Bundler
 * handleOp函数调用用户操作中指定的智能合约钱包，calldata作为参数
 * 智能合约钱包需要向EntryPoint合约存入token用来支付fee给Bundlers
 * 智能合约钱包也可以使用自己的账户来支付fee给Bundlers，也可以请求代付合约（Paymaster)代为支付
@@ -78,16 +78,24 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 * 签名聚合器可以将多个用户操作和签名作为输入，输出一个聚合签名，bundler使用
 * 签名聚合器将多个用户操作和聚合签名作为输入，对所有的用户操作验签，链上验证用户操作使用
 
-## EIP4337实现
+## EIP4337资料
+* [eip4337](https://eips.ethereum.org/EIPS/eip-4337)
 * [account abstract implementation](https://github.com/eth-infinitism/account-abstraction)
 * [eip4337 entry point contract](https://etherscan.io/address/0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789)
 * [user operation without paymaster](https://explorer.phalcon.xyz/tx/eth/0xcdaec484cb685416b02b1f8f19cf113e826c0054a8336f497d8a93fd15ec84d4)
 * [user operation with erc20 paymaster]()
 * [create wallet with paymaster](https://explorer.phalcon.xyz/tx/eth/0x7a023f6c2721ba67d7f9b8b30e5d3f64857bf720049f8172e3629a55ef3b1033)
 
+## reference
+* 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
+* [eip 4337 minimal account](https://github.com/kopy-kat/MinimalAccount#readme)
+* [best account abstraction wallets](https://blog.ambire.com/best-account-abstraction-wallets/)
+* [custodial & non-custodial wallets](https://blog.ambire.com/custodial-non-custodial-wallets-explained/)
+
 ## ecosystem
 * Gnosis Safe
 * Candide
+* ambire wallet
 
 ## 智能合约钱包特性
 
@@ -130,8 +138,3 @@ EOA账户以用户的操作作为参数来调用一个合约，然后这个合�
 [Ambire Wallet security model](https://gist.github.com/Ivshti/fe86f13c3adff3404a1f5ce1e364304c)
 [Ambire wallet whitepaper](https://ambire.notion.site/ambire/Ambire-Wallet-Whitepaper-d502e54caf584fe7a67f9b0a018cd10f)
 [Ambier wallet DKIM](https://github.com/AmbireTech/adex-protocol-eth/issues/87)
-
-## reference
-* 币安抽象账户研报[中文](https://news.marsbit.co/20230821082722042606.html) [英文](https://research.binance.com/static/pdf/a-primer-on-account-abstraction.pdf)
-* [eip4337](https://eips.ethereum.org/EIPS/eip-4337)
-* [eip 4337 minimal account](https://github.com/kopy-kat/MinimalAccount#readme)

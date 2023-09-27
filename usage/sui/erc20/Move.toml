@@ -1,0 +1,9 @@
+[package]
+name = "FungibleTokens"
+version = "0.0.1"
+
+[dependencies]
+Sui = { local = "/Users/tangaoyuan/Documents/gopath/src/github.com/mystenlabs/sui/crates/sui-framework/packages/sui-framework" }
+
+[addresses]
+examples = "0x0"
